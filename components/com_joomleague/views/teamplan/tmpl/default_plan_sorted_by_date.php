@@ -3,9 +3,10 @@ if (!isset($this->config['show_matchreport_column'])){$this->config['show_matchr
 ?>
 <a name="jl_top" id="jl_top"></a>
 <?php
+$jinput = JFactory::getApplication() -> input;
 if (!empty($this->matches))
 {
-$teamid=JRequest::getInt('tid');
+$teamid=$jinput -> get('tid',0,'int');
 ?>
 	<thead>
 	<?php
@@ -16,9 +17,9 @@ $teamid=JRequest::getInt('tid');
 			$gameDate = JoomleagueHelper::getMatchDate($match);
 			$gamesByDate[$gameDate][] = $match;
 		}
-		
+
 		$counter	= 1;
-		$round_date	= '';		
+		$round_date	= '';
 		$k=0;
 		foreach ( $gamesByDate as $date => $games )
 		{
@@ -256,15 +257,15 @@ $teamid=JRequest::getInt('tid');
 			case 3:
 				{
 					$teamA .= '<td class="'.$class1.'">';
-					$teamA .= JoomleagueHelper::getPictureThumb($hometeam->picture, 
+					$teamA .= JoomleagueHelper::getPictureThumb($hometeam->picture,
 										$hometeam->name,
 										$this->config['team_picture_width'],
 										$this->config['team_picture_height'],1);
-		
+
 					$teamA .= '</td>';
 
 					$teamB .= '<td class="'.$class2.'">';
-					$teamB .= JoomleagueHelper::getPictureThumb($guestteam->picture, 
+					$teamB .= JoomleagueHelper::getPictureThumb($guestteam->picture,
 										$guestteam->name,
 										$this->config['team_picture_width'],
 										$this->config['team_picture_height'],1);
@@ -277,18 +278,18 @@ $teamid=JRequest::getInt('tid');
 
 		$isFavTeam = in_array($guestteam->id, $this->favteams);
 		$away = JoomleagueHelper::formatTeamName($guestteam,"g".$match->id."t".$guestteam->id,$this->config, $isFavTeam, $awaylink);
-		
+
 		$teamB .= '<td class="'.$class2.'">'.$away.'</td>';
-		
+
 		if (!$match->cancel)
 		{
-        
+
             // In case show_part_results is true, then first check if the part results are available;
             // 'No part results available' occurs when teamX_result_split ONLY consists of zero or more ";"
             // (zero for projects with a single playing period, one or more for projects with two or more playing periods)
             $team1_result_split_present = preg_match('/^;*$/', $match->team1_result_split) == 0;
             $team2_result_split_present = preg_match('/^;*$/', $match->team2_result_split) == 0;
-            
+
             if ($this->config['switch_home_guest'])
                 {
 						  if (isset($match->team1_result) && isset($match->team2_result)) {
@@ -296,10 +297,10 @@ $teamid=JRequest::getInt('tid');
                     } else {
 		      $result='_&nbsp;'.$this->config['seperator'].'&nbsp;_';
                     }
-                    
+
                     $part_results_left = explode(";", $match->team2_result_split);
                     $part_results_right = explode(";", $match->team1_result_split);
-                    
+
                     $leftResultOT	= $match->team2_result_ot;
                     $rightResultOT	= $match->team1_result_ot;
                     $leftResultSO	= $match->team2_result_so;
@@ -314,10 +315,10 @@ $teamid=JRequest::getInt('tid');
                     } else {
 		      $result='_&nbsp;'.$this->config['seperator'].'&nbsp;_';
                     }
-                    
+
                     $part_results_left = explode(";", $match->team1_result_split);
                     $part_results_right = explode(";", $match->team2_result_split);
-                    
+
                     $rightResultOT	= $match->team2_result_ot;
                     $leftResultOT	= $match->team1_result_ot;
                     $rightResultSO	= $match->team2_result_so;
@@ -325,10 +326,10 @@ $teamid=JRequest::getInt('tid');
                     $rightResultDEC	= $match->team2_result_decision;
                     $leftResultDEC	= $match->team1_result_decision;
                 }
-        
+
             $SOTresult = '';
             $SOTtolltip = '';
-            
+
             switch ($match->match_result_type)
             {
                 case 2 :
@@ -340,7 +341,7 @@ $teamid=JRequest::getInt('tid');
                         }
                         $result .= '('.JText::_('COM_JOOMLEAGUE_RESULTS_SHOOTOUT');
                         $result .= ')';
-                        
+
                         if (isset($leftResultOT))
                             {
                                         $OTresultS = $leftResultOT . '&nbsp;' . $this->config['seperator'] . '&nbsp;' . $rightResultOT;
@@ -355,7 +356,7 @@ $teamid=JRequest::getInt('tid');
                             }
                     }
                     break;
-    
+
                 case 1 :
                     {
                         if ($this->config['result_style']==1){
@@ -363,10 +364,10 @@ $teamid=JRequest::getInt('tid');
                         }else{
                             $result .= ' ';
                         }
-                        
+
                         $result .= '('.JText::_('COM_JOOMLEAGUE_RESULTS_OVERTIME');
                         $result .= ')';
-                        
+
                         if (isset($leftResultOT))
                             {
                                         $OTresultS = $leftResultOT . '&nbsp;' . $this->config['seperator'] . '&nbsp;' . $rightResultOT;
@@ -374,9 +375,9 @@ $teamid=JRequest::getInt('tid');
                                         $SOTtolltip = ' | ' . $OTresultS ;
                             }
                     }
-                    break; 
+                    break;
             }
-            
+
             //Link
             if (isset($match->team1_result))
                 {
@@ -384,22 +385,22 @@ $teamid=JRequest::getInt('tid');
             } else {
                     $link=JoomleagueHelperRoute::getNextMatchRoute($this->project->slug,$match->id);
                 }
-            
+
             $ResultsTooltipTitle = $result;
-            
+
             if ($this->config['results_linkable']==1) {
 		$result = JHtml::link($link,$result);
-	    } 
-            
+	    }
+
             $ResultsTooltipTp = '( ';
             $PartResult = '';
-            
+
             if ($team1_result_split_present && $team2_result_split_present)
             {
             //Part results
             if (!is_array($part_results_left))  { $part_results_left = array($part_results_left); }
             if (!is_array($part_results_right)) { $part_results_right = array($part_results_right); }
-                    
+
             for ($i = 0; $i < count($part_results_left); $i++)
             {
                 if (isset($part_results_left[$i]))
@@ -415,9 +416,9 @@ $teamid=JRequest::getInt('tid');
                     }
             }
             }
-            
+
             $ResultsTooltipTp .= $SOTtolltip . ' )';
-            
+
             if ($team1_result_split_present && $team2_result_split_present)
             {
                 if ($this->config['show_part_results'])
@@ -430,22 +431,22 @@ $teamid=JRequest::getInt('tid');
                         $result = '<span class="hasTip" title="' .$ResultsTooltipTitle . '::' . $ResultsTooltipTp . '" >' . $result . '</span>';
                     }
             }
-                
+
             if ($match->alt_decision)
             {
                 $result='<b style="color:red;">';
                 $result .= $leftResultDEC.'&nbsp;'.$this->config['seperator'].'&nbsp;'.$rightResultDEC;
                 $result .= '</b>';
-        
+
             }
-                
+
 			$score = "<td align='center'>".$result.'</td>';
 		}
 		else
 		{
 			$score='<td>'.JText::_($match->cancel_reason).'</td>';
 		}
-		
+
 		switch ($this->config['result_style'])
 		{
 			case 1 :
@@ -509,9 +510,9 @@ $teamid=JRequest::getInt('tid');
 				}
 				elseif ($this->config['show_referee']==2)
 				{
-				?> 
+				?>
 					<span class='hasTip' title='<?php echo $toolTipTitle; ?> :: <?php echo $toolTipText; ?>'>
-					<img src='<?php echo JUri::root(); ?>media/com_joomleague/jl_images/icon-16-Referees.png' alt='' title='' /> </span> 
+					<img src='<?php echo JUri::root(); ?>media/com_joomleague/jl_images/icon-16-Referees.png' alt='' title='' /> </span>
 				<?php
 				}
 			}
@@ -573,7 +574,7 @@ $teamid=JRequest::getInt('tid');
 		<?php if (($this->config['show_thumbs_picture']) & ($teamid>0)): ?>
 		<td><?php echo JoomleagueHelperHtml::getThumbUpDownImg($match, $this->ptid); ?></td>
 		<?php endif; ?>
-		
+
 		<?php
 		if ($this->config['show_matchreport_column'])
 		{
@@ -587,18 +588,18 @@ $teamid=JRequest::getInt('tid');
 				} else {
 					$href_text = JText::_('COM_JOOMLEAGUE_TEAMPLAN_VIEW_MATCHREPORT');
 				}
-				
+
 				$link=JoomleagueHelperRoute::getMatchReportRoute($this->project->slug,$match->id);
 				$viewReport=JHtml::link($link, $href_text);
 				echo $viewReport;
 			}
 			else
-			{	
+			{
 				if ($this->config['show_matchreport_image']) {
 					$href_text = JHtml::image($this->config['matchpreview_image'], JText::_('COM_JOOMLEAGUE_TEAMPLAN_VIEW_MATCHPREVIEW'));
 				} else {
 					$href_text = JText::_('COM_JOOMLEAGUE_TEAMPLAN_VIEW_MATCHPREVIEW');
-				}		
+				}
 				$link=JoomleagueHelperRoute::getNextMatchRoute($this->project->slug,$match->id);
 				$viewPreview=JHtml::link($link, $href_text);
 				echo $viewPreview;
@@ -620,7 +621,7 @@ $teamid=JRequest::getInt('tid');
 		<table class='matchreport' border='0'>
 			<tr>
 				<td><?php
-				echo $this->showEventsContainerInResults(	
+				echo $this->showEventsContainerInResults(
 												$match,
 												$this->projectevents,
 												$events,

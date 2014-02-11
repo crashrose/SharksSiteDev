@@ -39,13 +39,14 @@ class JoomleagueViewSeason extends JLGView
 
 	function _displayForm($tpl)
 	{
-		$option 		= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe 		= JFactory::getApplication();
 		$db 			= JFactory::getDbo();
 		$uri 			= JFactory::getURI();
 		$user 			= JFactory::getUser();
 		$model 			= $this->getModel();
-		
+
 		//get the season
 		$season = $this->get('data');
 		$isNew=($season->id < 1);
@@ -72,7 +73,7 @@ class JoomleagueViewSeason extends JLGView
 		$this->form = $this->get('form');
 		//$extended = $this->getExtended($season->extended, 'season');
 		//$this->assignRef( 'extended', $extended );
-		$this->addToolbar();			
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
@@ -82,10 +83,11 @@ class JoomleagueViewSeason extends JLGView
 	* @since	1.7
 	*/
 	protected function addToolbar()
-	{	
+	{
 
 		// Set toolbar items for the page
-		$edit=JRequest::getVar('edit',true);
+		$jinput = JFactory::getApplication() -> input;
+		$edit= $jinput -> get('edit',true, 'boolean');
 		$text=!$edit ? JText::_('COM_JOOMLEAGUE_GLOBAL_NEW') : JText::_('COM_JOOMLEAGUE_GLOBAL_EDIT');
 
 		JLToolBarHelper::save('season.save');
@@ -106,6 +108,6 @@ class JoomleagueViewSeason extends JLGView
 		}
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.joomleague',true);
-	}		
+	}
 }
 ?>

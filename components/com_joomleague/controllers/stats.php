@@ -19,7 +19,8 @@ class JoomleagueControllerStats extends JoomleagueController
     public function display($cachable = false, $urlparams = false)
     {
         // Get the view name from the query string
-        $viewName = JRequest::getVar( "view", "stats" );
+        $jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'stats', 'string');
 
         // Get the view
         $view = $this->getView( $viewName );
@@ -39,7 +40,7 @@ class JoomleagueControllerStats extends JoomleagueController
         {
             $view->setModel ( $sr );
         }
-        
+
         // Get the joomleague model
         $sr = $this->getModel( "eventsranking", "JoomleagueModel" );
         $sr->set( "_name", "eventsranking" );
@@ -47,17 +48,18 @@ class JoomleagueControllerStats extends JoomleagueController
         {
             $view->setModel ( $sr );
         }
-        
+
         $this->showprojectheading();
         $view->display();
         $this->showbackbutton();
         $this->showfooter();
-    }     
-    
+    }
+
     public function chartdata()
     {
         // Get the view name from the query string
-        $viewName = JRequest::getVar( "view", "stats" );
+        $jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'stats', 'string');
 
         // Get the view
         $view = $this->getView( $viewName );
@@ -77,7 +79,7 @@ class JoomleagueControllerStats extends JoomleagueController
         {
             $view->setModel ( $sr );
         }
-        
+
         // Get the joomleague model
         $sr = $this->getModel( "eventsranking", "JoomleagueModel" );
         $sr->set( "_name", "eventsranking" );
@@ -85,7 +87,7 @@ class JoomleagueControllerStats extends JoomleagueController
         {
             $view->setModel ( $sr );
         }
-        
+
         $view->setLayout( "chartdata" );
         $view->display();
     }

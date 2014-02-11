@@ -25,7 +25,8 @@ class JoomleagueViewImport extends JLGView
 
 	function display($tpl = null)
 	{
-		$table = JRequest::getVar('table');
+		$jinput = JFactory::getApplication() -> input;
+		$table= $jinput -> get('table','','string');
 		//initialise variables
 		$document	= JFactory::getDocument();
 		$user 		= JFactory::getUser();

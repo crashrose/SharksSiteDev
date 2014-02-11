@@ -7,7 +7,7 @@
 					<tr>
 						<td class="key"><?php echo $field->label; ?></td>
 						<td><?php echo $field->input; ?></td>
-					</tr>					
+					</tr>
 					<?php endforeach; ?>
 			</table>
 	</fieldset>

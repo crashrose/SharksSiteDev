@@ -60,9 +60,10 @@ class JoomleagueControllerJLXMLImport extends JoomleagueController
 
 	public function select()
 	{
+		$jinput = JFactory::getApplication() -> input;
 		$mainframe = JFactory::getApplication();
-		$selectType=JRequest::getVar('type',0,'get','int');
-		$recordID=JRequest::getVar('id',0,'get','int');
+		$selectType=$jinput -> get('type',0,'int');
+		$recordID=$jinput -> get('id',0,'int');
 		$mainframe->setUserState('com_joomleague'.'selectType',$selectType);
 		$mainframe->setUserState('com_joomleague'.'recordID',$recordID);
 
@@ -80,12 +81,13 @@ class JoomleagueControllerJLXMLImport extends JoomleagueController
 		$msg='';
 		JToolBarHelper::back(JText::_('COM_JOOMLEAGUE_GLOBAL_BACK'),JRoute::_('index.php?option=com_joomleague&task=jlxmlimport.display'));
 		$mainframe = JFactory::getApplication();
-		$post=JRequest::get('post');
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
 
 		// first step - upload
 		if (isset($post['sent']) && $post['sent']==1)
 		{
-			$upload=JRequest::getVar('import_package',null,'files','array');
+			$upload=$jinput -> get('import_package',array(),'array');
 			$tempFilePath=$upload['tmp_name'];
 			$mainframe->setUserState('com_joomleague'.'uploadArray',$upload);
 			$filename='';
@@ -166,7 +168,7 @@ class JoomleagueControllerJLXMLImport extends JoomleagueController
 	public function insert()
 	{
 		JToolBarHelper::back(JText::_('COM_JOOMLEAGUE_GLOBAL_BACK'),JRoute::_('index.php?option=com_joomleague'));
-		$post=JRequest::get('post');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
 
 		$link='index.php?option=com_joomleague&task=jlxmlimport.insert';
 		echo $link;

@@ -67,12 +67,13 @@ class JoomleagueControllerPerson extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post		= JRequest::get('post');
-		$ids = JRequest::getVar('cid', array(), 'post', 'array');
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
+		$ids = $jinput -> get('cid', array(0), 'array');
 		$post['id'] = $ids[0]; //map cid to table pk: id
-		
+
 		// decription must be fetched without striping away html code
-		$post['notes']=JRequest:: getVar('notes','none','post','STRING',JREQUEST_ALLOWHTML);
+		$post['notes']=$jinput -> get('notes', '', 'string');
 
 		$model=$this->getModel('person');
 
@@ -80,9 +81,9 @@ class JoomleagueControllerPerson extends JoomleagueController
 		{
 			$msg=JText::_('COM_JOOMLEAGUE_ADMIN_PERSON_CTRL_SAVED');
 
-			if (JRequest::getVar('assignperson'))
+			if ($jinput -> get('assignperson', '', 'string'))
 			{
-				$project_team_id    = JRequest::getVar('team_id',0,'post','int');
+				$project_team_id    = $jinput -> get('team_id', 0, 'int');;
 
 				$model=$this->getModel('teamplayers');
 				if ($model->storeassigned(array($pid), $project_team_id))
@@ -118,8 +119,9 @@ class JoomleagueControllerPerson extends JoomleagueController
 	// save the checked rows inside the persons list
 	public function saveshort()
 	{
-		$post=JRequest::get('post');
-		$ids = JRequest::getVar('cid', array(), 'post', 'array');
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
+		$ids = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($ids);
 		$model=$this->getModel('person');
 		if ($model->storeshort($ids,$post))
@@ -137,7 +139,8 @@ class JoomleagueControllerPerson extends JoomleagueController
 
 	public function remove()
 	{
-		$ids = JRequest::getVar('cid', array(), 'post', 'array');
+		$jinput = JFactory::getApplication() -> input;
+		$ids = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($ids);
 		if (count($ids) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_DELETE'));}
 		$model=$this->getModel('person');
@@ -160,9 +163,10 @@ class JoomleagueControllerPerson extends JoomleagueController
 	//FIXME can it be removed?
 	public function assign()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
-		$ids = JRequest::getVar('cid', array(), 'post', 'array');
+		$ids = $jinput -> get('cid', array(0), 'array');
 		JRequest::setVar('hidemainmenu',1);
 		JRequest::setVar('layout','assignconfirm');
 		JRequest::setVar('view','persons');
@@ -175,11 +179,12 @@ class JoomleagueControllerPerson extends JoomleagueController
 
 	public function saveassigned()
 	{
-		$post				= JRequest::get('post');
-		$project_team_id	= JRequest::getVar('project_team_id',0,'post','int');
-		$pid 				= JRequest::getVar('cid', array(), 'post', 'array');
-		$type				= JRequest::getVar('type',0,'post','int');
-		$project_id			= JRequest::getVar('project_id',0,'post','int');
+		$jinput = JFactory::getApplication() -> input;
+		$post				= $jinput->post;
+		$project_team_id	= $jinput -> get('project_team_id',0,'int');
+		$pid 				= $jinput -> get('cid', array(0), 'array');
+		$type				= $jinput -> get('type',0,'int');
+		$project_id			= $jinput -> get('project_id',0,'int');
 		JArrayHelper::toInteger($pid);
 		if ($type == 0)
 		{ //players
@@ -237,12 +242,13 @@ class JoomleagueControllerPerson extends JoomleagueController
 
 	public function select()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
-		JRequest::setVar('team_id',JRequest::getVar('team'));
+		JRequest::setVar('team_id',$jinput -> get('team', '', 'string'));
 		JRequest::setVar('task','teamplayers');
-		$mainframe->setUserState($option.'team_id',JRequest::getVar('team_id'));
-		$mainframe->setUserState($option.'task',JRequest::getVar('task'));
+		$mainframe->setUserState($option.'team_id',$jinput -> get('team_id', '', 'string'));
+		$mainframe->setUserState($option.'task',$jinput -> get('task', '', 'string'));
 		$this->setRedirect('index.php?option=com_joomleague&task=person.display&view=persons&layout=teamplayers');
 	}
 
@@ -256,13 +262,14 @@ class JoomleagueControllerPerson extends JoomleagueController
 	public function export()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_EXPORT'));}
 		$model = $this->getModel("person");
 		$model->export($cid, "person", "Person");
 	}
-	
+
 	/**
 	 * Proxy for getModel
 	 *

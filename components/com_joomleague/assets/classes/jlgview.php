@@ -28,8 +28,9 @@ class JLGView extends JViewLegacy
 	{
 		$option     = JApplicationHelper::getComponentName();
 		$app		= JFactory::getApplication();
-
-		$extensions	= JoomleagueHelper::getExtensions(JRequest::getInt('p'));
+		$jinput = JFactory::getApplication() -> input;
+		$p = $jinput -> get('p', 0, 'int');
+		$extensions	= JoomleagueHelper::getExtensions($p);
 		if (!count($extensions))
 		{
 			return parent::_setPath($type, $path);
@@ -69,7 +70,8 @@ class JLGView extends JViewLegacy
 
 	public function display($tpl = null )
 	{
-		$option 	= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$app		= JFactory::getApplication();
 		$document	= JFactory::getDocument();
 		$version 	= urlencode(JoomleagueHelper::getVersion());
@@ -79,7 +81,7 @@ class JLGView extends JViewLegacy
 		JHtml::_('behavior.modal', 'a.modal');
 		$lang 		= new JLGLanguage;
 		$strings 		= $lang->getStrings();
-		
+
 		foreach ($strings as $key => $value) {
 			if($app->isAdmin()) {
 				if(strpos($key, 'COM_JOOMLEAGUE_ADMIN_'.strtoupper($this->getName()).'_CSJS') !== false) {
@@ -116,8 +118,8 @@ class JLGView extends JViewLegacy
 		}
 
 		//extension management
-		$extensions = JoomleagueHelper::getExtensions(JRequest::getInt('p'));
-		
+		$extensions=JoomleagueHelper::getExtensions($jinput -> get('p', 0, 'int'));
+
 		foreach ($extensions as $e => $extension) {
 			$JLGPATH_EXTENSION =  JPATH_COMPONENT_SITE .DIRECTORY_SEPARATOR. 'extensions' .DIRECTORY_SEPARATOR. $extension;
 
@@ -183,9 +185,11 @@ class JLGView extends JViewLegacy
 	 */
 	function getExtended($data='', $file, $format='ini')
 	{
+		$jinput = JFactory::getApplication() -> input;
+		$p = $jinput -> get('p', 0, 'int');
 		$xmlfile=JLG_PATH_ADMIN.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'extended'.DIRECTORY_SEPARATOR.$file.'.xml';
 		//extension management
-		$extensions = JoomleagueHelper::getExtensions(JRequest::getInt('p'));
+		$extensions = JoomleagueHelper::getExtensions($p);
 		foreach ($extensions as $e => $extension) {
 			$JLGPATH_EXTENSION = JPATH_COMPONENT_SITE.DIRECTORY_SEPARATOR.'extensions'.DIRECTORY_SEPARATOR.$extension.DIRECTORY_SEPARATOR.'admin';
 			//General extension extended xml

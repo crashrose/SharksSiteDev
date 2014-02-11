@@ -37,18 +37,20 @@ class JFormFieldCurrentround extends JFormFieldList
 	{
 		// Initialize variables.
 		$options = array();
-
+		$jinput = JFactory::getApplication() -> input;
 		$varname = (string) $this->element['varname'];
-		$project_id = JRequest::getVar($varname);
+
+		$project_id = $jinput -> get($varname, array(),'array');
+
 		if (is_array($project_id)) {
 			$project_id = $project_id[0];
 		}
-		
+
 		if ($project_id)
 		{
 			$db = &JFactory::getDbo();
 			$query = $db->getQuery(true);
-			
+
 			$query->select('id AS value');
 			$query->select('CASE LENGTH(name) when 0 then CONCAT('.$db->Quote(JText::_('COM_JOOMLEAGUE_GLOBAL_MATCHDAY_NAME')). ', " ", id)	else name END as text ');
 			$query->from('#__joomleague_round ');
@@ -57,7 +59,7 @@ class JFormFieldCurrentround extends JFormFieldList
 			$db->setQuery($query);
 			$options = $db->loadObjectList();
 		}
-		
+
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
 

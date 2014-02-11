@@ -64,17 +64,17 @@ class JoomleagueViewProjectReferee extends JLGView
 												'value',
 												'text',$projectreferee->project_position_id);
 		unset($refereepositions);
-                
+
 		$projectws	= $this->get('Data','project');
 
-		$this->assignRef('form',			$this->get('form'));			
+		$this->assignRef('form',			$this->get('form'));
 		$this->assignRef('projectws',		$projectws);
 		$this->assignRef('lists',			$lists);
 		$this->assignRef('projectreferee',	$projectreferee);
-		$extended = $this->getExtended($projectreferee->extended, 'projectreferee');		
+		$extended = $this->getExtended($projectreferee->extended, 'projectreferee');
 		$this->assignRef( 'extended', $extended );
-		
-		$this->addToolbar();		
+
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
@@ -88,7 +88,8 @@ class JoomleagueViewProjectReferee extends JLGView
 		JToolBarHelper::title(JText::_('Edit project depending referee data'),'Referees');
 
 		// Set toolbar items for the page
-		$edit=JRequest::getVar('edit',true);
+		$jinput = JFactory::getApplication() -> input;
+		$edit= $jinput -> get('edit',true, 'boolean');
 		$text=!$edit ? JText::_('COM_JOOMLEAGUE_GLOBAL_NEW') : JText::_('COM_JOOMLEAGUE_GLOBAL_EDIT');
 		JLToolBarHelper::save('projectreferee.save');
 
@@ -104,7 +105,7 @@ class JoomleagueViewProjectReferee extends JLGView
 		}
 		JToolBarHelper::back();
 		JToolBarHelper::help('screen.joomleague',true);
-	}	
-	
+	}
+
 }
 ?>

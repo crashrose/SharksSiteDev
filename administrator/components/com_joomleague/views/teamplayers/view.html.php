@@ -43,7 +43,7 @@ class JoomleagueViewteamPlayers extends JLGView
 
 	function _displayEditlist_remove( $tpl )
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
 		$project_id	= $mainframe->getUserState( $option . 'project' );
@@ -159,7 +159,7 @@ class JoomleagueViewteamPlayers extends JLGView
 	function _displayDefault( $tpl )
 	{
 		$mainframe	= JFactory::getApplication();
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 
 		$document = &JFactory::getDocument();
 	

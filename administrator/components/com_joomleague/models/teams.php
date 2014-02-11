@@ -24,7 +24,7 @@ require_once (JPATH_COMPONENT.DIRECTORY_SEPARATOR.'models'.DIRECTORY_SEPARATOR.'
 class JoomleagueModelTeams extends JoomleagueModelList
 {
 	var $_identifier = "teams";
-	
+
 	function _buildQuery()
 	{
 		// Get the WHERE and ORDER BY clauses for the query
@@ -44,7 +44,7 @@ class JoomleagueModelTeams extends JoomleagueModelList
 
 	function _buildContentOrderBy()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option.'t_filter_order','filter_order','t.ordering','cmd' );
@@ -60,7 +60,7 @@ class JoomleagueModelTeams extends JoomleagueModelList
 	}
 	function _buildContentWhere()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
 		$filter_state		= $mainframe->getUserStateFromRequest( $option.'t_filter_state',		'filter_state',		'',				'word' );
@@ -79,7 +79,7 @@ class JoomleagueModelTeams extends JoomleagueModelList
 				$where[] = 'LOWER(t.name) LIKE '.$this->_db->Quote('%'.$search.'%');
 		}
 
-                if ($cid    =   JRequest::getvar('cid', 0, 'GET', 'INT')) {
+                if ($cid = $jinput -> get('cid', 0, 'int')) {
                     $where[] = 'club_id ='. $cid;
                 }
 

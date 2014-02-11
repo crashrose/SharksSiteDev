@@ -36,7 +36,7 @@ class JoomleagueViewTreetonode extends JLGView
 
 	function _displayForm( $tpl )
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 
 		$mainframe	= JFactory::getApplication();
 		$project_id = $mainframe->getUserState( 'com_joomleagueproject' );

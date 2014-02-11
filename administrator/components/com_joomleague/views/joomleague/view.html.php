@@ -30,8 +30,10 @@ class JoomleagueViewJoomleague extends JLGView
 
 	function display($tpl=null)
 	{
+
 		// hide main menu in result/match edit view
-		$viewName=JRequest::getCmd('view');
+		$jinput = JFactory::getApplication() -> input;
+		$viewName=$jinput -> get('view', '', 'string');
 		if ($viewName == 'matches')
 		{
 			return;
@@ -58,38 +60,38 @@ class JoomleagueViewJoomleague extends JLGView
 	// display control panel
 	function _displayPanel($tpl)
 	{
-			
+
 		//get the project
 		$project = $this->get('data');
-		
+
 		$iProjectDivisionsCount = 0;
 		$mdlProjectDivisions = JModelLegacy::getInstance("divisions", "JoomleagueModel");
 		$iProjectDivisionsCount = $mdlProjectDivisions->getProjectDivisionsCount($project->id);
-		
+
 		$iProjectPositionsCount = 0;
 		$mdlProjectPositions = JModelLegacy::getInstance("Projectposition", "JoomleagueModel");
 		$iProjectPositionsCount = $mdlProjectPositions->getProjectPositionsCount($project->id);
-		
+
 		$iProjectRefereesCount = 0;
 		$mdlProjectReferees = JModelLegacy::getInstance("Projectreferees", "JoomleagueModel");
 		$iProjectRefereesCount = $mdlProjectReferees->getProjectRefereesCount($project->id);
-		
+
 		$iProjectTeamsCount = 0;
 		$mdlProjecteams = JModelLegacy::getInstance("Projectteams", "JoomleagueModel");
 		$iProjectTeamsCount = $mdlProjecteams->getProjectTeamsCount($project->id);
-		
+
 		$iMatchDaysCount = 0;
 		$mdlRounds = JModelLegacy::getInstance("Rounds", "JoomleagueModel");
 		$iMatchDaysCount = $mdlRounds->getRoundsCount($project->id);
-		
-		$this->assignRef('project',$project);
-		$this->assignRef('count_projectdivisions',$iProjectDivisionsCount);
-		$this->assignRef('count_projectpositions',$iProjectPositionsCount);
-		$this->assignRef('count_projectreferees', $iProjectRefereesCount);
-		$this->assignRef('count_projectteams', $iProjectTeamsCount );
-		$this->assignRef('count_matchdays', $iMatchDaysCount);
-		$this->assignRef('params',$params);
-		$this->assignRef('comp_params',$comp_params);
+
+		$this->project = $project;
+		$this->count_projectdivisions = $iProjectDivisionsCount;
+		$this->count_projectpositions = $iProjectPositionsCount;
+		$this->count_projectreferees = $iProjectRefereesCount;
+		$this->count_projectteams =  $iProjectTeamsCount;
+		$this->count_matchdays = $iMatchDaysCount;
+		$this->params = $params;
+		$this->comp_params = $comp_params;
 
 		parent::display($tpl);
 	}
@@ -99,7 +101,7 @@ class JoomleagueViewJoomleague extends JLGView
 	{
 		$jinput = JFactory::getApplication ()->input;
 		$option = $jinput->get('option', '', 'string');
-// 		var_dump($option);
+
 		$mainframe = JFactory::getApplication();
 		JHtmlBehavior::framework() ;
 		$db = JFactory::getDbo();
@@ -107,14 +109,13 @@ class JoomleagueViewJoomleague extends JLGView
 		$version = urlencode(JoomleagueHelper::getVersion());
 		$document->addScript(JUri::base().'components/com_joomleague/assets/js/quickmenu.js?v='.$version);
 		$model = $this->getModel('project') ;
-		
+
 		$params = JComponentHelper::getParams($option);
-// 		var_dump($mainframe);
+
 
 		$pid=$jinput->get('pid',Array(),'array');
 		$stid=$jinput->get('stid',Array(),'array');
-// 		var_dump($pid);
-// 		var_dump($stid);
+
 		if($pid[0] > 0 && $stid[0] == '') {
 			$model->setId($pid[0]);
 			$project = $this->get('Data');
@@ -136,7 +137,7 @@ class JoomleagueViewJoomleague extends JLGView
 			$mainframe->setUserState($option.'sportstypes', $defsportstype);
 		}
 		$seasonnav = $mainframe->getUserState($option.'seasonnav');
-		
+
 		$pid=$jinput->get('pid',Array(),'array');
 		if($pid[0]> 0)
 		{
@@ -181,7 +182,7 @@ class JoomleagueViewJoomleague extends JLGView
 										'id',
 										'name',
 										$seasonnav);
-			
+
 			//build the html select list for projects
 			$projects[]=JHtml::_('select.option','0',JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_PROJECT'),'id','name');
 
@@ -211,7 +212,7 @@ class JoomleagueViewJoomleague extends JLGView
 		// if a project is active we create the teams and rounds select lists
 		if($project_id > 0)
 		{
-			$team_id = JRequest::getInt("ptid", 0);
+			$team_id = $option = $jinput->get('ptid', 0, 'int');
 			if($team_id==0) {
 				$team_id = $mainframe->getUserState($option.'project_team_id');
 			}
@@ -234,7 +235,7 @@ class JoomleagueViewJoomleague extends JLGView
 
 			$round_id=$mainframe->getUserState($option.'round_id');
 			$projectrounds[]=JHtml::_('select.option','0',JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_ROUND'),'value','text');
-			
+
 			$mdlRound = JModelLegacy::getInstance("Round", "JoomleagueModel");
 			$mdlRound->setId($project->current_round);
 			$round = $mdlRound->getData();
@@ -413,46 +414,48 @@ class JoomleagueViewJoomleague extends JLGView
 		$link3[]=JRoute::_('index.php?option=com_joomleague&view=updates&task=update.display');
 		$label3[]=JText::_('COM_JOOMLEAGUE_M_MENU_UPDATES');
 		$limage3[]=JHtml::_('image',$imagePath.'update.png',JText::_('COM_JOOMLEAGUE_M_MENU_UPDATES'));
-		
+
 		$link[]=$link3;
 		$label[]=$label3;
 		$limage[]=$limage3;
 
+		$view = $jinput->get('view', '', 'string');
 		// active pane selector
 		if ($project->id)
 		{
-			switch (JRequest::getVar('view'))
+
+			switch ($view)
 			{
-				case 'projects':			
+				case 'projects':
 				case 'leagues':
 				case 'seasons':
 				case 'sportstypes':
 				case 'clubs':
 				case 'teams':
 				case 'persons':
-				case 'eventtypes':				
+				case 'eventtypes':
 				case 'statistics':
 				case 'positions':
 				case 'playgrounds':			$active=0;
 				break;
 
-				case 'settings': 
+				case 'settings':
 				case 'updates':
 				case 'jlxmlimports':
-				case 'databasetools': 		$active=2;		
+				case 'databasetools': 		$active=2;
 				break;
 
 				break;
 
-				default:					$active=JRequest::getInt("active",1);
+				default:					$active= $jinput->get('active',1, 'int');
 
 			}
 		}
 		else
 		{
-			switch (JRequest::getVar('view'))
+			switch ($view)
 			{
-				case 'projects':			
+				case 'projects':
 				case 'leagues':
 				case 'seasons':
 				case 'sportstypes':
@@ -471,7 +474,7 @@ class JoomleagueViewJoomleague extends JLGView
 				case 'databasetools':		$active=1;
 				break;
 
-				default:					$active=JRequest::getInt("active",0);
+				default:					$active= $jinput->get('active',0, 'int');
 
 			}
 		}
@@ -480,17 +483,16 @@ class JoomleagueViewJoomleague extends JLGView
 		$versions  = $mdlJoomleague->getVersion();
 		if ($versions) {$version=$versions[0]->version;} else {$version='';}
 
-		$this->assignRef('version',$version);
-		$this->assignRef('link',$link);
-		$this->assignRef('tabs',$tabs);
-		$this->assignRef('label',$label);
-		$this->assignRef('lists',$lists);
-		$this->assignRef('active',$active);
-		$this->assignRef('limage',$limage);
-		$this->assignRef('project',$project);
-		$this->assignRef('sports_type_id',$sports_type_id);
-		$this->assignRef('management',$management);
-
+		$this->version = $version;
+		$this->link = $link;
+		$this->tabs = $tabs;
+		$this->label = $label;
+		$this->lists = $lists;
+		$this->active = $active;
+		$this->limage = $limage;
+		$this->project = $project;
+		$this->sports_type_id = $sports_type_id;
+		$this->management = $management;
 		parent::display('admin');
 	}
 

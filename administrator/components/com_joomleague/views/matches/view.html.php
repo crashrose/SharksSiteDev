@@ -26,7 +26,8 @@ class JoomleagueViewMatches extends JLGView
 {
 	function display($tpl=null)
 	{
-		$option		= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		$uri		= JFactory::getURI();
 		$params		= JComponentHelper::getParams( $option );
@@ -46,7 +47,7 @@ class JoomleagueViewMatches extends JLGView
 		$pagination		= $this->get('Pagination');
 		$model			= $this->getModel();
 		$projectteams	= $model->getProjectTeams();
-		
+
 		// state filter
 		$lists['state']=JHtml::_('grid.state',$filter_state);
 
@@ -171,7 +172,7 @@ class JoomleagueViewMatches extends JLGView
 		$this->assignRef('roundws',$roundws);
 		$this->assignRef('pagination',$pagination);
 		$this->assignRef('teams', $projectteams);
-		
+
 		$this->assignRef('request_url',$uri->toString());
 		$this->assignRef('prefill', $params->get('use_prefilled_match_roster',0));
 		$this->addToolbar();
@@ -186,7 +187,8 @@ class JoomleagueViewMatches extends JLGView
 	 */
 	protected function addToolbar()
 	{
-		$massadd=JRequest::getInt('massadd',0);
+		$jinput = JFactory::getApplication() -> input;
+		$massadd=$jinput -> get('massadd',0, 'int');
 
 		// Set toolbar items for the page
 		JToolBarHelper::title(JText::_('COM_JOOMLEAGUE_ADMIN_MATCHES_TITLE'),'Matchdays');
@@ -213,7 +215,7 @@ class JoomleagueViewMatches extends JLGView
 		}
 		JToolBarHelper::help('screen.joomleague',true);
 	}
-	
+
 	private function getRoundDescription($round)
 	{
 		$first = new DateTime($round->round_date_first);

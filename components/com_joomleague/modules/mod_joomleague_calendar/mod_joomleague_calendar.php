@@ -17,18 +17,19 @@ require_once (dirname(__FILE__).DIRECTORY_SEPARATOR.'helper.php');
 require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_joomleague'.DIRECTORY_SEPARATOR.'joomleague.core.php');
 
 JHtml::_('behavior.tooltip');
-$ajax= JRequest::getVar('ajaxCalMod',0,'default','POST');
-$ajaxmod= JRequest::getVar('ajaxmodid',0,'default','POST');
+$jinput = JFactory::getApplication() -> input;
+$ajax= $jinput -> get('ajaxCalMod',0,'int');
+$ajaxmod= $jinput -> get('ajaxmodid',0,'int');
 if(!$params->get('cal_start_date')){
-	$year = JRequest::getVar('year',date('Y'));    /*if there is no date requested, use the current month*/
-	$month  = JRequest::getVar('month',date('m'));
-	$day  = JRequest::getVar('day',0);
+	$year = $jinput -> get('year',date('Y'), 'int');    /*if there is no date requested, use the current month*/
+	$month  = $jinput -> get('month',date('m'), 'int');
+	$day  = $jinput -> get('day',0, 'int');
 }
 else{
 	$startDate= new JDate($params->get('cal_start_date'));
-	$year = JRequest::getVar('year', $startDate->toFormat('%Y'));
-	$month  = JRequest::getVar('month', $startDate->toFormat('%m'));
-	$day  = $ajax? '' : JRequest::getVar('day', $startDate->toFormat('%d'));
+	$year = $jinput -> get('year', $startDate->toFormat('%Y'), 'int');
+	$month  = $jinput -> get('month', $startDate->toFormat('%m'), 'int');
+	$day  = $ajax? '' : $jinput -> get('day', $startDate->toFormat('%d'), 'int');
 }
 $helper = new modJLCalendarHelper;
 $doc = JFactory::getDocument();

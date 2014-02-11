@@ -26,16 +26,17 @@ class JoomleaguePagination
 	 */
 	function pagenav($project)
 	{
+		$jinput = JFactory::getApplication() -> input;
 		$pageNav = '';
 		$spacer2 = '&nbsp;&nbsp;';
 		$spacer4 = '&nbsp;&nbsp;&nbsp;&nbsp;';
-		$roundid = JRequest::getInt( "r", $project->current_round);
-		$mytask = JRequest::getVar('task','','request','word');
-		$view = JRequest::getVar('view','','request','word');
-		$layout = JRequest::getVar('layout','','request','word');
-		$controller = JRequest::getVar('controller');
-		$divLevel = JRequest::getInt('divLevel',0);
-		$division = JRequest::getInt('division',0);
+		$roundid = $jinput -> get('r', $project->current_round, 'int');
+		$mytask = $jinput -> get('task','','string');
+		$view = $jinput -> get('view','','string');
+		$layout = $jinput -> get('layout','','string');
+		$controller = $jinput -> get('controller');
+		$divLevel = $jinput -> get('divLevel',0, 'int');
+		$division = $jinput -> get('division',0, 'int');
 		$firstlink = '';
 		$lastlink = '';
 		$mdlRound = JModelLegacy::getInstance("Round", "JoomleagueModel");
@@ -59,11 +60,11 @@ class JoomleaguePagination
 		if ($mytask){$params['task'] = $mytask;}
 		if ($division > 0){$params['division'] = $division;}
 		if ($divLevel > 0){$params['divLevel'] = $divLevel;}
-		$prediction_id = JRequest::getInt("prediction_id",0);
+		$prediction_id = $jinput -> get('prediction_id', 0, 'int');
 		if($prediction_id >0) {
 			$params['prediction_id']= $prediction_id;
 		}
-		
+
 		$query = JUri::buildQuery($params);
 		$link = JRoute::_('index.php?' . $query);
 		$backward = $mdlRound->getRoundId($currentRoundcode-1, $project->id);
@@ -137,9 +138,10 @@ class JoomleaguePagination
 
 	function pagenav2($jl_task,$rlimit,$currentRoundcode=0,$user='',$mode='')
 	{
-		$mytask = JRequest::getVar('task',false);
-		$divLevel = JRequest::getInt('divLevel',0);
-		$division = JRequest::getInt('division',0);
+		$jinput = JFactory::getApplication() -> input;
+		$mytask = $jinput -> get('task',false, boolean);
+		$divLevel = $jinput -> get('divLevel', 0, 'int');
+		$division = $jinput -> get('division', 0, 'int');
 
 		$pageNav2 = '<form action="" method="get" style="display:inline;">';
 		$pageNav2 .= '<select class="inputbox" onchange="joomleague_changedoc(this)">';

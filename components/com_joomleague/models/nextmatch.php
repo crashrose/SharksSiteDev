@@ -36,10 +36,11 @@ class JoomleagueModelNextMatch extends JoomleagueModelProject
 	function __construct( )
 	{
 		parent::__construct( );
-		$this->projectid = JRequest::getInt( "p", 0 );
-		$this->divisionid = JRequest::getInt( "division", 0 );
-		$this->teamid = JRequest::getInt( "tid", 0 );
-		$this->matchid = JRequest::getInt( "mid", 0 );
+		$jinput = JFactory::getApplication() -> input;
+		$this->projectid = $jinput -> get('p',0,'int');
+		$this->divisionid = $jinput -> get('division',0,'int');
+		$this->teamid = $jinput -> get('tid',0,'int');
+		$this->matchid = $jinput -> get('mid', 0, 'int');
 		$this->getSpecifiedMatch($this->projectid, $this->divisionid, $this->teamid, $this->matchid);
 	}
 
@@ -100,7 +101,7 @@ class JoomleagueModelNextMatch extends JoomleagueModelProject
 				$this->matchid = $this->_match->id;
 			}
 		}
-		
+
 		return $this->_match;
 	}
 
@@ -126,7 +127,7 @@ class JoomleagueModelNextMatch extends JoomleagueModelProject
 				JoomleagueHelper::convertMatchDateToTimezone($this->_match);
 			}
 		}
-		
+
 		return $this->_match;
 	}
 
@@ -499,7 +500,7 @@ class JoomleagueModelNextMatch extends JoomleagueModelProject
 		}
 		return $matchText;
 	}
-	
+
 	/**
 	 * Calculates chances between 2 team
 	 * Code is from LMO, all credits go to the LMO developers
@@ -512,7 +513,7 @@ class JoomleagueModelNextMatch extends JoomleagueModelProject
 
 		if ((($home->cnt_matches)>0) && (($away->cnt_matches)>0))
 		{
-			$won1=$home->cnt_won;		
+			$won1=$home->cnt_won;
 			$won2=$away->cnt_won;
 			$loss1=$home->cnt_lost;
 			$loss2=$away->cnt_lost;
@@ -522,30 +523,30 @@ class JoomleagueModelNextMatch extends JoomleagueModelProject
 			$goalsfor2=$away->sum_team1_result;
 			$goalsagainst1=$home->sum_team2_result;
 			$goalsagainst2=$away->sum_team2_result;
-		
+
 			$ax=(100*$won1/$matches1)+(100*$loss2/$matches2);
 			$bx=(100*$won2/$matches2)+(100*$loss1/$matches1);
 			$cx=($goalsfor1/$matches1)+($goalsagainst2/$matches2);
 			$dx=($goalsfor2/$matches2)+($goalsagainst1/$matches1);
 			$ex=$ax+$bx;
 			$fx=$cx+$dx;
-		
-			if (isset($ex) && ($ex>0) && isset($fx) &&($fx>0)) 
-			{	 
+
+			if (isset($ex) && ($ex>0) && isset($fx) &&($fx>0))
+			{
 				$ax=round(10000*$ax/$ex);
 				$bx=round(10000*$bx/$ex);
 				$cx=round(10000*$cx/$fx);
 				$dx=round(10000*$dx/$fx);
-		
+
 				$chg1=number_format((($ax+$cx)/200),2,",",".");
 				$chg2=number_format((($bx+$dx)/200),2,",",".");
 				$result=array($chg1,$chg2);
 
 				return $result;
 			}
-		}	
+		}
 	}
-		
+
 	/**
 	* get Previous X games of each team
 	*
@@ -559,10 +560,10 @@ class JoomleagueModelNextMatch extends JoomleagueModelProject
 		$games = array();
 		$games[$this->_match->projectteam1_id] = $this->_getTeamPreviousX($this->_match->roundcode, $this->_match->projectteam1_id);
 		$games[$this->_match->projectteam2_id] = $this->_getTeamPreviousX($this->_match->roundcode, $this->_match->projectteam2_id);
-		
+
 		return $games;
 	}
-	
+
 	/**
 	* returns last X games
 	*
@@ -571,7 +572,7 @@ class JoomleagueModelNextMatch extends JoomleagueModelProject
 	* @return array
 	*/
 	function _getTeamPreviousX($current_roundcode, $ptid)
-	{		
+	{
 		$config = $this->getTemplateConfig('nextmatch');
 		$nblast = $config['nb_previous'];
 		$query = ' SELECT m.*, r.project_id, r.id AS roundid, r.roundcode, p.timezone '
@@ -594,7 +595,7 @@ class JoomleagueModelNextMatch extends JoomleagueModelProject
 				JoomleagueHelper::convertMatchDateToTimezone($game);
 			}
 		}
-		
+
 		return $res;
 	}
 }

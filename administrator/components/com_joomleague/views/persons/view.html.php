@@ -32,9 +32,9 @@ class JoomleagueViewPersons extends JLGView
 			return;
 		}
 		JHtml::_('behavior.calendar'); //load the calendar behavior
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
-		
+
 		$model	= $this->getModel();
 
 		$filter_state		= $mainframe->getUserStateFromRequest($option.'pl_filter_state', 'filter_state', '', 'word');
@@ -85,7 +85,8 @@ class JoomleagueViewPersons extends JLGView
 
 	function _displayAssignPlayers($tpl=null)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$model = $this->getModel();
 		$project_id = $mainframe->getUserState($option.'project');
@@ -102,10 +103,10 @@ class JoomleagueViewPersons extends JLGView
 		$search_mode		= $mainframe->getUserStateFromRequest($option.'pl_search_mode',	'search_mode', '', 'string');
 
 		//save icon should be replaced by the apply
-		JLToolBarHelper::apply('person.saveassigned','COM_JOOMLEAGUE_ADMIN_PERSONS_SAVE_SELECTED');		
-		
+		JLToolBarHelper::apply('person.saveassigned','COM_JOOMLEAGUE_ADMIN_PERSONS_SAVE_SELECTED');
+
 		// Set toolbar items for the page
-		$type=JRequest::getInt('type');
+		$type=$jinput -> get('type', 0,'int');
 		if ($type==0)
 		{
                     //back icon should be replaced by the abort/close icon
@@ -128,12 +129,12 @@ class JoomleagueViewPersons extends JLGView
                     $items = $mdlQuickAdd->getNotAssignedReferees(JString::strtolower($search),$project_id);
 		}
 
-		JToolBarHelper::help('screen.joomleague',true);		
-		
+		JToolBarHelper::help('screen.joomleague',true);
+
 		$limit = $mainframe->getUserStateFromRequest('global.list.limit','limit',$mainframe->getCfg('list_limit'),'int');
 
 		jimport('joomla.html.pagination');
-		$pagination = new JPagination($mdlQuickAdd->_total,JRequest::getVar('limitstart',0,'','int'),$limit);
+		$pagination = new JPagination($mdlQuickAdd->_total,$jinput -> get('limitstart',0,'int'),$limit);
 		$mdlQuickAdd->_pagination=$pagination;
 
 		// table ordering
@@ -185,7 +186,7 @@ class JoomleagueViewPersons extends JLGView
 				 '<img class="calendar" style="margin-top: 5px" src="'.JUri::root(true).'/templates/system/images/calendar.png" alt="calendar" id="'.$id.'_img" />';
 		return $html;
 	}
-	
+
 	/**
 	* Add the page title and toolbar.
 	*

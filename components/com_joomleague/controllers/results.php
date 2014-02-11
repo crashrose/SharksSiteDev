@@ -28,7 +28,8 @@ class JoomleagueControllerResults extends JoomleagueController
 	public function showresults()
 	{
 		// Get the view name from the query string
-		$viewName = JRequest::getVar( 'view', 'results' );
+		$jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'results', 'string' );
 
 		// Get the view
 		$view = $this->getView( $viewName );

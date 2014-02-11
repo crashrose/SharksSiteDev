@@ -8,7 +8,7 @@ class JoomleagueViewCurve extends JLGView
 {
 	function display($tpl = null)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		// Get a reference of the page instance in joomla
 		$document = JFactory::getDocument();
 		$uri      = JFactory::getURI();
@@ -17,7 +17,7 @@ class JoomleagueViewCurve extends JLGView
 		$js = $this->baseurl . '/components/'.$option.'/assets/js/swfobject.js';
 		$document->addScript($js);
 
-		$division	= JRequest::getInt('division', 0);
+		$division	= $jinput -> get('division',0,'int');;
 
 		$model = $this->getModel();
 		$rankingconfig = $model->getTemplateConfig( "ranking" );

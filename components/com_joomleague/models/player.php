@@ -27,9 +27,10 @@ class JoomleagueModelPlayer extends JoomleagueModelPerson
 	function __construct()
 	{
 		parent::__construct();
-		$this->projectid=JRequest::getInt('p',0);
-		$this->personid=JRequest::getInt('pid',0);
-		$this->teamplayerid=JRequest::getInt('pt',0);
+		$jinput = JFactory::getApplication() -> input;
+		$this->projectid=$jinput -> get('p',0,'int');
+		$this->personid=$jinput -> get('pid',0,'int');
+		$this->teamplayerid=$jinput -> get('pt',0, 'int');
 	}
 
 	// Get all teamplayers of the project where the person played in
@@ -41,23 +42,23 @@ class JoomleagueModelPlayer extends JoomleagueModelPerson
 			$query='	SELECT	tp.*,
 								pt.project_id,
 								pt.team_id,
-								pos.name AS position_name, 
-								ppos.position_id, 
+								pos.name AS position_name,
+								ppos.position_id,
 								rinjuryfrom.round_date_first injury_date,
 								rinjuryto.round_date_last injury_end,
 								rinjuryfrom.name rinjury_from,
 								rinjuryto.name rinjury_to,
-								
+
 								rsuspfrom.round_date_first suspension_date,
 								rsuspto.round_date_last suspension_end,
 								rsuspfrom.name rsusp_from,
 								rsuspto.name rsusp_to,
-								
+
 								rawayfrom.round_date_first away_date,
 								rawayto.round_date_last away_end,
 								rawayfrom.name raway_from,
 								rawayto.name raway_to
-								
+
 						FROM #__joomleague_team_player AS tp
 						INNER JOIN #__joomleague_project_team AS pt ON pt.id=tp.projectteam_id
 						INNER JOIN #__joomleague_project_position AS ppos ON ppos.id=tp.project_position_id
@@ -69,8 +70,8 @@ class JoomleagueModelPlayer extends JoomleagueModelPerson
 						LEFT JOIN #__joomleague_round AS rsuspto ON tp.suspension_end=rsuspto.id
 						LEFT JOIN #__joomleague_round AS rawayfrom ON tp.away_date=rawayfrom.id
 						LEFT JOIN #__joomleague_round AS rawayto ON tp.away_end=rawayto.id
-						WHERE pt.project_id='.$this->_db->Quote($this->projectid).' 
-						  AND tp.person_id='.$this->_db->Quote($this->personid).' 
+						WHERE pt.project_id='.$this->_db->Quote($this->projectid).'
+						  AND tp.person_id='.$this->_db->Quote($this->personid).'
 						  AND p.published = 1';
 			$this->_db->setQuery($query);
 			$this->_teamplayers = $this->_db->loadObjectList('projectteam_id');
@@ -78,7 +79,7 @@ class JoomleagueModelPlayer extends JoomleagueModelPerson
 		return $this->_teamplayers;
 	}
 
-	// As a player can be transferred from one team to the next within a season, it is possible that 
+	// As a player can be transferred from one team to the next within a season, it is possible that
 	function getTeamPlayer()
 	{
 		if (is_null($this->_inproject))
@@ -86,16 +87,16 @@ class JoomleagueModelPlayer extends JoomleagueModelPerson
 			$query='	SELECT	tp.*,
 								pt.project_id,
 								pt.team_id,
-								pos.name AS position_name, 
-								ppos.position_id, 
+								pos.name AS position_name,
+								ppos.position_id,
 								pt.notes AS ptnotes
 						FROM #__joomleague_team_player AS tp
 						INNER JOIN #__joomleague_project_team AS pt ON pt.id=tp.projectteam_id
 						INNER JOIN #__joomleague_project_position AS ppos ON ppos.id=tp.project_position_id
 						INNER JOIN #__joomleague_project AS p ON p.id=pt.project_id
 						LEFT JOIN #__joomleague_position AS pos ON pos.id=ppos.position_id
-						WHERE pt.project_id='.$this->_db->Quote($this->projectid).' 
-						  AND tp.person_id='.$this->_db->Quote($this->personid).' 
+						WHERE pt.project_id='.$this->_db->Quote($this->projectid).'
+						  AND tp.person_id='.$this->_db->Quote($this->personid).'
 						  AND p.published = 1';
 			$this->_db->setQuery($query);
 			$this->_inproject=$this->_db->loadObjectList();
@@ -115,8 +116,8 @@ class JoomleagueModelPlayer extends JoomleagueModelPerson
 						INNER JOIN #__joomleague_project_position AS ppos ON ppos.id=ts.project_position_id
 						INNER JOIN #__joomleague_project AS p ON p.id=pt.project_id
 						LEFT JOIN #__joomleague_position AS pos ON pos.id=ppos.position_id
-						WHERE pt.project_id='.$this->_db->Quote($this->projectid).' 
-						  AND ts.person_id='.$this->_db->Quote($this->personid).' 
+						WHERE pt.project_id='.$this->_db->Quote($this->projectid).'
+						  AND ts.person_id='.$this->_db->Quote($this->personid).'
 						  AND p.published = 1';
 			$this->_db->setQuery($query);
 			$this->_inproject=$this->_db->loadObject();
@@ -198,7 +199,7 @@ class JoomleagueModelPlayer extends JoomleagueModelPerson
 						INNER JOIN #__joomleague_league AS l ON l.id=p.league_id
 						INNER JOIN #__joomleague_project_position AS ppos ON ppos.id=tp.project_position_id
 						INNER JOIN #__joomleague_position AS pos ON pos.id=ppos.position_id
-						WHERE pr.id='.$this->_db->Quote($personid).' 
+						WHERE pr.id='.$this->_db->Quote($personid).'
 						  AND p.published=1
 						  AND tp.published=1
 						  AND pr.published = 1';
@@ -242,8 +243,8 @@ class JoomleagueModelPlayer extends JoomleagueModelPerson
 						INNER JOIN #__joomleague_league AS l ON l.id=p.league_id
 						INNER JOIN #__joomleague_project_position AS ppos ON ppos.id=ts.project_position_id
 						INNER JOIN #__joomleague_position AS pos ON pos.id=ppos.position_id
-						WHERE pr.id='.$this->_db->Quote($personid).' 
-						  AND p.published=1 
+						WHERE pr.id='.$this->_db->Quote($personid).'
+						  AND p.published=1
 						  AND pr.published = 1';
 			if ($sportstype > 0)
 			{
@@ -317,8 +318,8 @@ class JoomleagueModelPlayer extends JoomleagueModelPerson
 					FROM #__joomleague_eventtype AS et
 					INNER JOIN #__joomleague_position_eventtype AS pet ON pet.eventtype_id=et.id
 					INNER JOIN #__joomleague_project_position AS ppos ON ppos.position_id=pet.position_id
-					WHERE published=1 
-					  AND pet.position_id IN ('. implode(',',$positionhistory) .') 
+					WHERE published=1
+					  AND pet.position_id IN ('. implode(',',$positionhistory) .')
 					ORDER BY pet.ordering ';
 		$this->_db->setQuery($query);
 		$info=$this->_db->loadObjectList();
@@ -333,7 +334,7 @@ class JoomleagueModelPlayer extends JoomleagueModelPerson
 				. ' FROM #__joomleague_match AS m'
 				. ' INNER JOIN '
 				. ' ('
-				. '   SELECT mp.match_id,' 
+				. '   SELECT mp.match_id,'
 				. '          sum(mp.came_in=0 AND mp.teamplayer_id = '.$quotedTpId.') AS started,'
 				. '          sum(mp.came_in=1 AND mp.teamplayer_id = '.$quotedTpId.') AS sub_in,'
 				. '          sum((mp.teamplayer_id = '.$quotedTpId.' AND mp.out = 1) OR mp.in_for = '.$quotedTpId.') AS sub_out'
@@ -341,12 +342,12 @@ class JoomleagueModelPlayer extends JoomleagueModelPerson
 				. '   INNER JOIN #__joomleague_team_player AS tp ON tp.id=mp.teamplayer_id'
 				. '   INNER JOIN #__joomleague_match AS m ON m.id=mp.match_id'
 				. '   INNER JOIN #__joomleague_round r ON r.id=m.round_id'
-				. '   INNER JOIN #__joomleague_project AS p ON p.id=r.project_id' 
+				. '   INNER JOIN #__joomleague_project AS p ON p.id=r.project_id'
 				. '   INNER JOIN #__joomleague_project_team AS pt1 ON pt1.id=m.projectteam1_id'
 				. '   INNER JOIN #__joomleague_team AS t1 ON t1.id=pt1.team_id'
 				. '   INNER JOIN #__joomleague_project_team AS pt2 ON pt2.id=m.projectteam2_id'
 				. '   INNER JOIN #__joomleague_team AS t2 ON t2.id=pt2.team_id'
-				. '   WHERE ((mp.teamplayer_id = '.$quotedTpId.') OR (mp.in_for = '.$quotedTpId.'))' 
+				. '   WHERE ((mp.teamplayer_id = '.$quotedTpId.') OR (mp.in_for = '.$quotedTpId.'))'
 				. '     AND p.id='.$this->_db->Quote($project_id)
 				. '     AND (pt1.id='.$quotedPtId.' OR pt2.id='.$quotedPtId.')'
 				. '     AND m.published = 1 AND p.published = 1'
@@ -499,7 +500,7 @@ class JoomleagueModelPlayer extends JoomleagueModelPerson
 		$result=array();
 		if (is_array($teamplayer) && !empty($teamplayer))
 		{
-			// getTeamPlayer can return multiple teamplayers, because a player can be transferred from 
+			// getTeamPlayer can return multiple teamplayers, because a player can be transferred from
 			// one team to another inside a season, but they are all the same person so have same person_id.
 			// So we get the player_id from the first array entry.
 			$stats  =& $this->getCareerStats($teamplayer[0]->person_id, $sportstype);
@@ -557,7 +558,7 @@ class JoomleagueModelPlayer extends JoomleagueModelPerson
 					. ' 		GROUP BY mp.match_id, t1.id, t2.id, r.roundcode, r.project_id, tp.projectteam_id, p.timezone'
 					. ' ) AS ios ON ios.match_id=m.id'
 					. ' ORDER BY m.match_date';
-				
+
 			$this->_db->setQuery($query);
 			$games =  $this->_db->loadObjectList();
 			if ($games)

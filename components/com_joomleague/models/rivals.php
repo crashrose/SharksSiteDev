@@ -26,9 +26,10 @@ class JoomleagueModelRivals extends JoomleagueModelProject
 	function __construct( )
 	{
 		parent::__construct( );
+		$jinput = JFactory::getApplication() -> input;
 
-		$this->projectid = JRequest::getInt( "p", 0 );
-		$this->teamid = JRequest::getInt( "tid", 0 );
+		$this->projectid = $jinput -> get('p',0,'int');
+		$this->teamid = $jinput -> get('tid',0,'int');
 		$this->getTeam();
 	}
 

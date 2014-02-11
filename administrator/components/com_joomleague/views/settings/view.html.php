@@ -26,7 +26,7 @@ class JoomleagueViewSettings extends JLGView
 {
 	function display($tpl=null)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$params = JComponentHelper::getParams($option);
 		$xmlfile = JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.$option.DIRECTORY_SEPARATOR.'config.xml';
 		

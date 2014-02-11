@@ -36,7 +36,7 @@ class JoomleagueViewRound extends JLGView
 
 	function _displayForm($tpl)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDbo();
 		$uri = JFactory::getURI();
@@ -71,10 +71,10 @@ class JoomleagueViewRound extends JLGView
 		 #$this->assignRef('lists',$lists);
 		$this->assignRef('matchday',$round);
 
-		$this->assignRef('form'      	, $this->get('form'));	
+		$this->assignRef('form'      	, $this->get('form'));
 		//$extended = $this->getExtended($round->extended, 'round');
-		//$this->assignRef( 'extended', $extended );		
-		$this->addToolbar();		
+		//$this->assignRef( 'extended', $extended );
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 	/**
@@ -83,9 +83,10 @@ class JoomleagueViewRound extends JLGView
 	* @since	1.6
 	*/
 	protected function addToolbar()
-	{ 
+	{
 		// Set toolbar items for the page
-		$edit = JRequest::getVar('edit', true);
+		$jinput = JFactory::getApplication() -> input;
+		$edit = $jinput -> get('edit', true, 'boolean');
 		$text = !$edit ? JText::_('COM_JOOMLEAGUE_GLOBAL_NEW') : JText::_('COM_JOOMLEAGUE_GLOBAL_EDIT');
 		JToolBarHelper::title(JText::_('COM_JOOMLEAGUE_ADMIN_ROUND_TITLE'). ': ' . $this->matchday->name,'clubs','Matchdays');
 
@@ -100,7 +101,7 @@ class JoomleagueViewRound extends JLGView
 			// for existing items the button is renamed `close`
 			JLToolBarHelper::cancel('round.cancel', 'COM_JOOMLEAGUE_GLOBAL_CLOSE');
 		}
-		JToolBarHelper::help('screen.joomleague', true);	
+		JToolBarHelper::help('screen.joomleague', true);
 	}
 }
 ?>

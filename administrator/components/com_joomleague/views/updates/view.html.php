@@ -25,7 +25,7 @@ class JoomleagueViewUpdates extends JLGView
 {
 	function display($tpl=null)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$mainframe->setUserState($option.'update_part',0); // 0
 		$filter_order		= $mainframe->getUserStateFromRequest($option.'updates_filter_order',		'filter_order',		'dates',	'cmd');

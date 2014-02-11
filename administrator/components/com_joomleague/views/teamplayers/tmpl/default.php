@@ -228,7 +228,7 @@ JHtml::_('behavior.framework');
 							?>
 							<td>
 								<?php 
-								$option = JRequest::getCmd('option');
+								$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 								$params = JComponentHelper::getParams( $option );
 								$default_name_format = $params->get("name_format");
 								echo JoomleagueHelper::formatName(null, $row->firstname, $row->nickname, $row->lastname, $default_name_format); 

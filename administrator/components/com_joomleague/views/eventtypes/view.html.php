@@ -26,7 +26,7 @@ class JoomleagueViewEventtypes extends JLGView
 {
 	function display($tpl=null)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		$uri	= JFactory::getURI();
 		$filter_sports_type	= $mainframe->getUserStateFromRequest($option.'.'.$this->get('identifier').'.filter_sports_type','filter_sports_type','',			'int');

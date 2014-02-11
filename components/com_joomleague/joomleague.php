@@ -25,6 +25,8 @@ if(is_null($controller) && !($controller instanceof JLGController)) {
 	//fallback if no extensions controller has been initialized
 	$controller	= JLGController::getInstance('joomleague');
 }
-$controller->execute(JRequest::getCmd('task'));
+$jinput = JFactory::getApplication() -> input;
+$task = $jinput -> get('task', '', 'string');
+$controller->execute($task);
 $controller->redirect();
 ?>

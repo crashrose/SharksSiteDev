@@ -112,7 +112,8 @@ class JoomleagueModelTeam extends JoomleagueModelItem
 	function copyTeams()
 	{
 		$result=true;
-		$cids = JRequest::getVar('cid',array(0),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cids);
 
 		foreach ($cids AS $cid)
@@ -142,7 +143,7 @@ class JoomleagueModelTeam extends JoomleagueModelItem
 
 		return $result;
 	}
-	
+
 	/**
 	 * Returns a Table object, always creating it
 	 *
@@ -156,7 +157,7 @@ class JoomleagueModelTeam extends JoomleagueModelItem
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
-	
+
 	/**
 	 * Method to get the record form.
 	 *
@@ -176,7 +177,7 @@ class JoomleagueModelTeam extends JoomleagueModelItem
 		}
 		return $form;
 	}
-	
+
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *

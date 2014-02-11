@@ -24,8 +24,9 @@ class JoomleagueModelTreetonode extends JoomleagueModelProject
 	function __construct( )
 	{
 		parent::__construct( );
-		$this->projectid=JRequest::getInt('p',0);
-		$this->treetoid=JRequest::getInt('tnid',0);
+		$jinput = JFactory::getApplication() -> input;
+		$this->projectid=$jinput -> get('p',0,'int');
+		$this->treetoid=$jinput -> get('tnid', 0, 'int');
 	}
 
 	function getTreetonode()
@@ -56,10 +57,10 @@ class JoomleagueModelTreetonode extends JoomleagueModelProject
 		$query .=	';';
 		$this->_db->setQuery( $query );
 		$this->treetonode = $this->_db->loadObjectList();
-		
+
 		return $this->treetonode;
 	}
-	
+
 	function getNodeMatches($ttnid=0)
 	{
 		$query = ' SELECT mc.id AS value ';
@@ -88,7 +89,7 @@ class JoomleagueModelTreetonode extends JoomleagueModelProject
 			return $this->_db->loadObjectList();
 	//	}
 	}
-	
+
 	function showNodeMatches(&$nodes)
 	{
 		//TODO
@@ -100,7 +101,7 @@ class JoomleagueModelTreetonode extends JoomleagueModelProject
 		}
 		echo $lineinover;
 	}
-	
+
 	function getRoundName()
 	{
 		$query = 'SELECT * '

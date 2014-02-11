@@ -34,7 +34,8 @@ class JoomleagueControllerProjectposition extends JoomleagueController
 
 	public function display($cachable = false, $urlparams = false)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$model=$this->getModel('projectposition');
@@ -78,8 +79,8 @@ class JoomleagueControllerProjectposition extends JoomleagueController
 	public function save_positionslist()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(0),'post','array');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id']=(int) $cid[0];
 		$model=$this->getModel('projectposition');
 		if ($model->store($post))
@@ -101,8 +102,8 @@ class JoomleagueControllerProjectposition extends JoomleagueController
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 		echo '<br /><pre>2'.print_r($post,true).'~</pre><br />';
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(0),'post','array');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id']=(int) $cid[0];
 		$model=$this->getModel('projectposition');
 		//if ($model->store($post))
@@ -131,8 +132,8 @@ class JoomleagueControllerProjectposition extends JoomleagueController
 	public function saveshort()
 	{
 		die('Saveshort in projectposition controller');
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		$model=$this->getModel('projectposition');
 		$model->storeshort($cid,$post);
@@ -150,7 +151,7 @@ class JoomleagueControllerProjectposition extends JoomleagueController
 
 	public function remove()
 	{
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_ADMIN_P_POSITION_CTRL_SELECT_TO_DELETE'));}
 		$model=$this->getModel('team');
@@ -195,8 +196,8 @@ class JoomleagueControllerProjectposition extends JoomleagueController
 
 	public function saveorder()
 	{
-		$cid=JRequest::getVar('cid',array(),'post','array');
-		$order=JRequest::getVar('order',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $cid = $jinput -> get('cid', array(), 'array');
+		$order = $jinput -> get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 		$model=$this->getModel('team');

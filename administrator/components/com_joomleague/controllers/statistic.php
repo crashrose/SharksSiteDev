@@ -25,7 +25,7 @@ class JoomleagueControllerStatistic extends JoomleagueController
 {
 
 	protected $view_list = 'statistics';
-	
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -39,9 +39,9 @@ class JoomleagueControllerStatistic extends JoomleagueController
 
 	public function display($cachable = false, $urlparams = false)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe 		= JFactory::getApplication();
-		$sports_type	= JRequest::getInt('filter_sports_type',0);
+		$sports_type	= $jinput -> get('filter_sports_type',0, 'int');
 		$mainframe->setUserState($option.'.statistics.filter_sports_type',$sports_type);
 		switch($this->getTask())
 		{
@@ -78,10 +78,11 @@ class JoomleagueControllerStatistic extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post	= JRequest::get('post');
-		$cid	= JRequest::getVar('cid', array(0), 'post', 'array');
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id'] = (int) $cid[0];
-		
+
 		$model = $this->getModel('statistic');
 
 		if ($return_id = $model->store($post))
@@ -111,7 +112,8 @@ class JoomleagueControllerStatistic extends JoomleagueController
 	public function remove()
 	{
 
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$jinput = JFactory::getApplication() -> input;
+		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 
 		if (count($cid) < 1) {
@@ -150,18 +152,18 @@ class JoomleagueControllerStatistic extends JoomleagueController
 		JRequest::setVar('table','statistic');
 		parent::display();
 	}
-	
+
 	public function export()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_EXPORT'));}
 		$model = $this->getModel("statistic");
 		$model->export($cid, "statistic", "Statistic");
 	}
-	
+
 	/**
 	 * Proxy for getModel
 	 *

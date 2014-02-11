@@ -26,9 +26,10 @@ class JoomleagueModelStaff extends JoomleagueModelPerson
 	function __construct()
 	{
 		parent::__construct();
-		$this->projectid=JRequest::getInt('p',0);
-		$this->personid=JRequest::getInt('pid',0);
-		$this->teamid=JRequest::getInt('tid',0);
+		$jinput = JFactory::getApplication() -> input;
+		$this->projectid=$jinput -> get('p',0,'int');
+		$this->personid=$jinput -> get('pid',0,'int');
+		$this->teamid=$jinput -> get('tid',0,'int');
 	}
 
 	function &getTeamStaff()
@@ -43,7 +44,7 @@ class JoomleagueModelStaff extends JoomleagueModelPerson
 						INNER JOIN #__joomleague_project_team AS pt ON pt.id=ts.projectteam_id
 						LEFT JOIN #__joomleague_project_position AS ppos ON ppos.id=ts.project_position_id
 						LEFT JOIN #__joomleague_position AS pos ON pos.id=ppos.position_id
-						WHERE pt.project_id='.$this->_db->Quote($this->projectid).' 
+						WHERE pt.project_id='.$this->_db->Quote($this->projectid).'
 						  AND ts.person_id='.$this->_db->Quote($this->personid).'
 						  AND ts.published=1';
 			$this->_db->setQuery($query);
@@ -116,7 +117,7 @@ class JoomleagueModelStaff extends JoomleagueModelPerson
 					INNER JOIN #__joomleague_match AS m ON mp.match_id=m.id
 					INNER JOIN #__joomleague_team_staff AS tp ON tp.id=mp.team_staff_id
 					INNER JOIN #__joomleague_project_team AS pt ON m.projectteam1_id=pt.id
-					WHERE tp.person_id='.$this->_db->Quote((int)$person_id).' 
+					WHERE tp.person_id='.$this->_db->Quote((int)$person_id).'
 					  AND pt.project_id='.$this->_db->Quote((int)$project_id) . '
 					  AND tp.published = 1';
 		$this->_db->setQuery($query,0,1);

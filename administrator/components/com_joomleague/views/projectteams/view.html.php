@@ -36,13 +36,13 @@ class JoomleagueViewProjectteams extends JLGView
 			$this->_displayChangeTeams($tpl);
 			return;
 		}
-		
+
 		if ($this->getLayout() == 'default')
 		{
 			$this->_displayDefault($tpl);
 			return;
 		}
-		
+
 		if ($this->getLayout() == 'copy')
 		{
 			$this->_displayCopy($tpl);
@@ -54,41 +54,41 @@ class JoomleagueViewProjectteams extends JLGView
 
   function _displayChangeTeams($tpl)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id = $mainframe->getUserState( $option . 'project' );
-		
+
 		$projectteams = $this->get('Data');
 		$model = $this->getModel();
-		
+
 		//build the html select list for all teams
 		$allTeams = array();
 		$all_teams[] = JHtml::_( 'select.option', '0', JText::_( 'COM_JOOMLEAGUE_GLOBAL_SELECT_TEAM' ) );
-		if( $allTeams = $model->getAllTeams($project_id) ) 
+		if( $allTeams = $model->getAllTeams($project_id) )
     {
 			$all_teams=array_merge($all_teams,$allTeams);
 		}
 		$lists['all_teams']=$all_teams;
 		unset($all_teams);
-		
+
 		JToolBarHelper::title(JText::_('COM_JOOMLEAGUE_ADMIN_PROJECTTEAMS_CHANGEASSIGN_TEAMS'),'install');
-			
+
 		JLToolBarHelper::custom('projectteam.storechangeteams','move.png','move_f2.png','COM_JOOMLEAGUE_ADMIN_PROJECTTEAMS_BUTTON_STORE_CHANGE_TEAMS',false);
-		JToolBarHelper::back();	
-		
+		JToolBarHelper::back();
+
 		$this->assignRef('projectteams', $projectteams);
 		$this->assignRef('lists',$lists);
-		
+
 		parent::display($tpl);
 	}
-  
-  	
+
+
 	function _displayEditlist($tpl)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id = $mainframe->getUserState( $option . 'project' );
-		
+
 		$db = JFactory::getDbo();
 		$uri = JFactory::getURI();
 
@@ -212,17 +212,17 @@ class JoomleagueViewProjectteams extends JLGView
 		$this->assignRef('pagination',$pagination);
 		$this->assignRef('request_url',$uri->toString());
 
-		$this->addToolbar_Editlist();		
+		$this->addToolbar_Editlist();
 		parent::display($tpl);
 	}
 
 	function _displayDefault($tpl)
 	{
 		$document = JFactory::getDocument();
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id = $mainframe->getUserState( $option . 'project' );
-		
+
 		$db = JFactory::getDbo();
 		$uri = JFactory::getURI();
 
@@ -231,14 +231,14 @@ class JoomleagueViewProjectteams extends JLGView
 		$document->addScript($baseurl.'administrator/components/com_joomleague/assets/js/autocompleter/1_4/Autocompleter.Request.js');
 		$document->addScript($baseurl.'administrator/components/com_joomleague/assets/js/autocompleter/1_4/Observer.js');
 		$document->addScript($baseurl.'administrator/components/com_joomleague/assets/js/autocompleter/1_4/quickaddteam.js');
-		$document->addStyleSheet($baseurl.'administrator/components/com_joomleague/assets/css/Autocompleter.css');		
+		$document->addStyleSheet($baseurl.'administrator/components/com_joomleague/assets/css/Autocompleter.css');
 
 		$filter_state		= $mainframe->getUserStateFromRequest($option.'tl_filter_state',		'filter_state',		'',			'word');
 		$filter_order		= $mainframe->getUserStateFromRequest($option.'tl_filter_order',		'filter_order',		't.name',	'cmd');
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest($option.'tl_filter_order_Dir',	'filter_order_Dir',	'',			'word');
 		$search				= $mainframe->getUserStateFromRequest($option.'tl_search',				'search',			'',			'string');
 		$division			= $mainframe->getUserStateFromRequest($option.'tl_division',			'division',			'',			'string');
-		
+
 		$search_mode		= $mainframe->getUserStateFromRequest($option.'tl_search_mode',			'search_mode',		'',			'string');
 		$search				= JString::strtolower($search);
 
@@ -277,44 +277,44 @@ class JoomleagueViewProjectteams extends JLGView
 		$this->assignRef('pagination',$pagination);
 		$this->assignRef('request_url',$uri->toString());
 
-		$this->addToolbar();			
+		$this->addToolbar();
 		parent::display($tpl);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * Enter description here ...
 	 * @param unknown_type $tpl
 	 */
 	function _displayCopy($tpl)
 	{
 		$document = JFactory::getDocument();
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id = $mainframe->getUserState( $option . 'project' );
-	
+
 		$uri = JFactory::getURI();
-			
-		$ptids = JRequest::getVar('cid', array(), 'post', 'array');
-	
+
+		$ptids = $jinput -> get('cid', array(), 'array');
+
 		$model = $this->getModel();
-	
+
 		$lists = array();
-					
+
 		//build the html select list for all teams
 		$options = JoomleagueHelper::getProjects();
-		
+
 		$lists['projects'] = JHtml::_('select.genericlist', $options, 'dest', '', 'id', 'name');
-		
+
 		JToolBarHelper::title(JText::_('COM_JOOMLEAGUE_ADMIN_PROJECTTEAMS_COPY_DEST'),'Teams');
-		
-		JLToolBarHelper::apply('projectteam.copy');		
+
+		JLToolBarHelper::apply('projectteam.copy');
 		JToolBarHelper::back();
-		
+
 		$this->assignRef('ptids', $ptids);
 		$this->assignRef('lists', $lists);
 		$this->assignRef('request_url',$uri->toString());
-	
+
 		parent::display($tpl);
 	}
 	/**
@@ -323,7 +323,7 @@ class JoomleagueViewProjectteams extends JLGView
 	* @since	1.6
 	*/
 	protected function addToolbar()
-	{ 	
+	{
 		// Set toolbar items for the page
 		JToolBarHelper::title(JText::_('COM_JOOMLEAGUE_ADMIN_PROJECTTEAMS_TITLE'));
 
@@ -333,24 +333,24 @@ class JoomleagueViewProjectteams extends JLGView
 		JLToolBarHelper::custom('projectteam.copy','copy','copy', 'COM_JOOMLEAGUE_GLOBAL_COPY', true);
 		JToolBarHelper::divider();
 
-		JToolBarHelper::help('screen.joomleague',true);	
+		JToolBarHelper::help('screen.joomleague',true);
 	}
-	
+
 	/**
 	* Add the page title and toolbar.
 	*
 	* @since	1.6
 	*/
 	protected function addToolbar_Editlist()
-	{ 		
+	{
 		// Set toolbar items for the page
 		JToolBarHelper::title( JText::_( 'COM_JOOMLEAGUE_ADMIN_PROJECTTEAMS_ASSIGN' ) );
 		JLToolBarHelper::save( 'projectteam.save_teamslist' );
-		
+
 		// for existing items the button is renamed `close` and the apply button is showed
 		JLToolBarHelper::cancel( 'projectteam.cancel', 'COM_JOOMLEAGUE_GLOBAL_CLOSE' );
-		
-		JToolBarHelper::help( 'screen.joomleague', true );	
+
+		JToolBarHelper::help( 'screen.joomleague', true );
 	}
 }
 ?>

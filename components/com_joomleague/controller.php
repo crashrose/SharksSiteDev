@@ -28,7 +28,8 @@ class JoomleagueController extends JLGController
 	function showbackbutton( )
 	{
 		// Get the view name from the query string
-		$viewName = JRequest::getVar( 'view', 'backbutton' );
+		$jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'backbutton', 'string' );
 
 		// Get the view
 		$view = $this->getView( $viewName );

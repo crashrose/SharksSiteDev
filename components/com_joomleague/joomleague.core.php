@@ -46,9 +46,9 @@ require_once( JLG_PATH_ADMIN.DIRECTORY_SEPARATOR.'tables'.DIRECTORY_SEPARATOR.'j
 JTable::addIncludePath( JLG_PATH_ADMIN.DIRECTORY_SEPARATOR.'tables' );
 
 require_once (JLG_PATH_ADMIN.DIRECTORY_SEPARATOR.'helpers'.DIRECTORY_SEPARATOR.'plugins.php');
-
-$task = JRequest::getCmd('task');
-$option = JRequest::getCmd('option');
+$jinput = JFactory::getApplication() -> input;
+$task = $jinput -> get('task', '', 'string');
+$option = $jinput -> get('option', '', 'string');
 if($task != '' && $option == 'com_joomleague')  {
 	if (!JFactory::getUser()->authorise($task, 'com_joomleague')) {
 		//display the task which is not handled by the access.xml

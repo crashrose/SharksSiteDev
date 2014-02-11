@@ -25,7 +25,7 @@ class JoomleagueControllerProjectReferee extends JoomleagueController
 {
 
 	protected $view_list = 'projectreferees&task=projectreferee.display';
-	
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -38,7 +38,8 @@ class JoomleagueControllerProjectReferee extends JoomleagueController
 
 	public function display($cachable = false, $urlparams = false)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 
 		$mainframe	= JFactory::getApplication();
 		$document	= JFactory::getDocument();
@@ -89,7 +90,8 @@ class JoomleagueControllerProjectReferee extends JoomleagueController
 
 	public function editlist()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		$document = JFactory::getDocument();
 
@@ -116,10 +118,11 @@ class JoomleagueControllerProjectReferee extends JoomleagueController
 
 	public function save_projectrefereeslist()
 	{
-		$post 		= JRequest::get( 'post' );
-		$cid 		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$project 	= JRequest::getVar( 'project', 'post' );
-		$team_id 	= JRequest::getVar( 'team', 'post' );
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
+		$project 	= $jinput -> get( 'project', '','string' );
+		$team_id 	= $jinput -> get( 'team','', 'string' );
 		$post['id'] 		= (int) $cid[0];
 		$post['project_id']	= (int) $project;
 		$post['team_id']   	= (int) $team_id;
@@ -146,7 +149,7 @@ class JoomleagueControllerProjectReferee extends JoomleagueController
 		$post = JRequest::get( 'post' );
 
 		// decription must be fetched without striping away html code
-		$post['notes'] = JRequest::getVar( 'notes', 'none', 'post', 'STRING', JREQUEST_ALLOWHTML );
+		$post['notes'] = $jinput -> get('notes', '', 'string');
 		$model = $this->getModel( 'projectreferee' );
 
 		if ( $model->store( $post ) )
@@ -175,8 +178,9 @@ class JoomleagueControllerProjectReferee extends JoomleagueController
 	// save the checked rows inside the project teams list
 	public function saveshort()
 	{
-		$post = JRequest::get( 'post' );
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger( $cid );
 
 		$model = $this->getModel( 'projectreferees' );
@@ -204,11 +208,12 @@ class JoomleagueControllerProjectReferee extends JoomleagueController
 
 	public function remove()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
 		$project_id=$app->getUserState($option.'project',0);
 		$user = JFactory::getUser();
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger( $cid );
 
 		if ( count( $cid ) < 1 )
@@ -219,7 +224,7 @@ class JoomleagueControllerProjectReferee extends JoomleagueController
 		foreach ($cid as $i => $id)
 		{
 			if (!$user->authorise('core.admin', 'com_joomleague') ||
-				!$user->authorise('core.admin', 'com_joomleague.project.'.(int) $project_id) || 
+				!$user->authorise('core.admin', 'com_joomleague.project.'.(int) $project_id) ||
 				!$user->authorise('core.delete', 'com_joomleague.project_referee.'.(int) $id))
 			{
 				// Prune items that you can't delete.
@@ -248,10 +253,11 @@ class JoomleagueControllerProjectReferee extends JoomleagueController
 
 	public function select()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
-		$mainframe->setUserState( $option . 'team', JRequest::getVar( 'team' ) );
+		$mainframe->setUserState( $option . 'team', $jinput -> get('team', '', 'string') );
 		$this->setRedirect( 'index.php?option=com_joomleague&view=projectreferees&task=projectreferee.display' );
 	}
 
@@ -264,7 +270,8 @@ class JoomleagueControllerProjectReferee extends JoomleagueController
 
 	public function unassign()
 	{
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$jinput = JFactory::getApplication() -> input;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger( $cid );
 		$model = $this->getModel( 'projectreferees' );
 		$nDeleted = $model->unassign( $cid );
@@ -279,7 +286,7 @@ class JoomleagueControllerProjectReferee extends JoomleagueController
 		//redirect to projectreferee page, with a message
 		$this->setRedirect( 'index.php?option=com_joomleague&view=projectreferees&task=projectreferee.display', $msg );
 	}
-	
+
 	/**
 	 * Proxy for getModel
 	 *
@@ -294,6 +301,6 @@ class JoomleagueControllerProjectReferee extends JoomleagueController
 		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
-	
+
 }
 ?>

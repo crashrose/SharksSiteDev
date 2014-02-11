@@ -64,7 +64,7 @@ class JoomleagueModelTreetonodes extends JoomleagueModelList
 
 	function _buildContentWhere()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		$project_id = $mainframe->getUserState( $option . 'project' );
 		$treeto_id = $mainframe->getUserState( $option . 'treeto_id' );
@@ -86,7 +86,7 @@ class JoomleagueModelTreetonodes extends JoomleagueModelList
 
 	function setRemoveNode()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		$treeto_id = 	$mainframe->getUserState( $option . 'treeto_id' );
 		$post	= 	JRequest::get( 'post' );
@@ -120,7 +120,7 @@ class JoomleagueModelTreetonodes extends JoomleagueModelList
 	// UPDATE selected node as a leaf AND unpublish ALL children node
 	function storeshortleaf($cid,$post)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		//$project_id = $mainframe->getUserState( $option . 'project' );
 		$post	= 	JRequest::get( 'post' );
@@ -194,7 +194,7 @@ class JoomleagueModelTreetonodes extends JoomleagueModelList
 	
 	function storefinishleaf()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		$project_id = $mainframe->getUserState($option . 'project');
 		$post	= 	JRequest::get( 'post' );
@@ -214,7 +214,7 @@ class JoomleagueModelTreetonodes extends JoomleagueModelList
 
 	function getProjectTeamsOptions()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 
 		$mainframe	= JFactory::getApplication();
 		$project_id = $mainframe->getUserState($option . 'project');
@@ -241,7 +241,7 @@ class JoomleagueModelTreetonodes extends JoomleagueModelList
 
 	function storeshort($cid,$post)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$result=true;
 		$post	= 	JRequest::get( 'post' );
 		

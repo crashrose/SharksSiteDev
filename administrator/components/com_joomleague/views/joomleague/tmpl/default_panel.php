@@ -21,7 +21,7 @@ $this->addTemplatePath(JPATH_COMPONENT.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEP
 										$linkParams="<span>$text</span>&nbsp;";
 										$image=JHtml::_('image.administrator',$imageFile,$path,NULL,NULL,$text).$linkParams;
 										?>
-										<div class="icon-wrapper"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>		
+										<div class="icon-wrapper"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
 										<?php
 				 						$link=JRoute::_('index.php?option=com_joomleague&view=templates');
 										$text=JText::_('COM_JOOMLEAGUE_P_MENU_FES');

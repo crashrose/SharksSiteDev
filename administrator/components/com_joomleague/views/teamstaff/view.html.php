@@ -157,7 +157,7 @@ class JoomleagueViewTeamStaff extends JLGView
 		$teamws			= $this->get( 'Data', 'project_team' );
 		$extended = $this->getExtended($project_teamstaff->extended, 'teamstaff');
 		$this->assignRef( 'extended', $extended );
-		$this->assignRef('form'      	, $this->get('form'));			
+		$this->assignRef('form'      	, $this->get('form'));
 		#$this->assignRef( 'default_person',		$default_person );
 		$this->assignRef( 'projectws',			$projectws );
 		$this->assignRef( 'teamws',				$teamws );
@@ -176,15 +176,16 @@ class JoomleagueViewTeamStaff extends JLGView
 	protected function addToolbar()
 	{
 		// Set toolbar items for the page
-		$edit = JRequest::getVar( 'edit', true );
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$edit = $jinput -> get('edit', true, 'boolean' );
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$params = JComponentHelper::getParams( $option );
 		$default_name_format = $params->get("name_format");
 		$name = JoomleagueHelper::formatName(null, $this->project_teamstaff->firstname, $this->project_teamstaff->nickname, $this->project_teamstaff->lastname, $default_name_format);
 		$text = !$edit ? JText::_( 'COM_JOOMLEAGUE_GLOBAL_NEW' ) : JText::_( 'COM_JOOMLEAGUE_ADMIN_TEAMSTAFF_TITLE' ). ': ' . $name;
 		JToolBarHelper::title( $text);
 		JLToolBarHelper::save('teamstaff.save');
-			
+
 		if ( !$edit )
 		{
 			JLToolBarHelper::cancel('teamstaff.cancel');

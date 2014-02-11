@@ -36,7 +36,7 @@ class JoomleagueViewTreetonodes extends JLGView
 
 	function _displayDefault($tpl)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDbo();
 		$uri = JFactory::getURI();

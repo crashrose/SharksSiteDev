@@ -115,7 +115,7 @@ class JoomleagueModelMatches extends JoomleagueModelList
 
 	function _buildContentOrderBy()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 
 		$mainframe	= JFactory::getApplication();
 		$filter_order		= $mainframe->getUserStateFromRequest($option . 'mc_filter_order', 'filter_order', 'mc.match_date', 'cmd');
@@ -139,7 +139,7 @@ class JoomleagueModelMatches extends JoomleagueModelList
 
 	function _buildContentWhere()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$where=array();
 		
 		$mainframe	= JFactory::getApplication();
@@ -166,7 +166,7 @@ class JoomleagueModelMatches extends JoomleagueModelList
 	 */
 	function getProjectTeams()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 
 		$mainframe	= JFactory::getApplication();
 		$project_id = $mainframe->getUserState($option . 'project');
@@ -201,7 +201,7 @@ class JoomleagueModelMatches extends JoomleagueModelList
 	 */
 	function getProjectTeamsOptions($iDivisionId=0)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 
 		$mainframe	= JFactory::getApplication();
 		$project_id = $mainframe->getUserState($option . 'project');

@@ -26,19 +26,19 @@
 	echo JHtml::_('tabs.panel',JText::_('COM_JOOMLEAGUE_TABS_EXTENDED'), 'panel7');
 	echo $this->loadTemplate('extended');
 
-	if(	JFactory::getUser()->authorise('core.admin', 'com_joomleague') || 
+	if(	JFactory::getUser()->authorise('core.admin', 'com_joomleague') ||
 		JFactory::getUser()->authorise('core.admin', 'com_joomleague.project')) {
 		echo JHtml::_('tabs.panel',JText::_('JCONFIG_PERMISSIONS_LABEL'), 'panel8');
 		echo $this->loadTemplate('permissions');
 	}
-	
+
 	echo JHtml::_('tabs.end');
 	?>
 	<div class="clr"></div>
-	<input type="hidden" name="option" value="com_joomleague" /> 
-	<input type="hidden" name="task" value="" /> 
+	<input type="hidden" name="option" value="com_joomleague" />
+	<input type="hidden" name="task" value="" />
 	<input type="hidden"name="oldseason" value="<?php echo $this->project->season_id; ?>" />
-	<input type="hidden" name="oldleague" value="<?php echo $this->project->league_id; ?>" /> 
+	<input type="hidden" name="oldleague" value="<?php echo $this->project->league_id; ?>" />
 	<input type="hidden" name="cid[]" value="<?php echo $this->project->id; ?>" />
 	<?php echo JHtml::_('form.token')."\n"; ?>
 	</div>

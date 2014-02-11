@@ -11,7 +11,7 @@ class JoomleagueViewResults extends JLGView
 	public function display($tpl = null)
 	{
 		// Get a refrence of the page instance in joomla
-		$option 	= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$document	= JFactory::getDocument();
 		$version 	= urlencode(JoomleagueHelper::getVersion());
 		$css		= 'components/'.$option.'/assets/css/tabs.css?v='.$version;

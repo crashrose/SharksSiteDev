@@ -25,9 +25,10 @@ class JoomleagueModelClubInfo extends JoomleagueModelProject
 	function __construct( )
 	{
 		parent::__construct( );
+		$jinput = JFactory::getApplication() -> input;
 
-		$this->projectid = JRequest::getInt( "p", 0 );
-		$this->clubid = JRequest::getInt( "cid", 0 );
+		$this->projectid = $jinput -> get('p',0,'int');
+		$this->clubid = $jinput -> get('cid', 0, 'int');
 	}
 
 	function getClub( )
@@ -57,9 +58,9 @@ class JoomleagueModelClubInfo extends JoomleagueModelProject
 				       . ' name as team_name, '
 				       . ' short_name as team_shortcut, '
 				       . ' info as team_description, '
-				       . ' (SELECT MAX(project_id) 
+				       . ' (SELECT MAX(project_id)
 				       		FROM #__joomleague_project_team AS pt
-				       		RIGHT JOIN #__joomleague_project p on project_id=p.id 
+				       		RIGHT JOIN #__joomleague_project p on project_id=p.id
 				       		WHERE team_id=t.id and p.published = 1) as pid'
 				       . ' FROM #__joomleague_team t'
 				       . ' WHERE club_id = '.(int) $this->clubid
@@ -163,7 +164,7 @@ class JoomleagueModelClubInfo extends JoomleagueModelProject
 		$address = implode(', ', $address_parts);
 		return $address;
 	}
-	
+
 	function hasEditPermission($task=null)
 	{
 		//check for ACL permsission and project admin/editor

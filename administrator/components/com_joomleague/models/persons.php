@@ -44,7 +44,7 @@ class JoomleagueModelPersons extends JoomleagueModelList
 
 	function _buildContentOrderBy()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . 'pl_filter_order', 'filter_order', 'pl.lastname', 'cmd' );
@@ -64,7 +64,7 @@ class JoomleagueModelPersons extends JoomleagueModelList
 
 	function _buildContentWhere()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
 		$filter_state		= $mainframe->getUserStateFromRequest( $option . 'pl_filter_state', 'filter_state', '', 'word' );
@@ -206,7 +206,8 @@ class JoomleagueModelPersons extends JoomleagueModelList
 	 */
 	function getPersonsToAssign()
 	{
-		$cid = JRequest::getVar( 'cid' );
+		$jinput = JFactory::getApplication() -> input;
+		$cid = $jinput -> get('cid', array(0), 'array');
 
 		if ( !count( $cid ) )
 		{

@@ -36,12 +36,13 @@ class JoomleagueControllerMatch extends JoomleagueController
 	}
 
 	public function display($cachable = false, $urlparams = false) {
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$document = JFactory::getDocument();
 		$app = JFactory::getApplication();
 
 		// check if pid was specified in request
-		$pids = JRequest::getVar('pid', null, 'request', 'array');
+		$pids = $jinput -> get('pid', array(0), 'array');
 		if ($pids && $pids[0]) {
 			$app->setUserState($option.'project', $pids[0]);
 		}
@@ -54,7 +55,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$projectws=$this->getModel('project');
 		$projectws->setId($app->getUserState($option.'project',0));
 		$view->setModel($projectws, false);
-		if ($rid=JRequest::getVar('rid',null,'','array'))
+		if ($rid=$jinput -> get('rid',array(0),'array'))
 		{
 			$app->setUserState($option.'round_id',$rid[0]);
 		}
@@ -111,12 +112,13 @@ class JoomleagueControllerMatch extends JoomleagueController
 
 	public function editEvents()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$proj=$app->getUserState($option.'project',0);
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'get','array');
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 
 		$model=$this->getModel('match');
@@ -141,12 +143,13 @@ class JoomleagueControllerMatch extends JoomleagueController
 
 	public function editEventsbb()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$proj=$app->getUserState($option.'project',0);
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'get','array');
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 
 		$model=$this->getModel('match');
@@ -174,12 +177,13 @@ class JoomleagueControllerMatch extends JoomleagueController
 
 	public function editstats()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$proj=$app->getUserState($option.'project',0);
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'get','array');
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 
 		$model=$this->getModel('match');
@@ -205,12 +209,13 @@ class JoomleagueControllerMatch extends JoomleagueController
 
 	public function editReferees()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$proj=$app->getUserState($option.'project',0);
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'get','array');
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 
 		$model=$this->getModel('match');
@@ -236,12 +241,13 @@ class JoomleagueControllerMatch extends JoomleagueController
 
 	public function editlineup()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$proj=$app->getUserState($option.'project',0);
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'get','array');
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 
 		$model=$this->getModel('match');
@@ -267,7 +273,8 @@ class JoomleagueControllerMatch extends JoomleagueController
 
 	public function saveroster()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 
@@ -276,8 +283,8 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$model=$this->getModel('match');
 		$positions=$model->getProjectPositions();
 		$staffpositions=$model->getProjectStaffPositions();
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(0),'','array');
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['mid']=$cid[0];
 		$post['positions']=$positions;
 		$post['staffpositions']=$staffpositions;
@@ -302,13 +309,14 @@ class JoomleagueControllerMatch extends JoomleagueController
 		// Checkout the match
 		$model=$this->getModel('match');
 		$model->checkout();
-		$link='index.php?option=com_joomleague&close='.JRequest::getString('close', 0).'&tmpl=component&view=match&task=match.editlineup&cid[]='.$cid[0].'&team='.$team;
+		$link='index.php?option=com_joomleague&close='.$jinput -> get('close', '', 'string').'&tmpl=component&view=match&task=match.editlineup&cid[]='.$cid[0].'&team='.$team;
 		$this->setRedirect($link);
 	}
 
 	public function saveReferees()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 
@@ -316,8 +324,8 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$document = JFactory::getDocument();
 		$model=$this->getModel('match');
 		$positions=$model->getProjectRefereePositions();
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(0),'','array');
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['mid']=$cid[0];
 		$post['positions']=$positions;
 
@@ -346,7 +354,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		// Checkout the match
 		$model=$this->getModel('match');
 		$model->checkout();
-		$link='index.php?option=com_joomleague&close='.JRequest::getString('close', 0).'&tmpl=component&view=match&task=match.editreferees&cid[]='.$cid[0];
+		$link='index.php?option=com_joomleague&close='.$jinput -> get('close', '', 'string').'&tmpl=component&view=match&task=match.editreferees&cid[]='.$cid[0];
 
 		//echo $link.'<br />';
 		$this->setRedirect($link,$msg);
@@ -355,11 +363,12 @@ class JoomleagueControllerMatch extends JoomleagueController
 	// save the checked rows inside the round matches list
 	public function saveshort()
 	{
-		$option 	= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$app 		= JFactory::getApplication();
 		$project_id	= $app->getUserState($option.'project',0);
-		$post		= JRequest::get('post');
-		$cid		= JRequest::getVar('cid',array(),'post','array');
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 
 		$model = $this->getModel('match');
@@ -370,7 +379,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 			$uiTime = $post['match_time'.$cid[$x]];
 			$post['match_date'.$cid[$x]] = $this->convertUiDateTimeToMatchDate($uiDate, $uiTime, $project_tz);
 			unset($post['match_time'.$cid[$x]]);
-			
+
 			//clear ranking cache
 			$cache = JFactory::getCache('joomleague.project'.$project_id);
 			$cache->clean();
@@ -387,16 +396,17 @@ class JoomleagueControllerMatch extends JoomleagueController
 	public function copyfrom()
 	{
 		$app = JFactory::getApplication();
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$msg='';
-		$post=JRequest::get('post');
+		$post=$jinput->post;
 		$model=$this->getModel('match');
-		$add_match_count=JRequest::getInt('add_match_count');
-		$round_id=JRequest::getInt('rid');
+		$add_match_count=$jinput -> get('add_match_count', 0, 'int');
+		$round_id=$jinput -> get('rid', 0, 'int');
 		$post['project_id']=$app->getUserState($option.'project',0);
 		$post['round_id']=$app->getUserState($option.'round_id',0);
 		$project_tz = new DateTimeZone($model->getProject()->timezone);
-		
+
 		// Add matches (type=1)
 		if ($post['addtype']==1)
 		{
@@ -407,16 +417,16 @@ class JoomleagueControllerMatch extends JoomleagueController
 					$post['published']=1;
 				}
 
-				$matchNumber= JRequest::getInt('firstMatchNumber',1);
+				$matchNumber= $jinput -> get('firstMatchNumber',1, 'int');
 				$roundFound=false;
-				
+
 				if ($projectRounds=$model->getProjectRoundCodes($post['project_id']))
 				{
 					// convert date and time to utc
 					$uiDate = $post['match_date'];
 					$uiTime = $post['startTime'];
 					$post['match_date'] = $this->convertUiDateTimeToMatchDate($uiDate, $uiTime, $project_tz);
-			
+
 					foreach ($projectRounds AS $projectRound)
 					{
 						if ($projectRound->id==$post['round_id']){
@@ -469,7 +479,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 					//manche daten muessen auf null gesetzt werden
 
  					$dmatch['match_date'] = $post['match_date'];
-					
+
 					if ($post['mirror'] == '1')
 					{
 						$dmatch['projectteam1_id']	= $match->projectteam2_id;
@@ -511,9 +521,10 @@ class JoomleagueControllerMatch extends JoomleagueController
 	//	add a match to round
 	public function addmatch()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
-		$post=JRequest::get('post');
+		$post=$jinput->post;
 		$post['project_id']=$app->getUserState($option.'project',0);
 		$post['round_id']=$app->getUserState($option.'round_id',0);
 		//get the home team standard playground
@@ -527,7 +538,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		list($uiDate, $uiTime) = explode(" ", $post['match_date']);
 		$project_tz = new DateTimeZone($model->getProject()->timezone);
 		$post['match_date'] = $this->convertUiDateTimeToMatchDate($uiDate, $uiTime, $project_tz);
-		
+
 		if ($model->store($post))
 		{
 			$msg=JText::_('COM_JOOMLEAGUE_ADMIN_MATCH_CTRL_ADD_MATCH');
@@ -542,11 +553,12 @@ class JoomleagueControllerMatch extends JoomleagueController
 
 	public function remove()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
 		$project_id=$app->getUserState($option.'project',0);
 		$user = JFactory::getUser();
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$cid=$jinput -> get('cid',array(),'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){
 			JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_DELETE'));
@@ -595,14 +607,15 @@ class JoomleagueControllerMatch extends JoomleagueController
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 
-		$option 	= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$app 		= JFactory::getApplication();
 		$project_id = $app->getUserState($option.'project',0);
 
-		$cid 		= JRequest::getVar('cid',array(),'post','array');
-		$post		= JRequest::get('post');
-		$summary	= JRequest::getVar('summary','','post','string',JREQUEST_ALLOWRAW);
-		$preview	= JRequest::getVar('preview','','post','string',JREQUEST_ALLOWRAW);
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
+		$summary	= $jinput -> get('summary','','string');
+		$preview	= $jinput -> get('preview','','string');
 		$post['id']	= (int)$cid[0];
 		$post['summary']=$summary;
 		$post['preview']=$preview;
@@ -622,33 +635,34 @@ class JoomleagueControllerMatch extends JoomleagueController
 			$type='error';
 		}
 
-		$this->setRedirect('index.php?option=com_joomleague&close='.JRequest::getString('close', 0).'&tmpl=component&task=match.edit&cid[]='.$cid[0],$msg,$type);
+		$this->setRedirect('index.php?option=com_joomleague&close='.$jinput -> get('close', '', 'string').'&tmpl=component&task=match.edit&cid[]='.$cid[0],$msg,$type);
 	}
 
 	public function saveevent()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 
 		// Check for request forgeries
 		JSession::checkToken("GET") or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 
 		$app = JFactory::getApplication();
 		$data = array();
-		$data['teamplayer_id']	= JRequest::getInt('teamplayer_id');
-		$data['projectteam_id']	= JRequest::getInt('projectteam_id');
-		$data['event_type_id']	= JRequest::getInt('event_type_id');
-		$data['event_time']		= JRequest::getVar('event_time', '');
-		$data['match_id']		= JRequest::getInt('match_id');
-		$data['event_sum']		= JRequest::getVar('event_sum', '');
-		$data['notice']			= JRequest::getVar('notice', '');
-		$data['notes']			= JRequest::getVar('notes', '');
-		
+		$data['teamplayer_id']	= $jinput -> get('teamplayer_id', 0, 'int');
+		$data['projectteam_id']	= $jinput -> get('projectteam_id', 0, 'int');
+		$data['event_type_id']	= $jinput -> get('event_type_id', 0, 'int');
+		$data['event_time']		= $jinput -> get('event_time', '', 'string');
+		$data['match_id']		= $jinput -> get('match_id', 0, 'int');
+		$data['event_sum']		= $jinput -> get('event_sum', '', 'string');
+		$data['notice']			= $jinput -> get('notice', '', 'string');
+		$data['notes']			= $jinput -> get('notes', '', 'string');
+
 		$model=$this->getModel('match');
 		$project_id=$app->getUserState($option.'project',0);
 		if (!$result=$model->saveevent($data, $project_id)) {
 			$result="0"."\n".JText::_('COM_JOOMLEAGUE_ADMIN_MATCH_CTRL_ERROR_SAVED_EVENT').': '.$model->getError();
 		} else {
-			$result=JRequest::getVar('rowid',0).'\n'.JText::_('COM_JOOMLEAGUE_ADMIN_MATCH_CTRL_SAVED_EVENT');
+			$result=$jinput -> get('rowid',0, 'int').'\n'.JText::_('COM_JOOMLEAGUE_ADMIN_MATCH_CTRL_SAVED_EVENT');
 		}
 		echo json_encode($result);
 		JFactory::getApplication()->close();
@@ -659,17 +673,17 @@ class JoomleagueControllerMatch extends JoomleagueController
 		// Check for request forgeries
 		JSession::checkToken("GET") or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 		$data = array();
-		$data['in'] 					= JRequest::getInt('in');
-		$data['out'] 					= JRequest::getInt('out');
-		$data['matchid'] 				= JRequest::getInt('matchid');
-		$data['in_out_time'] 			= JRequest::getVar('in_out_time');
-		$data['project_position_id'] 	= JRequest::getInt('project_position_id');
+		$data['in'] 					= $jinput -> get('in', 0, 'int');
+		$data['out'] 					= $jinput -> get('out', 0, 'int');
+		$data['matchid'] 				= $jinput -> get('matchid', 0, 'int');
+		$data['in_out_time'] 			= $jinput -> get('in_out_time', '', 'string');
+		$data['project_position_id'] 	= $jinput -> get('project_position_id', 0, 'int');
 
 		$model=$this->getModel('match');
 		if (!$result=$model->savesubstitution($data)){
 			$result="0"."\n".JText::_('COM_JOOMLEAGUE_ADMIN_MATCH_CTRL_ERROR_SAVED_SUBST').': '.$model->getError();
 		} else {
-			$result=JRequest::getVar('rowid',0).'\n'.JText::_('COM_JOOMLEAGUE_ADMIN_MATCH_CTRL_SAVED_SUBST');
+			$result=$jinput -> get('rowid',0, 'int').'\n'.JText::_('COM_JOOMLEAGUE_ADMIN_MATCH_CTRL_SAVED_SUBST');
 		}
 		echo json_encode($result);
 		JFactory::getApplication()->close();
@@ -678,7 +692,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 	public function removeSubst()
 	{
 		JSession::checkToken("GET") or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$substid = JRequest::getInt('substid',0);
+		$substid = $jinput -> get('substid',0, 'int');
 		$model=$this->getModel('match');
 		if (!$result=$model->deleteSubstitution($substid))
 		{
@@ -697,10 +711,11 @@ class JoomleagueControllerMatch extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(0),'','array');
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$model=$this->getModel('match');
 		$project_id=$app->getUserState($option.'project',0);
 		if ($model->saveeventbb($post,$project_id))
@@ -715,7 +730,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		JRequest::setVar('layout','editeventsbb');
 		JRequest::setVar('view','match');
 		JRequest::setVar('edit',true);
-		$link='index.php?option=com_joomleague&close='.JRequest::getString('close', 0).'&view=match&task=match.editeventsbb&cid[]='.$cid[0];
+		$link='index.php?option=com_joomleague&close='.$jinput -> get('close', '', 'string').'&view=match&task=match.editeventsbb&cid[]='.$cid[0];
 		$this->setRedirect($link, $msg);
 	}
 
@@ -727,8 +742,8 @@ class JoomleagueControllerMatch extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post=JRequest::get('post');
-		$cid=JRequest::getInt('match_id');
+		$post=$jinput->post;
+		$cid = $jinput -> get('match_id', 0, 'int');
 		$model=$this->getModel('match');
 		if ($model->savestats($post))
 		{
@@ -744,7 +759,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		JRequest::setVar('tmpl','component');
 		JRequest::setVar('cid',array($post['match_id']));
 		JRequest::setVar('msg',$msg);
-		$link='index.php?option=com_joomleague&close='.JRequest::getString('close', 0).'&tmpl=component&view=match&task=match.editstats&cid[]='.$cid;
+		$link='index.php?option=com_joomleague&close='.$jinput -> get('close','', 'string').'&tmpl=component&view=match&task=match.editstats&cid[]='.$cid;
 		$this->setRedirect($link, $msg);
 	}
 
@@ -753,7 +768,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		// Check for request forgeries
 		JSession::checkToken("GET") or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 
-		$event_id=JRequest::getInt('event_id');
+		$event_id=$jinput -> get('event_id', 0, 'int');
 		$model=$this->getModel('match');
 		if (!$result=$model->deleteevent($event_id))
 		{
@@ -766,7 +781,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		echo json_encode($result);
 		JFactory::getApplication()->close();
 	}
-	
+
 	/**
 	 * Proxy for getModel
 	 *
@@ -781,7 +796,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
-	
+
 	private function convertUiDateTimeToMatchDate($uiDate, $uiTime, $timezone)
 	{
 		$format = JText::_('COM_JOOMLEAGUE_ADMIN_MATCHES_DATE_FORMAT');
@@ -798,7 +813,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 			// for example 2158 is used instead of 21:58
 			else
 			{
-				$dateStr .= ' '.substr($uiTime, 0, -2) . ':' . substr($uiTime, -2);  
+				$dateStr .= ' '.substr($uiTime, 0, -2) . ':' . substr($uiTime, -2);
 			}
 		}
 		$timestamp = DateTime::createFromFormat($format, $dateStr, $timezone);

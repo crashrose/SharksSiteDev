@@ -43,7 +43,7 @@ class JoomleagueViewProjectposition extends JLGView
 
 	function _displayDefault($tpl)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$uri = JFactory::getURI();
 		$filter_state		= $mainframe->getUserStateFromRequest($option.'pt_filter_state',		'filter_state',		'',			'word');

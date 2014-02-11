@@ -43,7 +43,8 @@ if ((int)ini_get('memory_limit') < (int)$maxImportMemory){ini_set('memory_limit'
 
 function getUpdatePart()
 {
-	$option = JRequest::getCmd('option');
+	$jinput = JFactory::getApplication() -> input;
+	$option = $jinput -> get('option', '', 'string');
 	$mainframe = JFactory::getApplication();
 	$update_part=$mainframe->getUserState($option.'update_part');
 	return $update_part;
@@ -51,7 +52,8 @@ function getUpdatePart()
 
 function setUpdatePart($val=1)
 {
-	$option = JRequest::getCmd('option');
+	$jinput = JFactory::getApplication() -> input;
+	$option = $jinput -> get('option', '', 'string');
 	$mainframe = JFactory::getApplication();
 	$update_part=$mainframe->getUserState($option.'update_part');
 	if ($val!=0)

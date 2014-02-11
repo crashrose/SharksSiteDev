@@ -84,7 +84,8 @@ class JoomleagueViewTeam extends JLGView
 	protected function addToolbar()
 	{
 		// Set toolbar items for the page
-		$edit		= JRequest::getVar('edit',true);
+		$jinput = JFactory::getApplication() -> input;
+		$edit= $jinput -> get('edit',true, 'boolean');
 		$text = !$edit ? JText::_( 'COM_JOOMLEAGUE_GLOBAL_NEW' ) : JText::_( 'COM_JOOMLEAGUE_GLOBAL_EDIT' ) . ': ' . $this->team->name;
 		JToolBarHelper::title((   JText::_( 'COM_JOOMLEAGUE_ADMIN_TEAM' ).': <small><small>[ ' . $text.' ]</small></small>' ),'Teams');
 		JLToolBarHelper::save('team.save');

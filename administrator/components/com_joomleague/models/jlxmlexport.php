@@ -251,7 +251,7 @@ class JoomleagueModelJLXMLExport extends JModelLegacy
 	 */
 	public function exportData()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
 		$this->_project_id = $mainframe->getUserState($option.'project');
@@ -393,7 +393,7 @@ class JoomleagueModelJLXMLExport extends JModelLegacy
 	 */
 	function downloadXml($data, $table)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		jimport('joomla.filter.output');
 		$filename = $this->_getIdFromData('name', $this->_project);

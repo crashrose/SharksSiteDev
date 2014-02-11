@@ -31,10 +31,10 @@ class JoomleagueViewJLXMLImports extends JLGView
 	 * @since  11.1
 	 */
 	protected static $zones = array('Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific');
-	
+
 	function display($tpl=null)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 
 		if ($this->getLayout()=='form')
@@ -61,7 +61,7 @@ class JoomleagueViewJLXMLImports extends JLGView
 
 		$uri = JFactory::getURI();
 		$config = JComponentHelper::getParams('com_media');
-		$post=JRequest::get('post');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
 		$files=JRequest::get('files');
 
 		$this->request_url = $uri->toString();
@@ -85,7 +85,7 @@ class JoomleagueViewJLXMLImports extends JLGView
 		$data			= $model->getData();
 		$uploadArray	= $mainframe->getUserState($option.'uploadArray',array());
 		$tzValue  		= isset($data['project']->timezone) ? $data['project']->timezone: null;
-		$zones = DateTimeZone::listIdentifiers();				
+		$zones = DateTimeZone::listIdentifiers();
 		$options = array();
 		$options[]	= JHTML::_('select.option', '', '- '.JText::_( 'SELECT_TIMEZONE' ).' -');
 		foreach ($zones as $zone) {
@@ -97,7 +97,7 @@ class JoomleagueViewJLXMLImports extends JLGView
 		// build the html select booleanlist for published
 		$publishedValue  		= isset($data['project']->published) ? $data['project']->published: null;
 		$lists['published']=JHtml::_('select.booleanlist','published',' ',$publishedValue);
-		
+
 		$countries=new Countries();
 		$this->assignRef('uploadArray',$uploadArray);
 		$this->assignRef('starttime',$starttime);
@@ -121,7 +121,7 @@ class JoomleagueViewJLXMLImports extends JLGView
 		$this->assignRef('OldCountries',$model->getCountryByOldid());
 		$this->assignRef('import_version',$model->import_version);
 		$this->assignRef('lists',$lists);
-		
+
 		// Set toolbar items for the page
 		JToolBarHelper::title(JText::_('COM_JOOMLEAGUE_ADMIN_XML_IMPORT_TITLE_2_3'),'generic.png');
 		//                       task    image  mouseover_img           alt_text_for_image              check_that_standard_list_item_is_checked
@@ -139,8 +139,9 @@ class JoomleagueViewJLXMLImports extends JLGView
 		$mtime		= $mtime[1] + $mtime[0];
 		$starttime	= $mtime;
 		$model 		= JModelLegacy::getInstance('jlxmlimport', 'JoomleagueModel');
-		$post		= JRequest::get('post');
-		
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
+
 		// Set toolbar items for the page
 		JToolBarHelper::title(JText::_('COM_JOOMLEAGUE_ADMIN_XML_IMPORT_TITLE_3_3'),'generic.png');
 		//JToolBarHelper::back();
@@ -155,7 +156,7 @@ class JoomleagueViewJLXMLImports extends JLGView
 
 	private function _displaySelectpage($tpl)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe 	= JFactory::getApplication();
 		$document 	= JFactory::getDocument();
 		$db 		= JFactory::getDbo();

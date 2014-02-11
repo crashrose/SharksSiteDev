@@ -36,7 +36,7 @@ JoomleagueHelper::addTemplatePaths($templatesToLoad, $this);
 				echo $this->loadTemplate('players');
 			} else if (($this->config['show_players_layout'])=='player_card') {
 				$document 	= JFactory::getDocument();
-				$option 	= JRequest::getCmd('option');
+				$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 				$version 	= urlencode(JoomleagueHelper::getVersion());
 				$document->addStyleSheet(  $this->baseurl . '/components/'.$option.'/assets/css/'.$this->getName().'_card.css?v=' . $version );
 				echo $this->loadTemplate('players_card');
@@ -50,7 +50,7 @@ JoomleagueHelper::addTemplatePaths($templatesToLoad, $this);
 				echo $this->loadTemplate('staff');
 			} else if (($this->config['show_staff_layout'])=='staff_card') {
 				$document 	= JFactory::getDocument();
-				$option 	= JRequest::getCmd('option');
+				$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 				$version 	= urlencode(JoomleagueHelper::getVersion());
 				$document->addStyleSheet(  $this->baseurl . '/components/'.$option.'/assets/css/'.$this->getName().'_card.css?v=' . $version );
 				echo $this->loadTemplate('staff_card');

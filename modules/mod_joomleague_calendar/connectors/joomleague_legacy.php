@@ -1,6 +1,6 @@
 <?php
 class JoomleagueConnector extends JLCalendar{
-  
+
   var $xparams;
   var $prefix;
   function getEntries ( &$caldates, &$params, &$matches ) {
@@ -19,8 +19,8 @@ class JoomleagueConnector extends JLCalendar{
       $birthdays = JoomleagueConnector::getBirthdays (  $caldates, $this->params, $this->matches  );
       $b = JoomleagueConnector::formatBirthdays($birthdays, $matches, $caldates);
     }
-    
-    
+
+
     return array_merge($m, $b);
   }
   function getFavs() {
@@ -37,17 +37,18 @@ class JoomleagueConnector extends JLCalendar{
       $fav=$database->loadColumn();
       return implode(',', $fav);
   }
-    
+
   function getBirthdays ( $caldates, $ordering='ASC' ) {
     $teamCondition = '';
     $clubCondition = '';
     $favCondition = '';
     $limitingcondition = '';
     $limitingconditions = array();
-    
+
     $database = JFactory::getDbo();
 
-    $customteam = JRequest::getVar('jlcteam',0,'default','POST');
+    $jinput = JFactory::getApplication() -> input;
+    $customteam = $jinput -> get('jlcteam',0,'int');
     $teamid   = $this->xparams->get('team_ids') ;
     $teamid = ($customteam > 0) ? $customteam : $teamid;
     if ($teamid) {
@@ -99,7 +100,7 @@ class JoomleagueConnector extends JLCalendar{
       if (!$players=$database->loadObjectList()) $players = array();
 
       return $players;
-  }  
+  }
   function formatBirthdays( $rows, &$matches, $dates ) {
     $newrows = array();
     $year = substr($dates['start'], 0, 4);
@@ -132,7 +133,7 @@ class JoomleagueConnector extends JLCalendar{
       $matches[] = $newrows[$key];
     }
     return $newrows;
-  } 
+  }
   function formatMatches( $rows, &$matches ) {
     $newrows = array();
     $teamnames = $this->xparams->get('team_names', 'short_name');
@@ -200,14 +201,15 @@ class JoomleagueConnector extends JLCalendar{
   }
   function getMatches($caldates, $ordering='ASC'){
     $database = JFactory::getDbo();
-    
+
     $teamCondition = '';
     $clubCondition = '';
     $favCondition = '';
     $limitingcondition = '';
     $limitingconditions = array();
-    
-    $customteam = JRequest::getVar('jlcteam',0,'default','POST');
+
+    $jinput = JFactory::getApplication() -> input;
+    $customteam = $jinput -> get('jlcteam',0,'int');
     $teamid   = $this->xparams->get('team_ids') ;
     $teamid = ($customteam > 0) ? $customteam : $teamid;
     if ($teamid) {
@@ -232,17 +234,17 @@ class JoomleagueConnector extends JLCalendar{
       $limitingcondition .= implode(' OR ', $limitingconditions);
       $limitingcondition .=')';
     }
-    
+
     $limit = (isset($caldates['limitstart'])&&isset($caldates['limitend'])) ? ' LIMIT '.$caldates['limitstart'].', '.$caldates['limitend'] :'';
     $query = "SELECT  m.*,p.*,
                       DATE_FORMAT(match_date, '%Y-%m-%d') AS caldate,
                       r.matchcode, r.name AS roundname, r.round_date_first, r.round_date_last
               FROM #__joomleague_matches m
               LEFT JOIN #__joomleague_rounds r ON m.round_id = r.id
-              LEFT JOIN #__joomleague p ON p.id = m.project_id  
-              LEFT JOIN #__joomleague_teams teams ON (teams.id = m.matchpart1 OR teams.id = m.matchpart2) "; 
+              LEFT JOIN #__joomleague p ON p.id = m.project_id
+              LEFT JOIN #__joomleague_teams teams ON (teams.id = m.matchpart1 OR teams.id = m.matchpart2) ";
 
-    $where = " WHERE m.published = 1 
+    $where = " WHERE m.published = 1
                AND p.published = 1 ";
     if (isset($caldates['start'])) $where .= " AND m.match_date >= '".$caldates['start']."'";
     if (isset($caldates['end'])) $where .= " AND m.match_date <= '".$caldates['end']."'";
@@ -259,7 +261,7 @@ class JoomleagueConnector extends JLCalendar{
 
     $where .= " GROUP BY m.match_id";
     $where .=" ORDER BY m.match_date ".$ordering;
-    
+
     $query = ($this->prefix != '') ? str_replace('#__', $this->prefix, $query) : $query;
     $database->setQuery($query.$where.$limit);
 
@@ -294,7 +296,7 @@ class JoomleagueConnector extends JLCalendar{
                      CONCAT('images/joomleague/flags/', LOWER(ctry.countries_iso_code_2), '.png') AS logo_country,
                      d.name AS division_name, d.shortname AS division_shortname,
                      p.name AS project_name
-                FROM #__joomleague_teams t 
+                FROM #__joomleague_teams t
                 LEFT JOIN #__joomleague_team_joomleague tl on tl.team_id = t.id ";
            $query .= "LEFT JOIN #__users u on tl.admin = u.id
            LEFT JOIN #__joomleague_clubs c on t.club_id = c.id
@@ -308,7 +310,7 @@ class JoomleagueConnector extends JLCalendar{
     $database->setQuery($query);
     if ( !$result = $database->loadObjectList('team_id') ) $result = Array();
 
-    
+
     return $result;
   }
   function build_url( &$row ) {
@@ -324,5 +326,5 @@ class JoomleagueConnector extends JLCalendar{
     $result = $database->loadObjectList();
   }
 
-    
-} 
+
+}

@@ -45,7 +45,7 @@ class JoomleagueModelQuickAdd extends JoomleagueModelList
 								WHERE	projectteam_id = ". $this->_db->Quote($projectteam_id) . " AND
 										tp.person_id = pl.id ) ";
 
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . 'pl_filter_order', 'filter_order', 'pl.lastname', 'cmd' );
@@ -88,7 +88,7 @@ class JoomleagueModelQuickAdd extends JoomleagueModelList
 		$query .= "                     WHERE projectteam_id = ". $this->_db->Quote($projectteam_id);
 		$query .= "                     AND ts.person_id = pl.id ) ";
 		
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . 'pl_filter_order', 'filter_order', 'pl.lastname', 'cmd' );
@@ -131,7 +131,7 @@ class JoomleagueModelQuickAdd extends JoomleagueModelList
 		$query .= "                     FROM #__joomleague_project_referee AS pr ";
 		$query .= "                     WHERE project_id = ". $this->_db->Quote($projectid);
 		$query .= "                     AND pr.person_id = pl.id ) ";
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . 'pl_filter_order', 'filter_order', 'pl.lastname', 'cmd' );

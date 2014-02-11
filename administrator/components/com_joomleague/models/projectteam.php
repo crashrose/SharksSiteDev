@@ -38,7 +38,7 @@ class JoomleagueModelProjectteam extends JoomleagueModelItem
 		if (empty($this->_data))
 		{
 			$query = '	SELECT	pt.*,
-								t.name AS name, 
+								t.name AS name,
 								ass.rules
 						FROM #__joomleague_project_team AS pt
 						LEFT JOIN #__joomleague_team AS t ON pt.team_id = t.id
@@ -131,7 +131,7 @@ class JoomleagueModelProjectteam extends JoomleagueModelItem
 	*/
 	function getDivisions()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
  		$project_id = $mainframe->getUserState($option.'project');
@@ -257,7 +257,7 @@ class JoomleagueModelProjectteam extends JoomleagueModelItem
 	*/
 	function getTrainigData($projectTeamID)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
  		$project_id = $mainframe->getUserState($option . 'project');
@@ -287,7 +287,8 @@ class JoomleagueModelProjectteam extends JoomleagueModelItem
 	function saveTrainigData($post)
 	{
 		$result=true;
-		$tdids=JRequest::getVar('tdids',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$tdids = $jinput -> get('tdids', array(), 'array');
 		JArrayHelper::toInteger($tdids);
 		foreach ($tdids AS $tdid)
 		{
@@ -302,7 +303,7 @@ class JoomleagueModelProjectteam extends JoomleagueModelItem
 								time_start='$start',
 								time_end='$end',
 								place='".$post['place_'.$tdid]."',
-								notes='".JRequest::getVar('notes_'.$tdid,'none','post','STRING',JREQUEST_ALLOWHTML)."'
+								notes='".$jinput -> get('notes_'.$tdid,'none','string')."'
 						WHERE id='$tdid'";
 			$this->_db->setQuery($query);
 			if (!$this->_db->query())
@@ -317,7 +318,8 @@ class JoomleagueModelProjectteam extends JoomleagueModelItem
 	function checkAndDeleteTrainigData($post)
 	{
 		$result=true;
-		$tdids=JRequest::getVar('tdids',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$tdids = $jinput -> get('tdids', array(0), 'array');
 		JArrayHelper::toInteger($tdids);
 		foreach ($tdids AS $tdid)
 		{
@@ -347,7 +349,7 @@ class JoomleagueModelProjectteam extends JoomleagueModelItem
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
-	
+
 	/**
 	 * Method to get the record form.
 	 *
@@ -367,7 +369,7 @@ class JoomleagueModelProjectteam extends JoomleagueModelItem
 		}
 		return $form;
 	}
-	
+
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
@@ -384,7 +386,7 @@ class JoomleagueModelProjectteam extends JoomleagueModelItem
 		}
 		return $data;
 	}
-	
+
 	public function getName() {
 		return 'project_team';
 	}

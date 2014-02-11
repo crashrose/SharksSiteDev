@@ -43,7 +43,7 @@ class JoomleagueViewProjectReferees extends JLGView
 
 	function _displayEditlist($tpl)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 
 		$project_id = $mainframe->getUserState($option.'project');
@@ -134,7 +134,7 @@ class JoomleagueViewProjectReferees extends JLGView
 
 	function _displayDefault($tpl)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$uri = JFactory::getURI();
 		$project_id = $mainframe->getUserState($option.'project');

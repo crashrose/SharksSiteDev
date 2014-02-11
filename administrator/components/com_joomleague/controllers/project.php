@@ -36,10 +36,11 @@ class JoomleagueControllerProject extends JoomleagueController
 
 	public function display($cachable = false, $urlparams = false)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe 		= JFactory::getApplication();
-		$sports_type	= JRequest::getInt('filter_sports_type',0);
-		$season			= JRequest::getInt('filter_season',0);
+		$sports_type	= $jinput -> get('filter_sports_type',0, 'int');
+		$season			= $jinput -> get('filter_season',0,'int');
 		$mainframe->setUserState($option.'.projects.filter_sports_type', $sports_type);
 		$mainframe->setUserState($option.'.projects.filter_season', $season);
 
@@ -78,7 +79,8 @@ class JoomleagueControllerProject extends JoomleagueController
 
 			case 'copy'	:
 			{
-				$cid=JRequest::getVar('cid',array(0),'post','array');
+				$jinput = JFactory::getApplication() -> input;
+				$cid = $jinput -> get('cid', array(0), 'array');
 				$copyID=(int) $cid[0];
 
 				JRequest::setVar('hidemainmenu',1);
@@ -96,8 +98,10 @@ class JoomleagueControllerProject extends JoomleagueController
 
         JToolBarHelper::title(JText::_('COM_JOOMLEAGUE_PROJECT_COPY_TITLE'),'generic.png');
 		JToolBarHelper::back('COM_JOOMLEAGUE_PROJECT_BACK','index.php?option=com_joomleague&view=projects&task=project.display');
-		$post = JRequest::get('post');
-		$cid = JRequest::getVar('cid',array(0),'post','array');
+
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 
         if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_COPY'));}
 
@@ -194,13 +198,14 @@ class JoomleagueControllerProject extends JoomleagueController
 	public function remove()
 	{
 		JSession::checkToken() or die(JText::_('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN'));
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$user = JFactory::getUser();
+		$jinput = JFactory::getApplication() -> input;
 		JToolBarHelper::title(JText::_('COM_JOOMLEAGUE_PROJECT_DELETE_TITLE'),'generic.png');
 		JToolBarHelper::back('COM_JOOMLEAGUE_PROJECT_BACK','index.php?option=com_joomleague&view=projects&task=project.display');
-		$cid=JRequest::getVar('cid',array(),'post','array');
-		vardump($cid);
+		$cid = $jinput -> get('cid',array(),'array');
 		JArrayHelper::toInteger($cid);
 
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_DELETE'));}
@@ -379,8 +384,9 @@ class JoomleagueControllerProject extends JoomleagueController
 
 		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN'));
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(0),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id']=(int) $cid[0];
 		$msg='';
 		// convert dates back to mysql date format
@@ -526,8 +532,9 @@ class JoomleagueControllerProject extends JoomleagueController
 	public function export()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_EXPORT'));}
 		$model = $this->getModel("project");
@@ -563,7 +570,8 @@ class JoomleagueControllerProject extends JoomleagueController
 	 */
 	public function fixdates()
 	{
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$jinput = JFactory::getApplication() -> input;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 
 		$msg = array();

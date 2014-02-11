@@ -12,15 +12,16 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 <?php
-//save and close 
-$close = JRequest::getInt('close',0);
+//save and close
+$jinput = JFactory::getApplication() -> input;
+$close = $jinput -> get('close',0,'int');;
 if($close == 1) {
 	?><script>
 	window.addEvent('domready', function() {
-		$('cancel').onclick();	
+		$('cancel').onclick();
 	});
 	</script>
-	<?php 
+	<?php
 }
 ?>
 <form id="startingSquadsForm" name="startingSquadsForm" method="post">
@@ -40,19 +41,19 @@ if($close == 1) {
 	<div class="clear"></div>
 	<div id="lineup">
 		<?php
-		// focus on players tab 
+		// focus on players tab
 		$startOffset = 1
 		;
 		echo JHtml::_('tabs.start','tabs', array('startOffset'=>$startOffset));
 		echo JHtml::_('tabs.panel',JText::_('COM_JOOMLEAGUE_TABS_SUBST'), 'panel1');
 		echo $this->loadTemplate('substitutions');
-		
+
 		echo JHtml::_('tabs.panel',JText::_('COM_JOOMLEAGUE_TABS_PLAYERS'), 'panel2');
 		echo $this->loadTemplate('players');
-		
+
 		echo JHtml::_('tabs.panel',JText::_('COM_JOOMLEAGUE_TABS_STAFF'), 'panel3');
 		echo $this->loadTemplate('staff');
-		
+
 		echo JHtml::_('tabs.end');
 		?>
 		<input type="hidden" name="task" value="match.saveroster" />

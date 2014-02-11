@@ -35,7 +35,7 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 
 	public function display($cachable = false, $urlparams = false)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$model=$this->getModel('teamplayers');
@@ -72,7 +72,7 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 					$view->setModel($model,true);  // true is for the default model;
 					$view->setModel($mdlProject);
 					$view->setModel($mdlProjectteam);
-						
+
 					JRequest::setVar('hidemainmenu',0);
 					JRequest::setVar('layout','form');
 					JRequest::setVar('view','teamplayer');
@@ -89,7 +89,7 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 
 	public function editlist()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$model=$this->getModel('teamplayers');
@@ -115,10 +115,10 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 
 	public function save_playerslist()
 	{
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(0),'post','array');
-		$project=JRequest::getVar('project','post');
-		$team_id=JRequest::getVar('team','post');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
+		$project = $jinput -> get('project', '', 'string');
+		$team_id=$jinput -> get('team','', 'string');
 		$post['id']=(int)$cid[0];
 		$post['project_id']=(int)$project;
 		$post['team_id']=(int)$team_id;
@@ -143,11 +143,11 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(0),'post','array');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id']=(int) $cid[0];
 		// decription must be fetched without striping away html code
-		$post['notes']=JRequest::getVar('notes','none','post','STRING',JREQUEST_ALLOWHTML);
+		$post['notes']=$jinput -> get('notes','none','string');
 		$model=$this->getModel('TeamPlayer');
 		if ($model->store($post,'TeamPlayer'))
 		{
@@ -175,8 +175,8 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 	// save the checked rows inside the project teams list
 	public function saveshort()
 	{
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 
 		$model=$this->getModel('teamplayers');
@@ -196,17 +196,17 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 
 	public function remove()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
 		$project_id=$app->getUserState($option.'project',0);
 		$user = JFactory::getUser();
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_DELETE'));}
 		// Access checks.
 		foreach ($cid as $i => $id)
 		{
-			if (!$user->authorise('core.admin', 'com_joomleague') || 
+			if (!$user->authorise('core.admin', 'com_joomleague') ||
 				!$user->authorise('core.admin', 'com_joomleague.project.'.(int) $project_id) ||
 				!$user->authorise('core.delete', 'com_joomleague.team_player.'.(int) $id))
 			{
@@ -224,12 +224,12 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 		$this->view_list = 'teamplayers&task=teamplayer.display';
 		parent::publish();
 	}
-	
+
 	public function unpublish() {
 		$this->view_list = 'teamplayers&task=teamplayer.display';
 		parent::unpublish();
 	}
-	
+
 	public function cancel()
 	{
 		// Checkin the project
@@ -254,8 +254,8 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 
 	public function saveorder()
 	{
-		$cid=JRequest::getVar('cid',array(),'post','array');
-		$order=JRequest::getVar('order',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $cid = $jinput -> get('cid', array(), 'array');
+		$order = $jinput -> get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 		$model=$this->getModel('teamplayer');
@@ -266,23 +266,24 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 
 	public function select()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
-		$mainframe->setUserState($option.'project_team_id',JRequest::getVar('project_team_id'));
+		$mainframe->setUserState($option.'project_team_id',$jinput -> get('project_team_id', '', 'string'));
 		$this->setRedirect('index.php?option=com_joomleague&view=teamplayers&task=teamplayer.display');
 	}
 
 	public function assign()
 	{
 		//redirect to players page,with a message
+		$jinput = JFactory::getApplication() -> input;
 		$msg=JText::_('COM_JOOMLEAGUE_ADMIN_TEAMPLAYERS_CTRL_PLAYERS_ASSIGN');
-		JRequest::setVar('project_team_id',JRequest::getVar('project_team_id'));
+		JRequest::setVar('project_team_id',$jinput -> get('project_team_id', '', 'string'));
 		$this->setRedirect('index.php?option=com_joomleague&task=person.display&view=persons&layout=assignplayers&hidemainmenu=1',$msg);
 	}
 
 	public function unassign()
 	{
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		$model=$this->getModel('teamplayers');
 		$nDeleted=$model->remove($cid);
@@ -298,7 +299,7 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 			$this->setRedirect('index.php?option=com_joomleague&view=teamplayers&task=teamplayer.display',$msg);
 		}
 	}
-	
+
 	/**
 	 * Proxy for getModel
 	 *
@@ -313,6 +314,6 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
-	
+
 }
 ?>

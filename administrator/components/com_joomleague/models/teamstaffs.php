@@ -47,7 +47,7 @@ class JoomleagueModelTeamStaffs extends JoomleagueModelList
 
 	function _buildContentOrderBy()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$filter_order		= $mainframe->getUserStateFromRequest($option.'ts_filter_order',		'filter_order',		'ppl.ordering',	'cmd');
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest($option.'ts_filter_order_Dir',	'filter_order_Dir',	'',				'word');
@@ -175,7 +175,7 @@ class JoomleagueModelTeamStaffs extends JoomleagueModelList
 	 */
 	function getDivisions()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id=$mainframe->getUserState($option.'project');
 		$query="SELECT id AS value, name AS text FROM #__joomleague_division WHERE project_id=$project_id ORDER BY name ASC ";
@@ -197,7 +197,7 @@ class JoomleagueModelTeamStaffs extends JoomleagueModelList
 		*/
 	function getPositions()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id=$mainframe->getUserState($option.'project');
 		$query="	SELECT ppos.id AS value, pos.name AS text

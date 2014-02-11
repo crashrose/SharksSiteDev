@@ -26,13 +26,15 @@ class JoomleagueViewMatch extends JLGView
 {
 	function display($tpl=null)
 	{
-		$result=JRequest::getVar('result');
+		$jinput = JFactory::getApplication() -> input;
+		$result = $jinput -> get('result','','string');
 		echo $result;
 	}
 
 	function _displaySaveSubst($tpl=null)
 	{
-		$result=JRequest::getVar('result');
+		$jinput = JFactory::getApplication() -> input;
+		$result = $jinput -> get('result','','string');
 		echo $result;
 	}
 

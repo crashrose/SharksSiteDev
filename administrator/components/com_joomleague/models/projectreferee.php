@@ -120,7 +120,7 @@ class JoomleagueModelProjectReferee extends JoomleagueModelItem
 	 */
 	function getRefereePositions()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id=$mainframe->getUserState($option.'project');
 		$query='	SELECT	ppos.id AS value,
@@ -150,7 +150,7 @@ class JoomleagueModelProjectReferee extends JoomleagueModelItem
 	 */
 	function getProjectMatchdays()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id=$mainframe->getUserState($option.'project');
 		$query='	SELECT	roundcode AS value,
@@ -177,7 +177,7 @@ class JoomleagueModelProjectReferee extends JoomleagueModelItem
 	// Needs to be adapted to work with persons ans not projectreferee
 	function cpCopyProjectReferees($post)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$old_id=(int)$post['old_id'];
 		$project_id=(int)$post['id'];

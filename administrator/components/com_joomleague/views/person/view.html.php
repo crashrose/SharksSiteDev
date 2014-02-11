@@ -39,13 +39,13 @@ class JoomleagueViewPerson extends JLGView
 
 	function _displayForm($tpl)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
 		$db = JFactory::getDbo();
 		$uri = JFactory::getURI();
 		$user = JFactory::getUser();
 		$model = $this->getModel();
-		$edit=JRequest::getVar('edit',true);
+		$edit = $jinput -> get('edit',true, 'boolean');
 		$lists=array();
 
 		//get the person
@@ -68,10 +68,10 @@ class JoomleagueViewPerson extends JLGView
 		{
 			$person->ordering=0;
 		}
-		
-		$this->form = $this->get('form');	
+
+		$this->form = $this->get('form');
 		$this->edit = $edit;
-		$extended = $this->getExtended($person->extended, 'person');		
+		$extended = $this->getExtended($person->extended, 'person');
 		$this->extended = $extended;
 		//$this->assignRef('lists',$lists);
 		$this->person = $person;
@@ -83,7 +83,7 @@ class JoomleagueViewPerson extends JLGView
 		$jlang->load('com_contact', JPATH_ADMINISTRATOR, 'en-GB', true);
 		$jlang->load('com_contact', JPATH_ADMINISTRATOR, $jlang->getDefault(), true);
 		$jlang->load('com_contact', JPATH_ADMINISTRATOR, null, true);
-		
+
 		parent::display($tpl);
 	}
 
@@ -96,7 +96,8 @@ class JoomleagueViewPerson extends JLGView
 
 		$document = JFactory::getDocument();
 		$prjid=array();
-		$prjid=JRequest::getVar('prjid',array(0),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$prjid=$jinput -> get('prjid',array(0),'array');
 		$proj_id=(int) $prjid[0];
 
 		//build the html select list for projects
@@ -132,7 +133,7 @@ class JoomleagueViewPerson extends JLGView
 	* @since	1.7
 	*/
 	protected function addToolbar()
-	{	
+	{
 		// Set toolbar items for the page
 		$text = !$this->edit ? JText::_('COM_JOOMLEAGUE_GLOBAL_NEW') : JText::_('COM_JOOMLEAGUE_GLOBAL_EDIT');
 
@@ -146,7 +147,7 @@ class JoomleagueViewPerson extends JLGView
 		}
 		else
 		{
-			$option = JRequest::getCmd('option');
+			$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 			$params = JComponentHelper::getParams( $option );
 			$default_name_format = $params->get("name_format");
 			// for existing items the button is renamed `close` and the apply button is showed
@@ -159,7 +160,7 @@ class JoomleagueViewPerson extends JLGView
 		JToolBarHelper::divider();
 		JToolBarHelper::back();
 		JToolBarHelper::help('screen.joomleague',true);
-	}		
+	}
 
 }
 ?>

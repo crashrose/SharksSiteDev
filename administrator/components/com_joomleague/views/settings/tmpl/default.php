@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
 
-$option = JRequest::getCmd('option');
+$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 
 $i      = 1;
 

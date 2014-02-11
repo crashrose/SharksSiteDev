@@ -36,7 +36,8 @@ class JoomleagueControllerRound extends JoomleagueController
 
 	public function display($cachable = false, $urlparams = false)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
@@ -104,9 +105,10 @@ class JoomleagueControllerRound extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
-		$post=JRequest::get('post');
+		$post=$jinput->post;
 		$model=$this->getModel('round');
 		// convert dates back to mysql date format
 		if (isset($post['round_date_first']))
@@ -164,10 +166,12 @@ class JoomleagueControllerRound extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$option = JRequest::getCmd('option');
+
 		$mainframe = JFactory::getApplication();
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 		$model=$this->getModel('round');
 		for ($x=0; $x < count($cid); $x++)
@@ -199,7 +203,8 @@ class JoomleagueControllerRound extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_DELETE'));}
 		$mdlMatches=$this->getModel('matches');
@@ -217,7 +222,8 @@ class JoomleagueControllerRound extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_ADMIN_ROUNDS_CTRL_SELECT_TO_DELETE_MATCHES'));}
 		$mdlMatches=$this->getModel('matches');
@@ -243,7 +249,8 @@ class JoomleagueControllerRound extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post=JRequest::get('post');
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
 		$model=$this->getModel('round');
 		$add_round_count=(int)$post['add_round_count'];
 		$max=0;
@@ -278,7 +285,8 @@ class JoomleagueControllerRound extends JoomleagueController
 	 */
 	public function populate()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$app 	= JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$model    = $this->getModel('round');
@@ -304,15 +312,15 @@ class JoomleagueControllerRound extends JoomleagueController
 	{
 		$msgType = 'message';
 		$model = $this->getModel('rounds');
-		$project_id = JRequest::getInt('project_id');
-		$scheduling = JRequest::getVar('scheduling', '', 'post', 'string');
-		$time       = JRequest::getVar('time');
-		$interval   = JRequest::getInt('interval');
-		$start      = JRequest::getVar('start');
-		$roundname  = JRequest::getVar('roundname');
-		$matchnumber= JRequest::getVar('matchnumber');
-		
-		$teamsorder = JRequest::getVar('teamsorder', array(), 'post', 'array');
+		$project_id = $jinput -> get('project_id', 0, 'int');
+		$scheduling = $jinput -> get('scheduling', '', 'string');
+		$time       = $jinput -> get('time', '', 'string');
+		$interval   = $jinput -> get('interval', 0, 'int');
+		$start      = $jinput -> get('start', '', 'string');
+		$roundname  = $jinput -> get('roundname', '', 'string');
+		$matchnumber= $jinput -> get('matchnumber', '', 'string');
+
+		$teamsorder = $jinput -> get('teamsorder', array(), 'array');
 		JArrayHelper::toInteger($teamsorder);
 		if($scheduling == 0 || $scheduling == 1) {
 			$bSuccess = $model->populate($project_id, $scheduling, $time, $interval, $start, $roundname, $teamsorder, $matchnumber);

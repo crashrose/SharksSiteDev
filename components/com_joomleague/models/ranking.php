@@ -39,23 +39,24 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 
 	function __construct( )
 	{
-		$this->projectid = JRequest::getInt( "p", 0 );
-		$this->round = JRequest::getInt( "r", $this->current_round);
-		$this->part  = JRequest::getInt( "part", 0);
-		$this->from  = JRequest::getInt( 'from', $this->round );
-		$this->to	 = JRequest::getInt( 'to', $this->round);
-		$this->type  = JRequest::getInt( 'type', 0 );
-		$this->last  = JRequest::getInt( 'last', 0 );
+		$jinput = JFactory::getApplication() -> input;
+		$this->projectid = $jinput -> get('p',0,'int');
+		$this->round = $jinput -> get('r', $this->current_round, 'int');
+		$this->part  = $jinput -> get('part', 0, 'int');
+		$this->from  = $jinput -> get('from', $this->round, 'int' );
+		$this->to	 = $jinput -> get('to', $this->round, 'int');
+		$this->type  = $jinput -> get('type', 0, 'int' );
+		$this->last  = $jinput -> get('last', 0, 'int' );
 
-		$this->selDivision = JRequest::getInt( 'division', 0 );
+		$this->selDivision = $jinput -> get('division', 0, 'int' );
 
 		parent::__construct( );
 	}
 
-	
+
 	/**
 	 * get previous games for each team
-	 * 
+	 *
 	 * @return array games array indexed by project team ids
 	 */
 	function getPreviousGames()
@@ -63,7 +64,7 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 		if (!$this->round) {
 			return false;
 		}
-		
+
 		// current round roundcode
 		$rounds = $this->getRounds();
 		$current = null;
@@ -77,7 +78,7 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 			if (!$current) {
 			return false;
 		}
-		
+
 		// previous games of each team, until current round
 		$query = ' SELECT m.*, r.roundcode, '
 		       . ' CASE WHEN CHAR_LENGTH(t1.alias) AND CHAR_LENGTH(t2.alias) THEN CONCAT_WS(\':\',m.id,CONCAT_WS("_",t1.alias,t2.alias)) ELSE m.id END AS slug, '
@@ -119,16 +120,16 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 				$res[$ptid] = array();
 				continue;
 			}
-				
+
 			// get last x games
 			//$nb_games = 5;
 			$config = $this->getTemplateConfig('ranking');
-			$nb_games = $config['nb_previous'];			
+			$nb_games = $config['nb_previous'];
 			$res[$ptid] = array_slice($teamgames, -$nb_games);
 		}
 		return $res;
 	}
-		
+
 	/**
 	 * computes the ranking
 	 *
@@ -137,11 +138,12 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 	{
 		$app		= JFactory::getApplication();
 		$project	= $this->getProject();
-		
+		$jinput = JFactory::getApplication() -> input;
+
 		$mdlRound	= JModelLegacy::getInstance("Round", "JoomleagueModel");
 		$mdlRounds	= JModelLegacy::getInstance("Rounds", "JoomleagueModel");
 		$mdlRounds->setProjectId($project->id);
-		
+
 		$firstRound	= $mdlRounds->getFirstRound($project->id);
 		$lastRound	= $mdlRounds->getLastRound($project->id);
 
@@ -164,19 +166,19 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 		}
 		else
 		{
-			if (JRequest::getInt( 'from' ) == "0") {
+			if ($jinput -> get('from', 0, 'int' ) == "0") {
 				$this->from = $firstRound['id'];
 			}
 			else
 			{
-				$this->from = JRequest::getInt( 'from', $firstRound['id'] );
+				$this->from = $jinput -> get('from', $firstRound['id'], 'int' );
 			}
-			if (JRequest::getInt( 'to' ) == "0") {
+			if ($jinput -> get('to', 0, 'int' ) == "0") {
 				$this->to   = $this->round;
 			}
 			else
 			{
-				$this->to   = JRequest::getInt( 'to', $this->round, $lastRound['id'] );
+				$this->to   = $jinput -> get( 'to', $this->round, 'int' );
 			}
 		}
 		if( $this->part > 0 )
@@ -187,7 +189,7 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 		{
 			$url.='&amp;from='.$this->from.'&amp;to='.$this->to;
 		}
-		$this->type = JRequest::getInt( 'type', 0 );
+		$this->type = $jinput -> get( 'type', 0, 'int' );
 		if ( $this->type > 0 )
 		{
 			$url.='&amp;type='.$this->type;
@@ -198,8 +200,8 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 		//for sub division ranking tables
 		if ( $project->project_type=='DIVISIONS_LEAGUE' )
 		{
-			$selDivision = JRequest::getInt( 'division', 0 );
-			$this->divLevel = JRequest::getInt( 'divLevel', $tableconfig['default_division_view'] );
+			$selDivision = $jinput -> get('division', 0, 'int' );
+			$this->divLevel =$jinput -> get( 'divLevel', $tableconfig['default_division_view'], 'int' );
 
 			if ( $selDivision > 0 )
 			{
@@ -232,23 +234,23 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 		}
 		$selectedvalue = 0;
 
-		$last = JRequest::getInt( 'last', 0 );
+		$last = $jinput -> get('last', 0, 'int' );
 		if ($last > 0)
 		{
 			$url .= '&amp;last='.$last;
 		}
-		if ( JRequest::getInt( 'sef', 0) == 1 )
+		if ($jinput -> get('sef', 0, 'int') == 1 )
 		{
 			$app->redirect( JRoute::_( $url ) );
 		}
 
 		/**
-		* create ranking object	
+		* create ranking object
 		*
 		*/
 		$ranking = JLGRanking::getInstance($project);
 		$ranking->setProjectId( $this->projectid );
-		
+
 		foreach ( $divisions as $division )
 		{
 
@@ -268,7 +270,7 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 			}
 			$this->_sortRanking($this->currentRanking[$division]);
 
-			
+
 			//previous rank
 			if( $tableconfig['last_ranking']==1 )
 			{
@@ -277,7 +279,7 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 					$this->previousRanking[$division] = &$this->currentRanking[$division];
 				}
 				else
-				{	
+				{
 					//away rank
 					if ($this->type == 2) {
 						$this->previousRanking[$division] = $ranking->getRankingAway($this->from, $this->_getPreviousRoundId($this->to), $division);
@@ -297,26 +299,26 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 		$this->current_round = $this->round;
 		return ;
 	}
-	
+
 	/**
 	 * get id of previous round accroding to roundcode
-	 * 
+	 *
 	 * @param int $round_id
 	 * @return int
 	 */
 	function _getPreviousRoundId($round_id)
 	{
-		$query = ' SELECT id ' 
-		       . ' FROM #__joomleague_round ' 
+		$query = ' SELECT id '
+		       . ' FROM #__joomleague_round '
 		       . ' WHERE project_id = ' . $this->projectid
 		       . ' ORDER BY roundcode ASC ';
 		$this->_db->setQuery($query);
 		$res = $this->_db->loadColumn();
-		
+
 		if (!$res) {
 			return $round_id;
 		}
-		
+
 		$index = array_search($round_id, $res);
 		if ($index && $index > 0) {
 			return $res[$index - 1];
@@ -331,14 +333,15 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 
 	function _sortRanking(&$ranking)
 	{
-		$order     = JRequest::getVar( 'order', '' );
-		$order_dir = JRequest::getVar( 'dir', 'ASC' );
+		$jinput = JFactory::getApplication() -> input;
+		$order     = $jinput -> get('order', '', 'string' );
+		$order_dir = $jinput -> get('dir', 'ASC', 'string' );
 
 		switch ($order)
 		{
 			case 'played':
 			uasort( $ranking, array("JoomleagueModelRanking","playedCmp" ));
-			break;				
+			break;
 			case 'name':
 			uasort( $ranking, array("JoomleagueModelRanking","teamNameCmp" ));
 			break;
@@ -355,16 +358,16 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 			break;
 			case 'wot':
 			uasort( $ranking, array("JoomleagueModelRanking","wotCmp" ));
-			break;		
+			break;
 			case 'wso':
 			uasort( $ranking, array("JoomleagueModelRanking","wsoCmp" ));
-			break;	
+			break;
 			case 'lot':
 			uasort( $ranking, array("JoomleagueModelRanking","lotCmp" ));
-			break;		
+			break;
 			case 'lso':
 			uasort( $ranking, array("JoomleagueModelRanking","lsoCmp" ));
-			break;			
+			break;
 			case 'winpct':
 			uasort( $ranking, array("JoomleagueModelRanking","winpctCmp" ));
 			break;
@@ -385,7 +388,7 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 			break;
 			case 'legsratio':
 			uasort( $ranking, array("JoomleagueModelRanking","legsratioCmp" ));
-			break;				
+			break;
 			case 'diff':
 			uasort( $ranking, array("JoomleagueModelRanking","diffCmp" ));
 			break;
@@ -403,7 +406,7 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 			break;
 			case 'pointsratio':
 			uasort( $ranking, array("JoomleagueModelRanking","pointsratioCmp" ));
-			break;			
+			break;
 
 			default:
 				if (method_exists($this, $order.'Cmp')) {
@@ -421,8 +424,8 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 	function playedCmp( &$a, &$b){
 	  $res = $a->cnt_matches - $b->cnt_matches;
 	  return $res;
-	}	
-	
+	}
+
 	function teamNameCmp( &$a, &$b){
 	  return strcasecmp ($a->_name, $b->_name);
 	}
@@ -450,18 +453,18 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 	function wsoCmp( &$a, &$b){
 	  $res = $a->cnt_wso - $b->cnt_wso;
 	  return $res;
-	}		
-	
+	}
+
 	function lotCmp( &$a, &$b){
 	  $res = $a->cnt_lot - $b->cnt_lot;
 	  return $res;
 	}
-	
+
 	function lsoCmp( &$a, &$b){
 	  $res = $a->cnt_lso - $b->cnt_lso;
 	  return $res;
-	}	
-	
+	}
+
 	function winpctCmp( &$a, &$b){
 	  $pct_a = $a->cnt_won/($a->cnt_won+$a->cnt_lost+$a->cnt_draw);
 	  $pct_b = $b->cnt_won/($b->cnt_won+$b->cnt_lost+$b->cnt_draw);
@@ -489,8 +492,8 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 	function goalsagainstCmp( &$a, &$b){
 	  $res = ($a->sum_team2_result - $b->sum_team2_result);
 	  return $res;
-	}	
-	
+	}
+
 	function legsdiffCmp( &$a, &$b){
 	  $res = ($a->diff_team_legs - $b->diff_team_legs);
 	  return $res;
@@ -500,7 +503,7 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 	  $res = ($a->legsRatio - $b->legsRatio);
 	  return $res;
 	}
-	
+
 	function diffCmp( &$a, &$b){
 	  $res = ($a->diff_team_results - $b->diff_team_results);
 	  return $res;
@@ -510,12 +513,12 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 	  $res = ($a->getPoints() - $b->getPoints());
 	  return $res;
 	}
-		
+
 	function startCmp( &$a, &$b){
 	  $res = ($a->team->start_points * $b->team->start_points);
 	  return $res;
 	}
-	
+
 	function bonusCmp( &$a, &$b){
 	  $res = ($a->bonus_points - $b->bonus_points);
 	  return $res;
@@ -524,12 +527,12 @@ class JoomleagueModelRanking extends JoomleagueModelProject
 	function negpointsCmp( &$a, &$b){
 	  $res = ($a->neg_points - $b->neg_points);
 	  return $res;
-	}	
+	}
 
 	function pointsratioCmp( &$a, &$b){
 	  $res = ($a->pointsRatio - $b->pointsRatio);
 	  return $res;
-	}	
-	
+	}
+
 }
 ?>

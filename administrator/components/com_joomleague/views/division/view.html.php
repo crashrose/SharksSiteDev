@@ -36,7 +36,7 @@ class JoomleagueViewDivision extends JLGView
 
 	function _displayForm( $tpl )
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 
 		$mainframe	= JFactory::getApplication();
 		$project_id = $mainframe->getUserState( 'com_joomleagueproject' );
@@ -83,22 +83,23 @@ class JoomleagueViewDivision extends JLGView
 		$this->assignRef( 'projectws',	$projectws );
 		$this->assignRef( 'lists',		$lists );
 		$this->assignRef( 'division',	$division );
-		$this->assignRef('form',  $this->get('form'));		
+		$this->assignRef('form',  $this->get('form'));
 		//$extended = $this->getExtended($projectreferee->extended, 'division');
 		//$this->assignRef( 'extended', $extended );
 
-		$this->addToolbar();		
+		$this->addToolbar();
 		parent::display( $tpl );
 	}
-	
+
 	/**
 	* Add the page title and toolbar.
 	*
 	* @since	1.7
 	*/
 	protected function addToolbar()
-	{	
-		$edit	= JRequest::getVar( 'edit', true );
+	{
+		$jinput = JFactory::getApplication() -> input;
+		$edit = $jinput -> get('edit',true,'boolean');
 		$text	= !$edit ? JText::_( 'New' ) : JText::_( 'Edit' ) . ': ' . JText::_( $this->projectws->name ) . ' / ' . $this->division->name;
 		// Set toolbar items for the page
 		JToolBarHelper::title( $text);
@@ -115,7 +116,7 @@ class JoomleagueViewDivision extends JLGView
 			JLToolBarHelper::cancel( 'division.cancel', 'Close' );
 		}
 		JToolBarHelper::help( 'screen.joomleague', true );
-	}		
+	}
 
 }
 ?>

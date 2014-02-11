@@ -1,4 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access');
+$jinput = JFactory::getApplication() -> input;
 ?>
 <script>
 <!--
@@ -50,7 +51,7 @@
 		echo $this->lists['teams'];
 		?>
 	</fieldset>
-	<input type="hidden" name="project_id"	value="<?php echo JRequest::getVar('project_id'); ?>" />
+	<input type="hidden" name="project_id"	value="<?php echo $jinput -> get('project_id', '', 'string'); ?>" />
 	<input type="hidden" name="task"		value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -210,7 +210,7 @@ class JoomleagueHelper
 	 */
 	function getExtension($project_id=0)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		if (!$project_id)
 		{
 			$app=&JFactory::getApplication();
@@ -230,7 +230,8 @@ class JoomleagueHelper
 
 	public static function getExtensions($project_id)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$arrExtensions = array();
 		$excludeExtension = array();
 		if ($project_id) {
@@ -416,8 +417,8 @@ class JoomleagueHelper
 					break;
 			}
 		}
-		
-	
+
+
 		if (!empty($picture) && is_file(JPath::clean(JPATH_SITE.DIRECTORY_SEPARATOR.str_replace(JPATH_SITE.DS, '', $picture))))
 		{
 			$params = JComponentHelper::getParams('com_joomleague');
@@ -482,7 +483,7 @@ class JoomleagueHelper
 						$ret .='" alt="'.$alttext.'" title="'.$alttext.'"/>';
 					}
 				} catch (Exception $e) {
-					$ret = '';					
+					$ret = '';
 				}
 			} elseif($useThumbCache==0){
 				$picturepath = $picture;
@@ -574,7 +575,7 @@ class JoomleagueHelper
 					}
 					}
 				}
-				else 
+				else
 				{
 					$web_cached_thumb=JUri::root(true).'/'.str_replace(JPATH_SITE.DS, "", $picture);
 				}
@@ -625,7 +626,7 @@ class JoomleagueHelper
 			}
 
 		}
-			
+
 		return $ret;
 	}
 
@@ -640,7 +641,8 @@ class JoomleagueHelper
 	 */
 	public static function addTemplatePaths($templatesToLoad, &$view)
 	{
-		$extensions = JoomleagueHelper::getExtensions(JRequest::getInt('p'));
+		$jinput = JFactory::getApplication() -> input;
+		$extensions=JoomleagueHelper::getExtensions($jinput -> get('p', 0, 'int'));
 		foreach ($templatesToLoad as $template)
 		{
 			$view->addTemplatePath(JPATH_COMPONENT .DIRECTORY_SEPARATOR. 'views' .DIRECTORY_SEPARATOR. $template .DIRECTORY_SEPARATOR. 'tmpl');
@@ -660,10 +662,10 @@ class JoomleagueHelper
 	}
 
 	/**
-	 * Convert the UTC timestamp of a match (stored as UTC in the database) to: 
+	 * Convert the UTC timestamp of a match (stored as UTC in the database) to:
 	 * - the timezone of the Joomla user if that is set
 	 * - to the project timezone as set in the project otherwise (so also for guest users,
-	 *   aka visitors that have not logged in). 
+	 *   aka visitors that have not logged in).
 	 *
 	 * @param match $match Typically obtained from a DB-query and contains the match_date and timezone (of the project)
 	 */
@@ -683,32 +685,32 @@ class JoomleagueHelper
 				$user =& JFactory::getUser();
 	 			$timezone = $user->getParam('timezone', $match->timezone);
 			}
- 			
+
 	 		$matchDate = new JDate($match->match_date, 'UTC');
 	 		$matchDate->setTimezone(new DateTimeZone($timezone));
-	 		
+
 	 		$match->match_date = $matchDate;
 	 		$match->timezone = $timezone;
 		} else {
 			$match->match_date = null;
 		}
 	}
-	
+
 	public static function getMatchDate($match, $format = 'Y-m-d')
 	{
 		return $match->match_date ? $match->match_date->format($format, true) : "xxxx-xx-xx";
 	}
-	
+
 	public static function getMatchTime($match, $format = 'H:i')
 	{
 		return $match->match_date ? $match->match_date->format($format, true) : "xx:xx";
 	}
-	
+
 	public static function getMatchStartTimestamp($match, $format = 'Y-m-d H:i')
 	{
 		return $match->match_date ? $match->match_date->format($format, true) : "xxxx-xx-xx xx:xx";
 	}
-	
+
 	public static function getMatchEndTimestamp($match, $totalMatchDuration, $format = 'Y-m-d H:i')
 	{
 		$endTimestamp = "xxxx-xx-xx xx:xx";
@@ -720,12 +722,12 @@ class JoomleagueHelper
 		}
 		return $endTimestamp;
 	}
-	
+
 	public static function getMatchTimezone($match)
 	{
 		return $match->timezone;
 	}
-	
+
 	/**
 	 * Method to convert a date from 0000-00-00 to 00-00-0000 or back
 	 * return a date string
@@ -999,7 +1001,8 @@ class JoomleagueHelper
 	{
 		if ($showfavteam == 1)
 		{
-			$favshow = JRequest::getVar('view');
+			$jinput = JFactory::getApplication() -> input;
+			$favshow = $jinput -> get('view', '', 'string');
 			if (($favshow!='curve') && ($this->project->fav_team))
 			{
 				$fav=array('color'=>$this->project->fav_team_color,'description'=> JText::_('COM_JOOMLEAGUE_RANKING_FAVTEAM'));
@@ -1271,6 +1274,7 @@ class JoomleagueHelper
 	 */
 	public static function printbutton($print_link, &$config)
 	{
+		$jinput = JFactory::getApplication() -> input;
 		if ($config['show_print_button'] == 1) {
 			JHtml::_('behavior.tooltip');
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=800,height=600,directories=no,location=no';
@@ -1280,7 +1284,7 @@ class JoomleagueHelper
 			} else {
 				$image = JText::_( 'Print' );
 			}
-			if (JRequest::getInt('pop')) {
+			if ($jinput -> get('pop', 0, 'int')) {
 				//button in popup
 				$output = '<a href="javascript: void(0)" onclick="window.print();return false;">'.$image.'</a>';
 			} else {
@@ -1378,7 +1382,7 @@ class JoomleagueHelper
 			return ($result1 > $result2) ? -1 : 1;
 		}
 	}
-	
+
 	public static function getCommentsIntegrationPlugin() {
 		if(file_exists(JPATH_ROOT . '/components/com_jcomments/jcomments.config.php')) {
 			require_once (JPATH_ROOT . '/components/com_jcomments/jcomments.config.php');
@@ -1387,10 +1391,10 @@ class JoomleagueHelper
 		}
 		// get joomleague comments plugin params
 		JPluginHelper::importPlugin( 'content', 'joomleague_comments' );
-		
+
 		return JPluginHelper::getPlugin('joomleague', 'joomleague_comments');
 	}
-	
+
 	public function removeBOM($str) {
 		$bom = pack ( "CCC", 0xef, 0xbb, 0xbf );
 		if (0 == strncmp ( $str, $bom, 3 )) {
@@ -1399,7 +1403,7 @@ class JoomleagueHelper
 		}
 		return $str;
 	}
-	
+
 	public static function getTimezone($project, $overallconfig) {
 		if($project) {
 			return $project->timezone;

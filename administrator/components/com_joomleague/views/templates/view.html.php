@@ -25,7 +25,7 @@ class JoomleagueViewTemplates extends JLGView
 {
 	function display($tpl=null)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$uri = JFactory::getURI();

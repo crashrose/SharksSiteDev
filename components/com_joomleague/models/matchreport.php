@@ -42,7 +42,8 @@ class JoomleagueModelMatchReport extends JoomleagueModelProject
 
 	function __construct()
 	{
-		$this->matchid=JRequest::getInt('mid',0);
+		$jinput = JFactory::getApplication() -> input;
+		$this->matchid=$jinput -> get('mid',0, 'int');
 		parent::__construct();
 	}
 
@@ -104,7 +105,7 @@ class JoomleagueModelMatchReport extends JoomleagueModelProject
 
 	function getMatchPlayerPositions()
 	{
-		$query='	SELECT	pos.id, pos.name, 
+		$query='	SELECT	pos.id, pos.name,
 							ppos.position_id AS position_id, ppos.id as pposid
 					FROM #__joomleague_position AS pos
 					INNER JOIN #__joomleague_project_position AS ppos ON pos.id=ppos.position_id
@@ -118,7 +119,7 @@ class JoomleagueModelMatchReport extends JoomleagueModelProject
 
 	function getMatchStaffPositions()
 	{
-		$query='	SELECT	pos.id, pos.name, 
+		$query='	SELECT	pos.id, pos.name,
 							ppos.position_id AS position_id, ppos.id as pposid
 					FROM #__joomleague_position AS pos
 					INNER JOIN #__joomleague_project_position AS ppos ON pos.id=ppos.position_id
@@ -132,7 +133,7 @@ class JoomleagueModelMatchReport extends JoomleagueModelProject
 
 	function getMatchRefereePositions()
 	{
-		$query='	SELECT	pos.id, pos.name, 
+		$query='	SELECT	pos.id, pos.name,
 							ppos.position_id AS position_id, ppos.id as pposid
 					FROM #__joomleague_position AS pos
 					INNER JOIN #__joomleague_project_position AS ppos ON pos.id=ppos.position_id
@@ -263,7 +264,7 @@ class JoomleagueModelMatchReport extends JoomleagueModelProject
 						LEFT JOIN #__joomleague_project_position AS ppos2 ON ppos2.id=mp2.project_position_id
 						LEFT JOIN #__joomleague_position AS pos2 ON ppos2.position_id=pos2.id
 						INNER JOIN #__joomleague_team AS t ON t.id=pt.team_id
-					WHERE mp.match_id = '.(int)$this->matchid.' 
+					WHERE mp.match_id = '.(int)$this->matchid.'
 					  AND mp.came_in > 0
 					GROUP BY mp.in_out_time, mp.teamplayer_id, pt.team_id
 					ORDER by (mp.in_out_time+0)';
@@ -279,7 +280,7 @@ class JoomleagueModelMatchReport extends JoomleagueModelProject
 							et.name,
 							et.icon
 					FROM #__joomleague_eventtype AS et
-					INNER JOIN #__joomleague_position_eventtype AS pet ON pet.eventtype_id=et.id					
+					INNER JOIN #__joomleague_position_eventtype AS pet ON pet.eventtype_id=et.id
 					LEFT JOIN #__joomleague_match_event AS me ON et.id=me.event_type_id
 					WHERE me.match_id='.(int)$this->matchid.'
 					GROUP BY et.id

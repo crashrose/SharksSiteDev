@@ -18,10 +18,11 @@ class JoomleagueControllerClubPlan extends JoomleagueController
 {
 	public function display($cachable = false, $urlparams = false)
 	{
+		$jinput = JFactory::getApplication() -> input;
 		// Get the view name from the query string
-		$viewName=JRequest::getVar("view","clubplan");
-		$startdate=JRequest::getVar("startdate",null);
-		$enddate=JRequest::getVar("enddate",null);
+		$viewName=$jinput -> get('view', 'clubplan','string');
+		$startdate=$jinput -> get('startdate','', 'string');
+		$enddate=$jinput -> get('enddate','', 'string');
 
 		// Get the view
 		$view = $this->getView($viewName);

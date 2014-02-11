@@ -34,7 +34,7 @@ class JoomleagueControllerTreetonode extends JoomleagueController
 
 	public function display($cachable = false, $urlparams = false)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
@@ -46,14 +46,14 @@ class JoomleagueControllerTreetonode extends JoomleagueController
 		$projectws=$this->getModel('project');
 		$projectws->setId($mainframe->getUserState($option.'project',0));
 		$view->setModel($projectws);
-		if ( $tid = JRequest::getVar( 'tid', null, '', 'array' ) )
+		if ( $tid = $jinput -> get('tid', array(), 'array'))
 		{
 			$mainframe->setUserState( $option . 'treeto_id', $tid[0] );
 		}
 		$treetows = $this->getModel( 'treeto' );
 		$treetows->setId( $mainframe->getUserState( $option.'treeto_id') );
 		$view->setModel( $treetows );
-		
+
 		switch($this->getTask())
 		{
 			case 'edit'	:
@@ -79,7 +79,7 @@ class JoomleagueControllerTreetonode extends JoomleagueController
 
 	public function removenode()
 	{
-		
+
 		$mainframe	= JFactory::getApplication();
 		$post	= JRequest::get( 'post' );
 		$post['treeto_id']=$mainframe->getUserState($option.'treeto_id',0);
@@ -117,11 +117,11 @@ class JoomleagueControllerTreetonode extends JoomleagueController
 	public function saveshortleaf()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
-		$post=JRequest::get('post');
+		$post=$jinput->post;
 		$post['treeto_id']=$mainframe->getUserState($option.'treeto_id',0);
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		$model=$this->getModel('treetonodes');
 
@@ -139,7 +139,7 @@ class JoomleagueControllerTreetonode extends JoomleagueController
 	public function savefinishleaf()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		$post	= JRequest::get( 'post' );
 		$post['treeto_id']=$mainframe->getUserState($option.'treeto_id',0);
@@ -160,10 +160,10 @@ class JoomleagueControllerTreetonode extends JoomleagueController
 	public function saveshort()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		$model=$this->getModel('treetonodes');
 		if ($model->storeshort($cid,$post))
@@ -181,9 +181,9 @@ class JoomleagueControllerTreetonode extends JoomleagueController
 	public function save()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
-		$post=JRequest::get('post');
+		$post=$jinput->post;
 		$model=$this->getModel('treetonode');
 
 		if ($model->store($post))
@@ -210,9 +210,9 @@ class JoomleagueControllerTreetonode extends JoomleagueController
 	//	assign (empty)match to node	from editmatches view
 	public function assignmatch()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
-		$post=JRequest::get('post');
+		$post=$jinput->post;
 		$post['project_id']=$mainframe->getUserState($option.'project',0);
 		$post['node_id']=$mainframe->getUserState($option.'node_id',0);
 		$model=$this->getModel('treetonode');

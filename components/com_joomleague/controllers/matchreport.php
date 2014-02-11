@@ -19,7 +19,8 @@ class JoomleagueControllerMatchReport extends JoomleagueController
     public function display($cachable = false, $urlparams = false)
     {
         // Get the view name from the query string
-        $viewName = JRequest::getVar( "view", "matchreport" );
+        $jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'matchreport', 'string' );
 
         // Get the view
         $view = $this->getView( $viewName );
@@ -41,7 +42,8 @@ class JoomleagueControllerMatchReport extends JoomleagueController
         }
 
         $this->showprojectheading();
-        if ( JRequest::getInt( 'mid', 0 ) == 0 ) 
+        $jinput = JFactory::getApplication() -> input;
+        if ( $jinput -> get('mid', 0, 'int') == 0 )
         {
             $view->showreports();
         }

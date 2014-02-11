@@ -47,7 +47,7 @@ class JoomleagueModelTreetos extends JoomleagueModelList
 
 	function _buildContentWhere()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		$project_id = $mainframe->getUserState( $option . 'project' );
 		$division = (int) $mainframe->getUserStateFromRequest( $option.'tt_division', 'division', 0 );

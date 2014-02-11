@@ -40,7 +40,7 @@ class JoomleagueViewMatch extends JLGView
 		}
 		elseif ($this->getLayout() == 'editeventsbb')
 		{
-			$this->_displayEditeventsbb($tpl); 
+			$this->_displayEditeventsbb($tpl);
 			return;
 		}
 		elseif ($this->getLayout() == 'editstats')
@@ -64,7 +64,7 @@ class JoomleagueViewMatch extends JLGView
 
 	function _displayEditReferees($tpl)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$project_id=$mainframe->getUserState($option.'project');
@@ -154,11 +154,12 @@ class JoomleagueViewMatch extends JLGView
 
 	function _displayEditevents($tpl)
 	{
-		$option		= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		$project_id	= $mainframe->getUserState($option.'project');
 		$document	= JFactory::getDocument();
-		$tid 		= JRequest::getVar('team','0');
+		$tid 		= $jinput -> get('team','0', 'string');
 		$params		= JComponentHelper::getParams( $option );
 		$default_name_format = $params->get("name_format", 14);
 		$default_name_dropdown_list_order = $params->get("cfg_be_name_dropdown_list_order", "lastname");
@@ -169,7 +170,7 @@ class JoomleagueViewMatch extends JLGView
 
 		$model	= $this->getModel();
 		$teams	= $model->getMatchTeams();
-		
+
 		if (is_null($teams))
 		{
 			JError::raiseWarning(440,'<br />'.JText::_('COM_JOOMLEAGUE_ADMIN_MATCH_NO_TEAM_MATCH').'<br /><br />');
@@ -178,7 +179,7 @@ class JoomleagueViewMatch extends JLGView
 		$teamname = ($tid == $teams->projectteam1_id) ? $teams->team1 : $teams->team2;
 		$this->_handlePreFillRoster($teams, $model, $params, $teams->projectteam1_id, $teamname);
 		$this->_handlePreFillRoster($teams, $model, $params, $teams->projectteam2_id, $teamname);
-		
+
 		$homeRoster=$model->getTeamPlayers($teams->projectteam1_id, false, $default_name_dropdown_list_order);
 		if (count($homeRoster)==0)
 		{
@@ -226,18 +227,18 @@ class JoomleagueViewMatch extends JLGView
 
 	function _displayEditeventsbb($tpl)
 	{
-		$option					= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe				= JFactory::getApplication();
 		$project_id				= $mainframe->getUserState($option.'project');
 		$document				= JFactory::getDocument();
 		$params					= JComponentHelper::getParams( $option );
 		$default_name_format = $params->get("name_format", 14);
 		$default_name_dropdown_list_order = $params->get("cfg_be_name_dropdown_list_order", "lastname");
-		$tid 					= JRequest::getVar('team','0');
+		$tid = $jinput -> get('team','0', 'string');
 
 		$model	= $this->getModel();
  		$teams	= $model->getMatchTeams();
- 		
+
 		if (is_null($teams))
  		{
  			JError::raiseWarning(440,'<br />'.JText::_('COM_JOOMLEAGUE_ADMIN_MATCH_NO_TEAM_MATCH').'<br /><br />');
@@ -249,10 +250,10 @@ class JoomleagueViewMatch extends JLGView
  		{
  			$msg = '<br />'.JText::_('COM_JOOMLEAGUE_ADMIN_MATCH_NO_EVENTS_POS').'<br /><br />';
  			$mainframe->enqueueMessage($msg, 'warning');
-			$this->addToolbar_Editeventsbb(false);			
+			$this->addToolbar_Editeventsbb(false);
  			return false;
  		}
- 			
+
 		$homeRoster=$model->getTeamPlayers($teams->projectteam1_id, false, $default_name_dropdown_list_order);
 		if (count($homeRoster)==0)
 		{
@@ -271,7 +272,7 @@ class JoomleagueViewMatch extends JLGView
 		$this->assignRef('default_name_format',$default_name_format);
 		$this->assignRef('default_name_dropdown_list_order',$default_name_dropdown_list_order);
 
-		$this->addToolbar_Editeventsbb();			
+		$this->addToolbar_Editeventsbb();
 		parent::display($tpl);
 	}
 	/**
@@ -280,7 +281,7 @@ class JoomleagueViewMatch extends JLGView
 	* @since	1.7
 	*/
 	protected function addToolbar_Editeventsbb($showSave=true)
-	{	
+	{
 		//set toolbar items for the page
 		JToolBarHelper::title( JText::_( 'COM_JOOMLEAGUE_ADMIN_MATCH_EEBB_TITLE' ),'events' );
 		if($showSave) {
@@ -288,19 +289,19 @@ class JoomleagueViewMatch extends JLGView
 		}
 		JToolBarHelper::divider();
 		JToolBarHelper::back( 'back', 'index.php?option=com_joomleague&view=matches&task=match.display' );
-		JToolBarHelper::help( 'screen.joomleague', true );	
+		JToolBarHelper::help( 'screen.joomleague', true );
 	}
-	
+
 	function _displayEditstats($tpl)
 	{
-		$option					= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe				= JFactory::getApplication();
 		$project_id				= $mainframe->getUserState($option.'project');
 		$document				= JFactory::getDocument();
 		$params					= JComponentHelper::getParams( $option );
 		$default_name_format 	= $params->get("name_format");
-		$tid 					= JRequest::getVar('team','0');
-		
+		$tid = $jinput -> get('team','0', 'string');
+
 		//add the js script
 		$version = urlencode(JoomleagueHelper::getVersion());
 		$document->addScript(JUri::base().'components/com_joomleague/assets/js/editmatchstats.js?v='.$version);
@@ -308,13 +309,13 @@ class JoomleagueViewMatch extends JLGView
 		$model = $this->getModel();
 		$match = $this->get('data');
 		$teams = $model->getMatchTeams();
-		
+
 		if (is_null($teams))
 		{
 			JError::raiseWarning(440,'<br />'.JText::_('COM_JOOMLEAGUE_ADMIN_MATCH_NO_TEAM_MATCH').'<br /><br />');
 			return false;
 		}
-		
+
 		$positions = $this->get('ProjectPositions');
 		$staffpositions = $this->get('ProjectStaffPositions');
 
@@ -360,11 +361,11 @@ class JoomleagueViewMatch extends JLGView
 
 	function _displayEditlineup($tpl)
 	{
-		$option					= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe				= JFactory::getApplication();
 		$project_id 			= $mainframe->getUserState($option.'project');
 		$document 				= JFactory::getDocument();
-		$tid 					= JRequest::getVar('team','0');
+		$tid = $jinput -> get('team','0', 'string');
 		$params 				= JComponentHelper::getParams( $option );
 		$default_name_format	= $params->get("name_format");
 		$default_name_dropdown_list_order = $params->get("cfg_be_name_dropdown_list_order", "lastname");
@@ -383,7 +384,7 @@ class JoomleagueViewMatch extends JLGView
 		}
 		$teamname = ($tid == $teams->projectteam1_id) ? $teams->team1 : $teams->team2;
 		$this->_handlePreFillRoster($teams, $model, $params, $tid, $teamname);
-		
+
 		// get starters
 		$starters = $model->getRoster($tid);
 		$starters_id = array_keys($starters);
@@ -407,13 +408,13 @@ class JoomleagueViewMatch extends JLGView
 		$not_assigned_options=array();
 		foreach ((array) $not_assigned AS $p)
 		{
-			if ($p->jerseynumber > 0) 
-			{ 
-			    $jerseynumber = '['.$p->jerseynumber.'] '; 
-			}
-			else 
+			if ($p->jerseynumber > 0)
 			{
-			    $jerseynumber = ''; 
+			    $jerseynumber = '['.$p->jerseynumber.'] ';
+			}
+			else
+			{
+			    $jerseynumber = '';
 			}
 			switch ($default_name_dropdown_list_order)
 			{
@@ -435,7 +436,7 @@ class JoomleagueViewMatch extends JLGView
 		$selectpositions[]=JHtml::_('select.option','0',JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_IN_POSITION'));
 		$selectpositions=array_merge($selectpositions,$model->getProjectPositionsOptions(0,1));
 		$lists['projectpositions']=JHtml::_('select.genericlist',$selectpositions,'project_position_id','class="inputbox" size="1"','value','text', NULL, false, true);
-		
+
 		// build player select for substitutions
 
 		// starters + came in (because of multiple substitutions possibility in amateur soccer clubs for example)
@@ -464,14 +465,14 @@ class JoomleagueViewMatch extends JLGView
 			}
 		}
 		//echo "<pre>";
-		//echo var_dump($new_not_assigned);
+
 		//echo "</pre>";
 
 		$playersoptions_subs_out=array();
 		$playersoptions_subs_out[]=JHtml::_('select.option','0',JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_PLAYER'));
 		$i = 0;
 		foreach ((array)$new_starters AS $player)
-		{			  
+		{
 			  switch ($default_name_dropdown_list_order)
 				{
 					case 'lastname':
@@ -497,7 +498,7 @@ class JoomleagueViewMatch extends JLGView
 						break;
 				}
 		}
-		
+
 		$playersoptions_subs_in=array();
 		$playersoptions_subs_in[]=JHtml::_('select.option','0',JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_PLAYER'));
 		$i = 0;
@@ -555,13 +556,13 @@ class JoomleagueViewMatch extends JLGView
 			$options=array();
 			foreach ((array) $players AS $p)
 			{
-				if ($p->jerseynumber > 0) 
-				{ 
-				    $jerseynumber = '['.$p->jerseynumber.'] '; 
-				}
-				else 
+				if ($p->jerseynumber > 0)
 				{
-				    $jerseynumber = ''; 
+				    $jerseynumber = '['.$p->jerseynumber.'] ';
+				}
+				else
+				{
+				    $jerseynumber = '';
 				}
 				$options[]=JHtml::_('select.option',$p->value,$jerseynumber.JoomleagueHelper::formatName(null, $p->firstname, $p->nickname, $p->lastname, $default_name_format));
 			}
@@ -587,14 +588,14 @@ class JoomleagueViewMatch extends JLGView
 		$not_assigned_options=array();
 		foreach ((array) $not_assigned AS $p)
 		{
-			
+
 			switch ($default_name_dropdown_list_order)
          {
             case 'lastname':
             case 'firstname':
                $not_assigned_options[]=JHtml::_('select.option',$p->value,JoomleagueHelper::formatName(null, $p->firstname, $p->nickname, $p->lastname, $default_name_format));
                break;
-      
+
             case 'position':
                $not_assigned_options[]=JHtml::_('select.option',$p->value,'('.JText::_($p->positionname).') - '.JoomleagueHelper::formatName(null, $p->firstname, $p->nickname, $p->lastname, $default_name_format));
                break;
@@ -641,7 +642,7 @@ class JoomleagueViewMatch extends JLGView
 	function _displayForm($tpl)
 	{
 		$mainframe = JFactory::getApplication();
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$user = JFactory::getUser();
 		$model = $this->getModel();
 		$lists=array();
@@ -675,7 +676,7 @@ class JoomleagueViewMatch extends JLGView
 		//get the home team standard playground
 		$tblProjectHomeTeam = JTable::getInstance('Projectteam', 'table');
 		$tblProjectHomeTeam->load($match->projectteam1_id);
-		$standard_playground_id = (!empty($tblProjectHomeTeam->standard_playground) && $tblProjectHomeTeam->standard_playground > 0) ? $tblProjectHomeTeam->standard_playground : null; 
+		$standard_playground_id = (!empty($tblProjectHomeTeam->standard_playground) && $tblProjectHomeTeam->standard_playground > 0) ? $tblProjectHomeTeam->standard_playground : null;
 		$playground_id = (!empty($match->playground_id) && ($match->playground_id > 0)) ? $match->playground_id : $standard_playground_id;
 
 		// build the html select booleanlist for count match result
@@ -744,20 +745,21 @@ class JoomleagueViewMatch extends JLGView
 		$this->assignRef('extended',$extended);
 		$form = $this->get('form');
 		$form->setValue('playground_id', null, $playground_id);
-		$this->assignRef('form',  $form);		
+		$this->assignRef('form',  $form);
 
 		parent::display($tpl);
 	}
-	
+
 	protected function _handlePreFillRoster(&$teams, &$model, &$params, &$tid, &$teamname) {
+		$jinput = JFactory::getApplication() -> input;
 		if($params->get('use_prefilled_match_roster')>0) {
 			$bDeleteCurrrentRoster = $params->get('on_prefill_delete_current_match_roster', 0);
-			$prefillType = JRequest::getInt('prefill',0);
+			$prefillType = $jinput -> get('prefill',0, 'int');
 			if($prefillType==0) {
 				$prefillType = $params->get('use_prefilled_match_roster');
 			}
 			$projectteam_id = ($tid == $teams->projectteam1_id) ? $teams->projectteam1_id : $teams->projectteam2_id;
-			
+
 			if($prefillType == 2) {
 				$preFillSuccess = false;
 				if(!$model->prefillMatchPlayersWithProjectteamPlayers($projectteam_id, $bDeleteCurrrentRoster)) {

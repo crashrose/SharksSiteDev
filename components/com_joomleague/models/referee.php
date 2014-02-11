@@ -32,8 +32,9 @@ class JoomleagueModelReferee extends JoomleagueModelPerson
 	function __construct()
 	{
 		parent::__construct();
-		$this->projectid=JRequest::getInt('p',0);
-		$this->personid=JRequest::getInt('pid',0);
+		$jinput = JFactory::getApplication() -> input;
+		$this->projectid=$jinput -> get('p',0,'int');
+		$this->personid=$jinput -> get('pid',0,'int');
 	}
 
 	function &getReferee()
@@ -49,9 +50,9 @@ class JoomleagueModelReferee extends JoomleagueModelPerson
 						FROM #__joomleague_project_referee AS pr
 						INNER JOIN #__joomleague_person AS p ON p.id=pr.person_id
 						LEFT JOIN #__joomleague_project_position AS ppos ON ppos.id=pr.project_position_id
-						LEFT JOIN #__joomleague_position AS pos ON pos.id=ppos.position_id						
-						WHERE pr.project_id='.$this->_db->Quote($this->projectid).' 
-						  AND p.published = 1 
+						LEFT JOIN #__joomleague_position AS pos ON pos.id=ppos.position_id
+						WHERE pr.project_id='.$this->_db->Quote($this->projectid).'
+						  AND p.published = 1
 						  AND pr.person_id='.$this->_db->Quote($this->personid);
 			$this->_db->setQuery($query);
 			$this->_data=$this->_db->loadObject();

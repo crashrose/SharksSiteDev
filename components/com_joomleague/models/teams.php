@@ -26,8 +26,9 @@ class JoomleagueModelTeams extends JoomleagueModelProject
 
 	function __construct( )
 	{
-		$this->projectid = JRequest::getInt( "p", 0 );
-		$this->divisionid = JRequest::getInt( "division", 0 );
+		$jinput = JFactory::getApplication() -> input;
+		$this->projectid = $jinput -> get('p',0,'int');
+		$this->divisionid = $jinput -> get('division',0,'int');
 
 		parent::__construct( );
 	}

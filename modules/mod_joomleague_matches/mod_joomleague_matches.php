@@ -15,10 +15,11 @@ if (!defined('_JLMATCHLISTMODURL')) { define('_JLMATCHLISTMODURL', JUri::base().
 require_once (_JLMATCHLISTMODPATH.DIRECTORY_SEPARATOR.'helper.php');
 require_once (_JLMATCHLISTMODPATH.DIRECTORY_SEPARATOR.'connectors'.DIRECTORY_SEPARATOR.'joomleague.php');
 
-$ajax= JRequest::getVar('ajaxMListMod',0,'default','POST');
-$match_id = JRequest::getVar('match_id',0,'default','POST');
-$nr = JRequest::getVar('nr',-1,'default','POST');
-$ajaxmod= JRequest::getVar('ajaxmodid',0,'default','POST');
+$jinput = JFactory::getApplication() -> input;
+$ajax= $jinput -> get('ajaxMListMod',0,'int');
+$match_id = $jinput -> get('match_id',0,'int');
+$nr = $jinput -> get('nr',-1,'int');
+$ajaxmod= $jinput -> get('ajaxmodid',0,'int');
 $template = $params->get('template','default');
 JHtml::_('behavior.framework');
 $doc = JFactory::getDocument();
@@ -53,7 +54,7 @@ $cnt=($nr >= 0) ? $nr : 0;
 if (count($matches) > 0){
 	//$user = JFactory::getUser();
 	foreach ($matches AS $key => $match) {
-		if(!isset($match['project_id'])) continue; 
+		if(!isset($match['project_id'])) continue;
 		$styleclass=($cnt%2 == 1) ? $params->get('sectiontableentry1') : $params->get('sectiontableentry2');
 		$show_pheading = false;
 		$pheading = '';

@@ -20,15 +20,16 @@ JHtml::_( 'behavior.tooltip' );
 
 ?>
 <?php
-//save and close 
-$close = JRequest::getInt('close',0);
+//save and close
+$jinput = JFactory::getApplication() -> input;
+$close = $jinput -> get('close',0,'int');;
 if($close == 1) {
 	?><script>
 	window.addEvent('domready', function() {
-		$('cancel').onclick();	
+		$('cancel').onclick();
 	});
 	</script>
-	<?php 
+	<?php
 }
 ?>
 <form method="post" name="statsform" id="statsform">
@@ -51,13 +52,13 @@ if($close == 1) {
 		echo JHtml::_('tabs.start','tabs', array('useCookie'=>1));
 		echo JHtml::_('tabs.panel',JText::_($this->teams->team1), 'panel1');
 		echo $this->loadTemplate('home');
-		
+
 		echo JHtml::_('tabs.panel',JText::_($this->teams->team2), 'panel2');
 		echo $this->loadTemplate('away');
-		
+
 		echo JHtml::_('tabs.end');
 		?>
-		
+
 		<input type="hidden" name="option" value="com_joomleague" />
 		<input type="hidden" name="tmpl" value="component" />
 		<input type="hidden" name="close" id="close" value="0" />
@@ -65,7 +66,7 @@ if($close == 1) {
 		<input type="hidden" name="project_id"	value="<?php echo $this->match->project_id; ?>" />
 		<input type="hidden" name="match_id"	value="<?php echo $this->match->id; ?>" />
 		<input type="hidden" name="boxchecked" value="0" />
-		
+
 		<?php echo JHtml::_( 'form.token' ); ?>
 	</div>
 </form>

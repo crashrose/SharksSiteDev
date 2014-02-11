@@ -12,7 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 $display = ($params->get('update_module') == 1) ? 'block' : 'none';
-
+$jinput = JFactory::getApplication() -> input;
 ?>
 
 
@@ -21,7 +21,7 @@ $display = ($params->get('update_module') == 1) ? 'block' : 'none';
 	id="jlccalendar-<?php echo $module->id ?>"><!--jlccalendar-<?php echo $module->id?> start-->
 <?php echo $calendar['calendar'] ?> <?php } ?> <?php if (count($calendar['teamslist']) > 0) { ?>
 <div style="margin: 0 auto;"><?php
-echo JHtml::_('select.genericlist', $calendar['teamslist'], 'jlcteam'.$module->id, 'class="inputbox" style="width:100%;visibility:show;" size="1" onchange="jlcnewDate('.$month.','.$year.','.$module->id.');"',  'value', 'text', JRequest::getVar('jlcteam',0,'default','POST'));
+echo JHtml::_('select.genericlist', $calendar['teamslist'], 'jlcteam'.$module->id, 'class="inputbox" style="width:100%;visibility:show;" size="1" onchange="jlcnewDate('.$month.','.$year.','.$module->id.');"',  'value', 'text', $jinput -> get('jlcteam',0,'int'));
 ?></div>
 <?php
 }
@@ -101,9 +101,9 @@ case 'jlb':
 <tr class="<?php echo $sclass;?> jlcal_matchrow">
 	<td class="jlcal_birthday" colspan="5"><?php
 	if (!empty($row['image'])) { echo $row['image']; } ?> <span
-		class="jlc_player_name"><?php 
+		class="jlc_player_name"><?php
 		if (!empty($row['link'])) { ?> <a href="<?php echo $row['link'];?>"
-		title="<?php echo $row['link'];?>"> <?php } 
+		title="<?php echo $row['link'];?>"> <?php }
 		echo $row['name'];
 		if (!empty($row['link'])) { ?> </a> <?php } ?></span> <span
 		class="jlc_player_age"><?php echo $row['age'];?></span>
@@ -114,7 +114,7 @@ case 'jlb':
 default:
 	?>
 <tr class="<?php echo $sclass;?> jlcal_matchrow">
-	<td class="jlcal_matchdate"><?php 
+	<td class="jlcal_matchdate"><?php
 	// link to matchdetails
 	if (!empty($row['link']))
 	{

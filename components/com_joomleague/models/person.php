@@ -39,10 +39,11 @@ class JoomleagueModelPerson extends JoomleagueModelProject
 	function __construct()
 	{
 		parent::__construct();
+		$jinput = JFactory::getApplication() -> input;
 
-		$this->projectid	= JRequest::getInt( 'p', 0 );
-		$this->personid		= JRequest::getInt( 'pid', 0 );
-		$this->teamplayerid	= JRequest::getInt( 'pt', 0 );
+		$this->projectid	= $jinput -> get('p', 0 , 'int');
+		$this->personid		= $jinput -> get('pid', 0, 'int' );
+		$this->teamplayerid	= $jinput -> get('pt', 0, 'int' );
 	}
 
 	function getPerson()
@@ -316,7 +317,7 @@ class JoomleagueModelPerson extends JoomleagueModelProject
 			{
 				$allowed = true;
 			}
-				
+
 			// If not, then check if user has ACL rights
 			if (!$allowed)
 			{

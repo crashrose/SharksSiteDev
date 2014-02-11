@@ -37,21 +37,22 @@ class JFormFieldMatchdaylist extends JFormFieldList
 	{
 		// Initialize variables.
 		$options = array();
-		
+
+		$jinput = JFactory::getApplication() -> input;
 		$varname = (string) $this->element['varname'];
-		$project_id = JRequest::getVar($varname);
+		$project_id = $jinput -> get($varname, '', 'string');
 		if (is_array($project_id)) {
 			$project_id = $project_id[0];
-		}		
+		}
 
 		if ($project_id)
-		{		
+		{
 			$options = JoomleagueHelper::getRoundsOptions($project_id, 'ASC', true);
 		}
-		
+
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
-				
+
 		return $options;
 	}
 }

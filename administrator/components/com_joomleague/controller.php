@@ -26,13 +26,13 @@ class JoomleagueController extends JLGControllerAdmin
 
 	public function display($cachable = false, $urlparams = false)
 	{
+		$jinput = JFactory::getApplication() -> input;
 		// display the left menu only if hidemainmenu is not true
-		$show_menu=!JRequest::getVar('hidemainmenu',false);
+		$show_menu=!$jinput -> get('hidemainmenu',false,'boolean');
 
 		// display left menu
-		$jinput = JFactory::getApplication() -> input;
+
 		$viewName = $jinput -> get('view', '', 'string');
-		//$viewName=JRequest::getCmd('view', '');
 		$layoutName=$jinput -> get('layout', 'default', 'string');
 		if($viewName == '' && $layoutName=='default') {
 			JRequest::setVar('view', 'projects');
@@ -108,7 +108,7 @@ class JoomleagueController extends JLGControllerAdmin
 		$seasonnav = $jinput -> get('seasonnav',0, 'int');
 
 		$mainframe->setUserState($option.'seasonnav', $seasonnav);
-var_dump($act);
+
 		switch ($act)
 		{
 			case 'projects':

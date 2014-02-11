@@ -22,15 +22,16 @@ defined('_JEXEC') or die('Restricted access');
 	<form method="post" id="adminForm">
 		<!-- Score Table START -->
 		<?php
-		//save and close 
-		$close = JRequest::getInt('close',0);
+		//save and close
+		$jinput = JFactory::getApplication() -> input;
+		$close = $jinput -> get('close',0,'int');;
 		if($close == 1) {
 			?><script>
 			window.addEvent('domready', function() {
-				$('cancel').onclick();	
+				$('cancel').onclick();
 			});
 			</script>
-			<?php 
+			<?php
 		}
 		?>
 			<fieldset>
@@ -50,7 +51,7 @@ defined('_JEXEC') or die('Restricted access');
 		// focus matchreport tab when the match was already played
 		$startOffset = 0;
 		$now = new DateTime('now', new DateTimeZone($this->match->timezone));
-		$matchStart = new DateTime($this->match->match_date->toSql(), new DateTimeZone($this->match->timezone)); 
+		$matchStart = new DateTime($this->match->match_date->toSql(), new DateTimeZone($this->match->timezone));
 		if ($matchStart < $now)
 		{
 			$startOffset = 4;
@@ -58,34 +59,34 @@ defined('_JEXEC') or die('Restricted access');
 		echo JHtml::_('tabs.start','tabs', array('startOffset'=>$startOffset));
 		echo JHtml::_('tabs.panel',JText::_('COM_JOOMLEAGUE_TABS_MATCHPREVIEW'), 'panel1');
 		echo $this->loadTemplate('matchpreview');
-		
+
 		echo JHtml::_('tabs.panel',JText::_('COM_JOOMLEAGUE_TABS_MATCHDETAILS'), 'panel2');
 		echo $this->loadTemplate('matchdetails');
-		
+
 		echo JHtml::_('tabs.panel',JText::_('COM_JOOMLEAGUE_TABS_SCOREDETAILS'), 'panel3');
 		echo $this->loadTemplate('scoredetails');
-		
+
 		echo JHtml::_('tabs.panel',JText::_('COM_JOOMLEAGUE_TABS_ALTDECISION'), 'panel4');
 		echo $this->loadTemplate('altdecision');
-		
+
 		echo JHtml::_('tabs.panel',JText::_('COM_JOOMLEAGUE_TABS_MATCHREPORT'), 'panel5');
 		echo $this->loadTemplate('matchreport');
-		
+
 		echo JHtml::_('tabs.panel',JText::_('COM_JOOMLEAGUE_TABS_MATCHRELATION'), 'panel6');
 		echo $this->loadTemplate('matchrelation');
-		
+
 		echo JHtml::_('tabs.panel',JText::_('COM_JOOMLEAGUE_TABS_EXTENDED'), 'panel7');
 		echo $this->loadTemplate('matchextended');
-		
+
 		if(	JFactory::getUser()->authorise('core.admin', 'com_joomleague') ||
 			JFactory::getUser()->authorise('core.admin', 'com_joomleague.project.' . (int) $this->project->id) ||
 			JFactory::getUser()->authorise('core.admin', 'com_joomleague.match'.(int) $this->match->id)) {
 			echo JHtml::_('tabs.panel',JText::_('JCONFIG_PERMISSIONS_LABEL'), 'panel8');
 			echo $this->loadTemplate('permissions');
 		}
-		
+
 		echo JHtml::_('tabs.end');
-		
+
 		?>
 		<!-- Additional Details Table END -->
 		<div class="clr"></div>

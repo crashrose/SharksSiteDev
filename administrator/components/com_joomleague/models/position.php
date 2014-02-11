@@ -310,7 +310,7 @@ class JoomleagueModelPosition extends JoomleagueModelItem
 	 */
 	function getParentsPositions()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		$project_id=$mainframe->getUserState($option.'project');
 		//get positionss already in project for parents list

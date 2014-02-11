@@ -16,10 +16,11 @@ jimport('joomla.application.component.controller');
 
 class JoomleagueControllerPlayground extends JoomleagueController
 {
-    public function display($cachable = false, $urlparams = false) 
+    public function display($cachable = false, $urlparams = false)
     {
         // Get the view name from the query string
-        $viewName = JRequest::getVar( "view", "playground" );
+        $jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'playground', 'string');
 
         // Get the view
         $view = $this->getView( $viewName );

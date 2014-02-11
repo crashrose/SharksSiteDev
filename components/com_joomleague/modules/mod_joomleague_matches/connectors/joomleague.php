@@ -51,7 +51,7 @@ class MatchesJoomleagueConnector extends modMatchesHelper {
 		return $linktext;
 	}
 	/**
-	 * 
+	 *
 	 * TODO: fix for timezone
 	 */
 	public function getDateString() {
@@ -61,7 +61,7 @@ class MatchesJoomleagueConnector extends modMatchesHelper {
 		return 'm.match_date';
 
 	}
-	
+
 	/**
 	 *
 	 * TODO: fix for timezone
@@ -73,7 +73,7 @@ class MatchesJoomleagueConnector extends modMatchesHelper {
 			return 'DATE(m.match_date)';
 		}
 	}
-	
+
 	public function buildWhere() {
 		$this->getUsedTeams();
 		if ($this->id > 0) {
@@ -88,13 +88,13 @@ class MatchesJoomleagueConnector extends modMatchesHelper {
 				if($projectstring != '-1' AND $projectstring != '') {
 					$this->conditions[] = "(pt1.project_id IN (" . $projectstring . ") OR pt2.project_id IN (" . $projectstring . "))";
 				}
-			} 
+			}
 			$nu = $this->params->get('project_not_used');
 			if (!empty ($nu)) {
 				$notusedstring = (is_array($nu)) ? implode(",", $nu) : $nu;
 				if($notusedstring != '-1' AND $notusedstring != '') {
 					$this->conditions[] = "(pt1.project_id NOT IN (" . $notusedstring . ") OR pt2.project_id NOT IN (" . $notusedstring . "))";
-				} 
+				}
 			}
 		}
 	}
@@ -252,7 +252,7 @@ class MatchesJoomleagueConnector extends modMatchesHelper {
 		}
 		$row['heading'] = $heading . $heading2;
 	}
-	
+
 	public function getTeamsFromMatches(& $matches) {
 		if (!count($matches))
 		return Array ();
@@ -269,7 +269,7 @@ class MatchesJoomleagueConnector extends modMatchesHelper {
 		                     c.logo_small club_small, c.logo_middle club_middle, c.logo_big club_big, c.country,
 		                     d.name AS division_name, d.shortname AS division_shortname,
 		                     p.name AS project_name, c.website
-		                FROM #__joomleague_team t 
+		                FROM #__joomleague_team t
 		                LEFT JOIN #__joomleague_project_team pt on pt.team_id = t.id ";
 		$query .= "LEFT JOIN #__users u on pt.admin = u.id
 		           LEFT JOIN #__joomleague_club c on t.club_id = c.id
@@ -288,7 +288,8 @@ class MatchesJoomleagueConnector extends modMatchesHelper {
 
 	public function getUsedTeams() {
 		$customteams = array();
-		$ajaxteam = JRequest :: getVar('usedteam', 0, 'default', 'POST');
+		$jinput = JFactory::getApplication() -> input;
+		$ajaxteam = $jinput -> get('usedteam', 0, 'int');
 		if ($ajaxteam > 0) {
 			array_push($customteams, $ajaxteam);
 		}
@@ -324,9 +325,9 @@ class MatchesJoomleagueConnector extends modMatchesHelper {
 							)";
 					$conditions[] = $cond;
 				}
-			}		
+			}
 		}
-		
+
 		// For teams without project_id
 		if (!empty ($customteams) AND $customteams[0] != '0' AND $customteams[0] != '') {
 			//$this->usedteams[0] = $customteams;
@@ -438,7 +439,7 @@ class MatchesJoomleagueConnector extends modMatchesHelper {
 						)
 					);
 					$venuelink = JRoute :: _('index.php?option=com_joomleague' . $this->arrayToUri($linkstructure['venue']) . $this->itemid);
-					$venuetext = '<a href="' . $venuelink . '" title="%s">%s</a>';					
+					$venuetext = '<a href="' . $venuelink . '" title="%s">%s</a>';
 					$thisvenue = sprintf($venuetext, $venuetip.' '.$venuename, $venuename);
 				} else {
 					$thisvenue = sprintf($venuetext, $venuename);
@@ -460,10 +461,10 @@ class MatchesJoomleagueConnector extends modMatchesHelper {
 	public function getDefaultLogos() {
 		return array (
 			"club_big" 		=> JoomleagueHelper::getDefaultPlaceholder('clublogobig'),
-			"club_middle" 	=> JoomleagueHelper::getDefaultPlaceholder('clublogomedium'), 
-			"club_small" 	=> JoomleagueHelper::getDefaultPlaceholder('clublogosmall'), 
-			"team_picture" 	=> JoomleagueHelper::getDefaultPlaceholder('team'), 
-			"country" 		=> JoomleagueHelper::getDefaultPlaceholder('icon'), 
+			"club_middle" 	=> JoomleagueHelper::getDefaultPlaceholder('clublogomedium'),
+			"club_small" 	=> JoomleagueHelper::getDefaultPlaceholder('clublogosmall'),
+			"team_picture" 	=> JoomleagueHelper::getDefaultPlaceholder('team'),
+			"country" 		=> JoomleagueHelper::getDefaultPlaceholder('icon'),
 		);
 	}
 
@@ -476,60 +477,60 @@ class MatchesJoomleagueConnector extends modMatchesHelper {
 				ON pt1.id = m.projectteam1_id
 				LEFT JOIN #__joomleague_project_team pt2
 				ON pt2.id = m.projectteam2_id
-				LEFT JOIN #__joomleague_project AS p 
+				LEFT JOIN #__joomleague_project AS p
 				ON p.id = pt1.project_id
 				WHERE " . $this->getDateString() . " < '" . $match->match_date .
 				"' AND (m.projectteam1_id = '" . $match->projectteam1_id . "'
-				OR m.projectteam2_id = '" . $match->projectteam1_id . 
-				"') AND pt1.project_id = '" . $match->project_id . "' 
+				OR m.projectteam2_id = '" . $match->projectteam1_id .
+				"') AND pt1.project_id = '" . $match->project_id . "'
 				ORDER BY m.match_date DESC LIMIT 1";
 		if ($temp = $this->getFromDB($query)) {
 			$match->lasthome = $temp[0]->id;
 		}
 		$query = "SELECT m.id
-				FROM #__joomleague_match AS m 
-				LEFT JOIN #__joomleague_project_team pt1 
-				ON pt1.id = m.projectteam1_id 
-				LEFT JOIN #__joomleague_project_team pt2 
-				ON pt2.id = m.projectteam2_id 
-				LEFT JOIN #__joomleague_project AS p 
-				ON p.id = pt1.project_id 
-				WHERE " . $this->getDateString() . " > '" . $match->match_date . 
-				"' AND (m.projectteam1_id= '" . $match->projectteam1_id . "' 
-				OR m.projectteam2_id = '" . $match->projectteam1_id . "') 
-				AND pt1.project_id = '" . $match->project_id . "' 
+				FROM #__joomleague_match AS m
+				LEFT JOIN #__joomleague_project_team pt1
+				ON pt1.id = m.projectteam1_id
+				LEFT JOIN #__joomleague_project_team pt2
+				ON pt2.id = m.projectteam2_id
+				LEFT JOIN #__joomleague_project AS p
+				ON p.id = pt1.project_id
+				WHERE " . $this->getDateString() . " > '" . $match->match_date .
+				"' AND (m.projectteam1_id= '" . $match->projectteam1_id . "'
+				OR m.projectteam2_id = '" . $match->projectteam1_id . "')
+				AND pt1.project_id = '" . $match->project_id . "'
 				ORDER BY m.match_date ASC LIMIT 1";
 		if ($temp = $this->getFromDB($query)) {
 			$match->nexthome = $temp[0]->id;
 		}
 		$query = "SELECT m.id
-				FROM #__joomleague_match AS m 
-				LEFT JOIN #__joomleague_project_team pt1 
-				ON pt1.id = m.projectteam1_id 
-				LEFT JOIN #__joomleague_project_team pt2 
-				ON pt2.id = m.projectteam2_id 
-				LEFT JOIN #__joomleague_project AS p 
-				ON p.id = pt1.project_id 
-				WHERE " . $this->getDateString() . " < '" . $match->match_date . "' 
-				AND (m.projectteam1_id= '" . $match->projectteam2_id . "' 
-				OR m.projectteam2_id= '" . $match->projectteam2_id . "') 
-				AND pt1.project_id = '" . $match->project_id . "' 
+				FROM #__joomleague_match AS m
+				LEFT JOIN #__joomleague_project_team pt1
+				ON pt1.id = m.projectteam1_id
+				LEFT JOIN #__joomleague_project_team pt2
+				ON pt2.id = m.projectteam2_id
+				LEFT JOIN #__joomleague_project AS p
+				ON p.id = pt1.project_id
+				WHERE " . $this->getDateString() . " < '" . $match->match_date . "'
+				AND (m.projectteam1_id= '" . $match->projectteam2_id . "'
+				OR m.projectteam2_id= '" . $match->projectteam2_id . "')
+				AND pt1.project_id = '" . $match->project_id . "'
 				ORDER BY m.match_date DESC LIMIT 1";
 		if ($temp = $this->getFromDB($query)) {
 			$match->lastaway = $temp[0]->id;
 		}
 		$query = "SELECT m.id
-				FROM #__joomleague_match AS m 
-				LEFT JOIN #__joomleague_project_team pt1 
-				ON pt1.id = m.projectteam1_id 
-				LEFT JOIN #__joomleague_project_team pt2 
-				ON pt2.id = m.projectteam2_id 
-				LEFT JOIN #__joomleague_project AS p 
-				ON p.id = pt1.project_id 
-				WHERE " . $this->getDateString() . " > '" . $match->match_date . "' 
-				AND (m.projectteam1_id= '" . $match->projectteam2_id . "' 
-				OR m.projectteam2_id = '" . $match->projectteam2_id . "') 
-				AND pt1.project_id = '" . $match->project_id . "' 
+				FROM #__joomleague_match AS m
+				LEFT JOIN #__joomleague_project_team pt1
+				ON pt1.id = m.projectteam1_id
+				LEFT JOIN #__joomleague_project_team pt2
+				ON pt2.id = m.projectteam2_id
+				LEFT JOIN #__joomleague_project AS p
+				ON p.id = pt1.project_id
+				WHERE " . $this->getDateString() . " > '" . $match->match_date . "'
+				AND (m.projectteam1_id= '" . $match->projectteam2_id . "'
+				OR m.projectteam2_id = '" . $match->projectteam2_id . "')
+				AND pt1.project_id = '" . $match->project_id . "'
 				ORDER BY m.match_date ASC LIMIT 1";
 		if ($temp = $this->getFromDB($query)) {
 			$match->nextaway = $temp[0]->id;
@@ -545,82 +546,82 @@ class MatchesJoomleagueConnector extends modMatchesHelper {
 		}
 		$database = JFactory :: getDBO();
 		$query = "SELECT m.id
-				FROM #__joomleague_match AS m 
-				LEFT JOIN #__joomleague_project_team pt1 
-				ON pt1.id = m.projectteam1_id 
-				INNER JOIN #__joomleague_team t1 
-				ON t1.id = pt1.team_id 
-				LEFT JOIN #__joomleague_project_team pt2 
-				ON pt2.id = m.projectteam2_id 
-				INNER JOIN #__joomleague_team t2 
-				ON t2.id = pt2.team_id 
-				LEFT JOIN #__joomleague_project AS p 
-				ON p.id = pt1.project_id 
-				WHERE " . $this->getDateString() . " < '" . $match->match_date . 
-				"' AND (t1.id = '" . $match->team1_id . "' 
-				OR t2.id = '" . $match->team1_id . 
-				"') AND pt1.project_id IN (" . $projectstring . ") 
+				FROM #__joomleague_match AS m
+				LEFT JOIN #__joomleague_project_team pt1
+				ON pt1.id = m.projectteam1_id
+				INNER JOIN #__joomleague_team t1
+				ON t1.id = pt1.team_id
+				LEFT JOIN #__joomleague_project_team pt2
+				ON pt2.id = m.projectteam2_id
+				INNER JOIN #__joomleague_team t2
+				ON t2.id = pt2.team_id
+				LEFT JOIN #__joomleague_project AS p
+				ON p.id = pt1.project_id
+				WHERE " . $this->getDateString() . " < '" . $match->match_date .
+				"' AND (t1.id = '" . $match->team1_id . "'
+				OR t2.id = '" . $match->team1_id .
+				"') AND pt1.project_id IN (" . $projectstring . ")
 				ORDER BY m.match_date DESC LIMIT 1";
 		if ($temp = $this->getFromDB($query)) {
 			$match->lasthome = $temp[0]->id;
 		}
 		$query = "SELECT m.id
-				FROM #__joomleague_match AS m 
-				LEFT JOIN #__joomleague_project_team pt1 
-				ON pt1.id = m.projectteam1_id 
-				INNER JOIN #__joomleague_team t1 
-				ON t1.id = pt1.team_id 
-				LEFT JOIN #__joomleague_project_team pt2 
-				ON pt2.id = m.projectteam2_id 
-				INNER JOIN #__joomleague_team t2 
-				ON t2.id = pt2.team_id 
-				LEFT JOIN #__joomleague_project AS p 
-				ON p.id = pt1.project_id 
-				WHERE " . $this->getDateString() . " > '" . $match->match_date . 
+				FROM #__joomleague_match AS m
+				LEFT JOIN #__joomleague_project_team pt1
+				ON pt1.id = m.projectteam1_id
+				INNER JOIN #__joomleague_team t1
+				ON t1.id = pt1.team_id
+				LEFT JOIN #__joomleague_project_team pt2
+				ON pt2.id = m.projectteam2_id
+				INNER JOIN #__joomleague_team t2
+				ON t2.id = pt2.team_id
+				LEFT JOIN #__joomleague_project AS p
+				ON p.id = pt1.project_id
+				WHERE " . $this->getDateString() . " > '" . $match->match_date .
 				"' AND (t1.id = '" . $match->team1_id . "'
-				OR t2.id = '" . $match->team1_id . 
-				"') AND pt1.project_id IN (" . $projectstring . ") 
+				OR t2.id = '" . $match->team1_id .
+				"') AND pt1.project_id IN (" . $projectstring . ")
 				ORDER BY m.match_date ASC LIMIT 1";
 		;
 		if ($temp = $this->getFromDB($query)) {
 			$match->nexthome = $temp[0]->id;
 		}
 		$query = "SELECT m.id
-				FROM #__joomleague_match AS m 
-				LEFT JOIN #__joomleague_project_team pt1 
-				ON pt1.id = m.projectteam1_id 
-				INNER JOIN #__joomleague_team t1 
-				ON t1.id = pt1.team_id 
-				LEFT JOIN #__joomleague_project_team pt2 
-				ON pt2.id = m.projectteam2_id 
-				INNER JOIN #__joomleague_team t2 
-				ON t2.id = pt2.team_id 
-				LEFT JOIN #__joomleague_project AS p 
-				ON p.id = pt1.project_id 
-				WHERE " . $this->getDateString() . " < '" . $match->match_date . 
-				"' AND (t1.id = '" . $match->team2_id . "' 
-				OR t2.id = '" . $match->team2_id . 
-				"') AND pt1.project_id IN (" . $projectstring . ") 
+				FROM #__joomleague_match AS m
+				LEFT JOIN #__joomleague_project_team pt1
+				ON pt1.id = m.projectteam1_id
+				INNER JOIN #__joomleague_team t1
+				ON t1.id = pt1.team_id
+				LEFT JOIN #__joomleague_project_team pt2
+				ON pt2.id = m.projectteam2_id
+				INNER JOIN #__joomleague_team t2
+				ON t2.id = pt2.team_id
+				LEFT JOIN #__joomleague_project AS p
+				ON p.id = pt1.project_id
+				WHERE " . $this->getDateString() . " < '" . $match->match_date .
+				"' AND (t1.id = '" . $match->team2_id . "'
+				OR t2.id = '" . $match->team2_id .
+				"') AND pt1.project_id IN (" . $projectstring . ")
 				ORDER BY m.match_date DESC LIMIT 1";
 		if ($temp = $this->getFromDB($query)) {
 			$match->lastaway = $temp[0]->id;
 		}
 		$query = "SELECT m.id
-				FROM #__joomleague_match AS m 
-				LEFT JOIN #__joomleague_project_team pt1 
-				ON pt1.id = m.projectteam1_id 
-				INNER JOIN #__joomleague_team t1 
-				ON t1.id = pt1.team_id 
-				LEFT JOIN #__joomleague_project_team pt2 
-				ON pt2.id = m.projectteam2_id 
-				INNER JOIN #__joomleague_team t2 
-				ON t2.id = pt2.team_id 
-				LEFT JOIN #__joomleague_project AS p 
-				ON p.id = pt1.project_id 
-				WHERE " . $this->getDateString() . " > '" . $match->match_date . "' 
-				AND (t1.id = '" . $match->team2_id . "' 
-				OR t2.id = '" . $match->team2_id . 
-				"') AND pt1.project_id IN (" . $projectstring . ") 
+				FROM #__joomleague_match AS m
+				LEFT JOIN #__joomleague_project_team pt1
+				ON pt1.id = m.projectteam1_id
+				INNER JOIN #__joomleague_team t1
+				ON t1.id = pt1.team_id
+				LEFT JOIN #__joomleague_project_team pt2
+				ON pt2.id = m.projectteam2_id
+				INNER JOIN #__joomleague_team t2
+				ON t2.id = pt2.team_id
+				LEFT JOIN #__joomleague_project AS p
+				ON p.id = pt1.project_id
+				WHERE " . $this->getDateString() . " > '" . $match->match_date . "'
+				AND (t1.id = '" . $match->team2_id . "'
+				OR t2.id = '" . $match->team2_id .
+				"') AND pt1.project_id IN (" . $projectstring . ")
 				ORDER BY m.match_date ASC LIMIT 1";
 		;
 		if ($temp = $this->getFromDB($query)) {

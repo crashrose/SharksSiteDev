@@ -53,8 +53,9 @@ if(!class_exists('JoomleagueModelItem')) {
 		{
 			parent::__construct();
 
-			$array=JRequest::getVar('cid',array(0),'','array');
-			$edit=JRequest::getVar('edit',true);
+			$jinput = JFactory::getApplication() -> input;
+			$array = $jinput -> get('cid', array(0), 'array');
+			$edit = $jinput -> get('edit',true,'boolean');
 			if($edit){
 				$this->setId((int)$array[0]);
 			}
@@ -188,7 +189,7 @@ if(!class_exists('JoomleagueModelItem')) {
 		 */
 		function getProject($id=0)
 		{
-			$option = JRequest::getCmd('option');
+			$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 			$mainframe=&JFactory::getApplication();
 			if (!$id) {
 				$id=$mainframe->getUserState($option.'project',0);
@@ -240,7 +241,7 @@ if(!class_exists('JoomleagueModelItem')) {
 				}
 				unset($name,$value);
 				$output .= '</'.$table.'s>';
-					
+
 				$mdlJLXExport->downloadXml($output, $table);
 				$app = JFactory::getApplication();
 				$app->close();

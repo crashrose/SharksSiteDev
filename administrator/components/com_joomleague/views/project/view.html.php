@@ -29,7 +29,7 @@ class JoomleagueViewProject extends JLGView
 {
 	function display($tpl=null)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$uri = JFactory::getURI();
 		$user = JFactory::getUser();
@@ -38,17 +38,17 @@ class JoomleagueViewProject extends JLGView
 		$lists=array();
 		//get the project
 		$project 	= $this->get('data');
-		
+
 		$project->fav_team = explode(",", $project->fav_team);
-		
+
 		$isNew		= ($project->id < 1);
 		$append		= '';
 		if ($isNew)
 		{
 			$append	= ' style="background-color:#FFCCCC;"';
 		}
-		$edit=JRequest::getVar('edit');
-		$copy=JRequest::getVar('copy');
+		$edit=$jinput -> get('edit', '', 'string');
+		$copy=$jinput -> get('copy', '', 'string');
 
 		// fail if checked out not by 'me'
 		if ($model->isCheckedOut($user->get('id')))
@@ -79,14 +79,14 @@ class JoomleagueViewProject extends JLGView
 		$this->assignRef('lists',$lists);
 		$this->assignRef('project',$project);
 		$this->assignRef('leagues',$res);
-				
+
 		$this->form = $this->get('form');
-		$extended = $this->getExtended($project->extended, 'project');		
+		$extended = $this->getExtended($project->extended, 'project');
 		$this->assignRef( 'extended', $extended );
 		$this->addToolbar();
 		parent::display($tpl);
 	}
-	
+
 	/**
 	* Add the page title and toolbar.
 	*
@@ -105,7 +105,7 @@ class JoomleagueViewProject extends JLGView
 			JToolBarHelper::divider();
 		}
 		JToolBarHelper::title($toolbarTitle,'ProjectSettings');
-		
+
 		if (!$this->copy)
 		{
 			JLToolBarHelper::apply('project.apply');

@@ -39,12 +39,13 @@ class JoomleagueViewLeague extends JLGView
 
 	function _displayForm($tpl)
 	{
-		$option		= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe 	= JFactory::getApplication();
 		$uri		= JFactory::getURI();
 		$user		= JFactory::getUser();
 		$model		= $this->getModel();
-		
+
 		//get the project
 		$object = $this->get('data');
 		$isNew=($object->id < 1);
@@ -71,7 +72,7 @@ class JoomleagueViewLeague extends JLGView
 		$this->assignRef('object',$object);
 		$this->assignRef('form',  $this->get('form'));
 
-		$this->addToolbar();			
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 	/**
@@ -80,9 +81,10 @@ class JoomleagueViewLeague extends JLGView
 	* @since	1.7
 	*/
 	protected function addToolbar()
-	{	
+	{
 		// Set toolbar items for the page
-		$edit=JRequest::getVar('edit',true);
+		$jinput = JFactory::getApplication() -> input;
+		$edit= $jinput -> get('edit',true, 'boolean');
 		$text=!$edit ? JText::_('COM_JOOMLEAGUE_GLOBAL_NEW') : JText::_('COM_JOOMLEAGUE_GLOBAL_EDIT');
 
 		JLToolBarHelper::save('league.save');
@@ -103,6 +105,6 @@ class JoomleagueViewLeague extends JLGView
 		}
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.joomleague',true);
-	}	
+	}
 }
 ?>

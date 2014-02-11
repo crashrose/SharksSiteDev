@@ -42,15 +42,16 @@ class JoomleagueModelCurve extends JoomleagueModelProject
 	var $ranking2 = array();
 	var $ranking = array(); // cache for ranking function return data
 	var $teamcount = array();
-	
+
 	function __construct( )
 	{
 		parent::__construct( );
-		$this->projectid = JRequest::getInt('p', 0);
-		$this->division  = JRequest::getInt('division', 0);
-		$this->teamid1   = JRequest::getInt('tid1', 0);
-		$this->teamid2   = JRequest::getInt('tid2', 0);
-		$this->both      = JRequest::getInt('both', 0);
+		$jinput = JFactory::getApplication() -> input;
+		$this->projectid = $jinput -> get('p', 0, 'int');
+		$this->division  = $jinput -> get('division',0,'int');;
+		$this->teamid1   = $jinput -> get('tid1', 0, 'int');
+		$this->teamid2   = $jinput -> get('tid2', 0, 'int');
+		$this->both      = $jinput -> get('both', 0, 'int');
 		$this->determineTeam1And2();
 	}
 
@@ -179,25 +180,25 @@ class JoomleagueModelCurve extends JoomleagueModelProject
 	{
 		return $this->division;
 	}
-	
+
 	function getDataByDivision($division=0)
 	{
 		$project = $this->getProject();
 		$rounds  = $this->getRounds();
 		$teams   = $this->getTeamsIndexedByPtid($division);
-			
+
 		$rankinghelper = JLGRanking::getInstance($project);
 		$rankinghelper->setProjectId( $project->id );
 		$mdlRounds = JModelLegacy::getInstance("Rounds", "JoomleagueModel");
 		$mdlRounds->setProjectId($project->id);
 		$firstRound = $mdlRounds->getFirstRound($project->id);
 		$firstRoundId = $firstRound['id'];
-		
+
 		$rankings = array();
 		foreach ($rounds as $r)
 		{
-			$rankings[$r->id] = $rankinghelper->getRanking($firstRoundId, 
-															$r->id, 
+			$rankings[$r->id] = $rankinghelper->getRanking($firstRoundId,
+															$r->id,
 															$division);
 		}
 		foreach ($teams as $ptid => $team)

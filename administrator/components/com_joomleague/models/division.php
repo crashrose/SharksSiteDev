@@ -144,7 +144,7 @@ class JoomleagueModelDivision extends JoomleagueModelItem
 	 */
 	function getParentsDivisions()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe= JFactory::getApplication();
 		$project_id=$mainframe->getUserState($option.'project');
 

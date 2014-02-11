@@ -27,7 +27,7 @@ class JoomleagueControllerImport extends JoomleagueController {
 	 */
 	public function __construct() {
 		parent::__construct ();
-		
+
 		// Register Extra tasks
 		$this->registerTask ( 'csvpersonimport', 'dispatch' );
 		$this->registerTask ( 'csvseasonimport', 'dispatch' );
@@ -102,7 +102,7 @@ class JoomleagueControllerImport extends JoomleagueController {
 					$view = "playgrounds";
 				}
 				break;
-			
+
 			default :
 				$msg = JText::_ ( 'COM_JOOMLEAGUE_ADMIN_IMPORT_CTRL_NOT_EXIST' );
 				$this->setRedirect ( 'index.php?option=com_joomleague&view=projects', $msg, 'error' );
@@ -110,32 +110,33 @@ class JoomleagueControllerImport extends JoomleagueController {
 		}
 		$this->import ( $table, $view );
 	}
-	
+
 	public function import($table, $view) {
 		JToolBarHelper::back ( 'Back', 'index.php?option=com_joomleague&view=' . $view );
-		
+
 		$msg = array ();
-		$replace = JRequest::getVar ( 'replace', 0, 'post', 'int' );
-		$delimiter = JRequest::getVar ( 'csvdelimiter', ",", 'post' );
+		$jinput = JFactory::getApplication() -> input;
+		$replace = $jinput -> get( 'replace', 0,  'int' );
+		$delimiter = $jinput -> get('csvdelimiter', ',', 'string' );
 		$tblObject = JTable::getInstance ( $table, 'Table' );
 		$filename = '';
 		$csvimport = false;
-		
-		$file = JRequest::getVar ( 'FileCSV', null, 'files', 'array' );
+
+		$file = $jinput -> get('FileCSV', array(), 'array' );
 		if (isset ( $file ['tmp_name'] ) && trim ( $file ['tmp_name'] ) != '') {
 			$filename = $file ['tmp_name'];
 			$csvimport = true;
 		}
-		
+
 		if ($csvimport) {
 			$handle = fopen ( $filename, 'r' );
-			
+
 			if (! $handle) {
 				$msg = JText::_ ( 'COM_JOOMLEAGUE_ADMIN_IMPORT_CTRL_CANNOT_OPEN' );
 				$this->setRedirect ( 'index.php?option=com_joomleague&view=' . $view, $msg, 'error' );
 				return;
 			}
-			
+
 			// get fields, on first row of the file
 			$fields = array ();
 			if (($data = fgetcsv ( $handle, 1000, $delimiter, '"' )) !== FALSE) {
@@ -149,7 +150,7 @@ class JoomleagueControllerImport extends JoomleagueController {
 					}
 				}
 			}
-			
+
 			// If there is no validated fields, there is a problem...
 			if (! count ( $fields )) {
 				$msg = JText::_ ( 'COM_JOOMLEAGUE_ADMIN_IMPORT_CTRL_ERROR_PARSING' );
@@ -159,7 +160,7 @@ class JoomleagueControllerImport extends JoomleagueController {
 				$msg [] = $numfields . " fields found in first row";
 				$msg [] = count ( $fields ) . " fields were kept";
 			}
-			
+
 			// Now get the records, meaning the rest of the rows.
 			$records = array ();
 			$row = 1;
@@ -178,9 +179,9 @@ class JoomleagueControllerImport extends JoomleagueController {
 				$row ++;
 			}
 			fclose ( $handle );
-			
+
 			$msg [] = JText::_ ( 'COM_JOOMLEAGUE_ADMIN_IMPORT_CTRL_TOTAL_RECORDS_FOUND' ) . count ( $records );
-			
+
 			// database update
 			if (count ( $records )) {
 				$model = $this->getModel ( 'import' );
@@ -193,13 +194,13 @@ class JoomleagueControllerImport extends JoomleagueController {
 			$this->setRedirect ( 'index.php?option=com_joomleague&view=' . $view, implode ( '<p>', $msg ) );
 		}
 	}
-	
+
 	/**
 	 * handle specific fields conversion if needed
 	 *
 	 * @param
 	 *        	string column name
-	 * @param string $value        	
+	 * @param string $value
 	 * @return string
 	 */
 	private function _formatcsvfield($type, $value) {
@@ -220,6 +221,6 @@ class JoomleagueControllerImport extends JoomleagueController {
 		}
 		return $field;
 	}
-	
+
 }
 ?>

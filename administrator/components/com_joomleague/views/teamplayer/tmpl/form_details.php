@@ -3,7 +3,7 @@
 		<fieldset class="adminform">
 			<legend>
 				<?php
-				$option = JRequest::getCmd('option');
+				$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 				$params = JComponentHelper::getParams( $option );
 				$default_name_format = $params->get("name_format");
 				$name = JoomleagueHelper::formatName(null, $this->project_player->firstname, $this->project_player->nickname, $this->project_player->lastname, $default_name_format);

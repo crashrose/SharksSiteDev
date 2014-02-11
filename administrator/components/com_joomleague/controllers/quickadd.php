@@ -41,8 +41,8 @@ class JoomleagueControllerQuickAdd extends JoomleagueController
 	public function searchPlayer()
 	{
 		$model 			= &JLGModel::getInstance('Quickadd', 'JoomleagueModel');
-		$query 			= JRequest::getVar("query", "", "", "string");
-		$projectteam_id = JRequest::getInt("projectteam_id");
+		$query 			= $jinput -> get('query', '', 'string');
+		$projectteam_id = $jinput -> get('projectteam_id',0,'int');
 		$results 		= $model->getNotAssignedPlayers($query, $projectteam_id);
 		$response = array(
 			"totalCount" => count($results),
@@ -63,8 +63,8 @@ class JoomleagueControllerQuickAdd extends JoomleagueController
 	public function searchStaff()
 	{
 		$model 			= &JLGModel::getInstance('Quickadd', 'JoomleagueModel');
-		$query 			= JRequest::getVar("query", "", "", "string");
-		$projectteam_id = JRequest::getInt("projectteam_id");
+		$query 			= $jinput -> get('query', '', 'string');
+		$projectteam_id = $jinput -> get('projectteam_id',0,'int');
 		$results 		= $model->getNotAssignedStaff($query, $projectteam_id);
 		$response = array(
 			"totalCount" => count($results),
@@ -85,10 +85,11 @@ class JoomleagueControllerQuickAdd extends JoomleagueController
 
 	public function searchReferee()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		$model 		= &JLGModel::getInstance('Quickadd', 'JoomleagueModel');
-		$query 		= JRequest::getVar("query", "", "", "string");
+		$query 			= $jinput -> get('query', '', 'string');
 		$projectid 	= $mainframe->getUserState($option."project");
 		$results 	= $model->getNotAssignedReferees($query, $projectid);
 		$response = array(
@@ -110,10 +111,11 @@ class JoomleagueControllerQuickAdd extends JoomleagueController
 
 	public function searchTeam()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		$model 		= &JLGModel::getInstance('Quickadd', 'JoomleagueModel');
-		$query 		= JRequest::getVar("query", "", "", "string");
+		$query 			= $jinput -> get('query', '', 'string');
 		$projectid 	= $mainframe->getUserState($option."project");
 		$results 	= $model->getNotAssignedTeams($query, $projectid);
 		$response = array(
@@ -138,13 +140,13 @@ class JoomleagueControllerQuickAdd extends JoomleagueController
 
 	public function addPlayer()
 	{
-		$personid = JRequest::getInt("cpersonid", 0);
-		$name = JRequest::getVar("quickadd", '', 'request', 'string');
-		$projectteam_id = JRequest::getInt("projectteam_id");
+		$personid = $jinput -> get('cpersonid',0,'int');
+		$name = $jinput -> get('quickadd', '', 'string');
+		$projectteam_id = $jinput -> get('projectteam_id',0,'int');
 
 		$model = $this->getModel('quickadd');
 		$res = $model->addPlayer($projectteam_id, $personid, $name);
-		
+
 		if ($res) {
 			$msgtype = 'message';
 			$msg = Jtext::_('COM_JOOMLEAGUE_ADMIN_QUICKADD_CTRL_PERSON_ASSIGNED');
@@ -159,9 +161,9 @@ class JoomleagueControllerQuickAdd extends JoomleagueController
 	public function addStaff()
 	{
 		$db = &JFactory::getDbo();
-		$personid = JRequest::getInt("cpersonid", 0);
-		$name = JRequest::getVar("quickadd", '', 'request', 'string');
-		$projectteam_id = JRequest::getInt("projectteam_id", 0);
+		$personid = $jinput -> get('cpersonid',0,'int');
+		$name = $jinput -> get('quickadd', '', 'string');
+		$projectteam_id = $jinput -> get('projectteam_id',0,'int');
 
 		// add the new individual as their name was sent through.
 		if (!$personid)
@@ -194,10 +196,10 @@ class JoomleagueControllerQuickAdd extends JoomleagueController
 			$tblTeamstaff = JTable::getInstance('Teamstaff','Table');
 			$tblTeamstaff->person_id = $personid;
 			$tblTeamstaff->projectteam_id = $projectteam_id;
-			
+
 			$tblProjectTeam = JTable::getInstance( 'Projectteam', 'Table' );
 			$tblProjectTeam->load($projectteam_id);
-			
+
 			if (!$tblTeamstaff->check())
 			{
 				$this->setError($tblTeamstaff->getError());
@@ -211,18 +213,18 @@ class JoomleagueControllerQuickAdd extends JoomleagueController
 			$person = $db->loadObject();
 			if ( $person )
 			{
-				$query = "SELECT id FROM #__joomleague_project_position "; 
+				$query = "SELECT id FROM #__joomleague_project_position ";
 				$query.= " WHERE position_id = " . $db->Quote($person->position_id);
 				$query.= " AND project_id = " . $db->Quote($tblProjectTeam->project_id);
 				$db->setQuery($query);
 				if ($resPrjPosition = $db->loadObject())
 				{
-					$tblTeamstaff->project_position_id = $resPrjPosition->id;	
+					$tblTeamstaff->project_position_id = $resPrjPosition->id;
 				}
-				
+
 				$tblTeamstaff->picture			= $person->picture;
 				$tblTeamstaff->projectteam_id	= $projectteam_id;
-				
+
 			}
 			$query = "	SELECT max(ordering) count
 						FROM #__joomleague_team_staff";
@@ -240,14 +242,15 @@ class JoomleagueControllerQuickAdd extends JoomleagueController
 
 	public function addReferee()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 
 		$db = &JFactory::getDbo();
-		$personid = JRequest::getInt("cpersonid", 0);
-		$name = JRequest::getVar("quickadd", '', 'request', 'string');
+		$personid = $jinput -> get('cpersonid',0,'int');
+		$name = $jinput -> get('quickadd', '', 'string');
 		$project_id = $mainframe->getUserState($option."project");
-		
+
 		// add the new individual as their name was sent through.
 		if (!$personid)
 		{
@@ -279,7 +282,7 @@ class JoomleagueControllerQuickAdd extends JoomleagueController
 				$tblProjectReferee = JTable::getInstance('Projectreferee','Table');
 				$tblProjectReferee->person_id=$personid;
 				$tblProjectReferee->projectteam_id=$projectteam_id;
-				
+
 				if (!$tblProjectReferee->check())
 				{
 					$this->setError($tblProjectReferee->getError());
@@ -293,25 +296,25 @@ class JoomleagueControllerQuickAdd extends JoomleagueController
 				$person = $db->loadObject();
 				if ( $person )
 				{
-					$query = "SELECT id FROM #__joomleague_project_position "; 
+					$query = "SELECT id FROM #__joomleague_project_position ";
 					$query.= " WHERE position_id = " . $db->Quote($person->position_id);
 					$query.= " AND project_id = " . $db->Quote($project_id);
 					$db->setQuery($query);
 					if ($resPrjPosition = $db->loadObject())
 					{
-						$tblProjectReferee->project_position_id = $resPrjPosition->id;	
+						$tblProjectReferee->project_position_id = $resPrjPosition->id;
 					}
-					
+
 					$tblProjectReferee->picture			= $person->picture;
 					$tblProjectReferee->project_id		= $project_id;
-					
+
 				}
 				$query = "	SELECT max(ordering) count
 							FROM #__joomleague_project_referee";
 				$db->setQuery( $query );
 				$pref = $db->loadObject();
 				$tblProjectReferee->ordering = (int) $pref->count + 1;
-					
+
 				if (!$tblProjectReferee->store())
 				{
 					$this->setError($tblProjectReferee->getError());
@@ -323,12 +326,13 @@ class JoomleagueControllerQuickAdd extends JoomleagueController
 
 	public function addTeam()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 
 		$db = &JFactory::getDbo();
-		$teamid = JRequest::getInt("cteamid", 0);
-		$name = JRequest::getVar("quickadd", '', 'request', 'string');
+		$teamid = $jinput -> get('cteamid', 0, 'int');
+		$name = $jinput -> get('quickadd', '', 'string');
 		$project_id = $mainframe->getUserState($option."project");
 
 		// add the new team as their name was sent through.

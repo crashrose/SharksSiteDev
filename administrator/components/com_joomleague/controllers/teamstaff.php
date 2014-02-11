@@ -35,7 +35,7 @@ class JoomleagueControllerTeamSTaff extends JoomleagueController
 
 	public function display($cachable = false, $urlparams = false)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$model=$this->getModel('teamstaffs');
@@ -96,7 +96,7 @@ class JoomleagueControllerTeamSTaff extends JoomleagueController
 
 	public function editlist()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$model=$this->getModel('teamstaffs');
@@ -122,9 +122,9 @@ class JoomleagueControllerTeamSTaff extends JoomleagueController
 
 	public function save_teamstaffslist()
 	{
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(0),'post','array');
-		$project=JRequest::getVar('project','post');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
+		$project = $jinput -> get('project', '', 'string');
 		$post['id']=(int)$cid[0];
 		$post['project_id']=$project;
 		$model=$this->getModel('teamstaffs');
@@ -146,11 +146,11 @@ class JoomleagueControllerTeamSTaff extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(0),'post','array');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id']=(int) $cid[0];
 		// decription must be fetched without striping away html code
-		$post['notes']=JRequest::getVar('notes','none','post','STRING',JREQUEST_ALLOWHTML);
+		$post['notes']=$jinput -> get('notes','none','string');
 		$model=$this->getModel('teamstaff');
 		if ($model->store($post))
 		{
@@ -177,8 +177,8 @@ class JoomleagueControllerTeamSTaff extends JoomleagueController
 	// save the checked rows inside the project teams list
 	public function saveshort()
 	{
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		$model=$this->getModel('teamstaffs');
 		$model->storeshort($cid,$post);
@@ -196,11 +196,11 @@ class JoomleagueControllerTeamSTaff extends JoomleagueController
 
 	public function remove()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
 		$project_id=$app->getUserState($option.'project',0);
 		$user = JFactory::getUser();
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_DELETE'));}
 		// Access checks.
@@ -222,7 +222,7 @@ class JoomleagueControllerTeamSTaff extends JoomleagueController
 
 	public function publish()
 	{
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_PUBLISH'));}
 		$model=$this->getModel('teamstaff');
@@ -235,7 +235,7 @@ class JoomleagueControllerTeamSTaff extends JoomleagueController
 
 	public function unpublish()
 	{
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_UNPUBLISH'));}
 		$model=$this->getModel('teamstaff');
@@ -270,8 +270,8 @@ class JoomleagueControllerTeamSTaff extends JoomleagueController
 
 	public function saveorder()
 	{
-		$cid=JRequest::getVar('cid',array(),'post','array');
-		$order=JRequest::getVar('order',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $cid = $jinput -> get('cid', array(), 'array');
+		$order = $jinput -> get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 		$model=$this->getModel('teamstaff');
@@ -282,11 +282,11 @@ class JoomleagueControllerTeamSTaff extends JoomleagueController
 
 	public function select()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
-		$mainframe->setUserState($option.'project_team_id',JRequest::getVar('project_team_id'));
-		$mainframe->setUserState($option.'team_id',JRequest::getVar('team_id'));
-		$mainframe->setUserState($option.'team',JRequest::getVar('project_team_id'));
+		$mainframe->setUserState($option.'project_team_id',$jinput -> get('project_team_id', '', 'string'));
+		$mainframe->setUserState($option.'team_id',$jinput -> get('team_id', '', 'string'));
+		$mainframe->setUserState($option.'team',$jinput -> get('project_team_id', '', 'string'));
 		$this->setRedirect('index.php?option=com_joomleague&view=teamstaffs&task=teamstaff.display');
 	}
 
@@ -299,7 +299,7 @@ class JoomleagueControllerTeamSTaff extends JoomleagueController
 
 	public function unassign()
 	{
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		$model=$this->getModel('teamstaffs');
 		$nDeleted=$model->remove($cid);

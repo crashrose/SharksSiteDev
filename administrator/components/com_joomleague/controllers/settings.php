@@ -43,52 +43,54 @@ class JoomleagueControllerSettings extends JoomleagueController
 		// Check for request forgeries
 		JSession::checkToken() or die( 'COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN' );
 
+		$jinput = JFactory::getApplication() -> input;
+
 		// Sanitize
-		$task	= JRequest::getVar('task');
-		$data 	= JRequest::get( 'post' );
+		$task	= $jinput -> get('task', '', 'string');
+		$data 	= $jinput->post;
 		$data['option'] = 'com_joomleague';
-		$params = JRequest::getVar('params', array(), 'post', 'array');
+		$params = $jinput -> get('params', array(), 'array');
 		$model=$this->getModel('settings');
-		
+
 		$defPh = JoomleagueHelper::getDefaultPlaceholder('player');
 		$newPh = $params['ph_player'];
 		if($newPh != $defPh) {
 			if(!$model->updatePlaceholder(	'#__joomleague_person',
-											'picture', 
-											$defPh , 
+											'picture',
+											$defPh ,
 											$newPh)) {
 				$msg = $model->getError();
 			}
 			if(!$model->updatePlaceholder(	'#__joomleague_team_player',
-											'picture', 
+											'picture',
 											$defPh ,
 											$newPh)) {
 				$msg = $model->getError();
 			}
 			if(!$model->updatePlaceholder(	'#__joomleague_team_staff',
-											'picture', 
+											'picture',
 											$defPh ,
 											$newPh)) {
 				$msg = $model->getError();
 			}
 			if(!$model->updatePlaceholder(	'#__joomleague_project_referee',
-											'picture', 
+											'picture',
 											$defPh ,
 											$newPh)) {
 				$msg = $model->getError();
 			}
-		} 
+		}
 		$defPh = JoomleagueHelper::getDefaultPlaceholder('clublogobig');
 		$newPh = $params['ph_logo_big'];
 		if($newPh != $defPh) {
 			if(!$model->updatePlaceholder(	'#__joomleague_club',
-											'logo_big', 
+											'logo_big',
 											$defPh ,
 											$newPh)) {
 				$msg = $model->getError();
 			}
 			if(!$model->updatePlaceholder(	'#__joomleague_playground',
-											'picture', 
+											'picture',
 											$defPh ,
 											$newPh)) {
 				$msg = $model->getError();
@@ -98,7 +100,7 @@ class JoomleagueControllerSettings extends JoomleagueController
 		$newPh = $params['ph_logo_medium'];
 		if($newPh != $defPh) {
 			if(!$model->updatePlaceholder(	'#__joomleague_club',
-											'logo_middle', 
+											'logo_middle',
 											$defPh ,
 											$newPh)) {
 				$msg = $model->getError();
@@ -108,7 +110,7 @@ class JoomleagueControllerSettings extends JoomleagueController
 		$newPh = $params['ph_logo_small'];
 		if($newPh != $defPh) {
 			if(!$model->updatePlaceholder(	'#__joomleague_club',
-											'logo_small', 
+											'logo_small',
 											$defPh ,
 											$newPh)) {
 				$msg = $model->getError();
@@ -118,19 +120,19 @@ class JoomleagueControllerSettings extends JoomleagueController
 		$newPh = $params['ph_icon'];
 		if($newPh != $defPh) {
 			if(!$model->updatePlaceholder(	'#__joomleague_statistic',
-											'icon', 
+											'icon',
 											$defPh ,
 											$newPh)) {
 				$msg = $model->getError();
 			}
 			if(!$model->updatePlaceholder(	'#__joomleague_sports_type',
-											'icon', 
+											'icon',
 											$defPh ,
 											$newPh)) {
 				$msg = $model->getError();
 			}
 			if(!$model->updatePlaceholder(	'#__joomleague_eventtype',
-											'icon', 
+											'icon',
 											$defPh ,
 											$newPh)) {
 				$msg = $model->getError();
@@ -140,19 +142,19 @@ class JoomleagueControllerSettings extends JoomleagueController
 		$newPh = $params['ph_team'];
 		if($newPh != $defPh) {
 			if(!$model->updatePlaceholder(	'#__joomleague_team',
-											'picture', 
+											'picture',
 											$defPh ,
 											$newPh)) {
 				$msg = $model->getError();
-			}			
+			}
 			if(!$model->updatePlaceholder(	'#__joomleague_project_team',
-											'picture', 
+											'picture',
 											$defPh ,
 											$newPh)) {
 				$msg = $model->getError();
 			}
 		}
-		
+
 		$xmlfile = JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.$data['option'].DIRECTORY_SEPARATOR.'config.xml';
 		$form =& JForm::getInstance($data['option'], $xmlfile, array('control'=> 'params'), false, "/config");
 		$data['params'] = $model->validate($form, $params);
@@ -160,7 +162,7 @@ class JoomleagueControllerSettings extends JoomleagueController
 		if (isset($data['params']['rules'])) {
 			$rules	= new JAccessRules($data['params']['rules']);
 			$asset	= JTable::getInstance('asset');
-		
+
 			if (!$asset->loadByName($data['option'])) {
 				$root	= JTable::getInstance('asset');
 				$root->loadByName('root.1');
@@ -174,9 +176,9 @@ class JoomleagueControllerSettings extends JoomleagueController
 				return false;
 			}
 		}
-		
+
 		unset($data['params']['rules']);
-		
+
 		$table = JTable::getInstance('extension');
 		if (!$table->load(array("element" => "com_joomleague", "type" => "component")))
 		{
@@ -184,14 +186,14 @@ class JoomleagueControllerSettings extends JoomleagueController
 			return false;
 		}
 		$table->bind($data);
-		
+
 		// pre-save checks
 		if (!$table->check())
 		{
 			JError::raiseWarning(500, $table->getError());
 			return false;
 		}
-		
+
 		// save the changes
 		if ($table->store()) {
 			$msg	= JText::_( 'COM_JOOMLEAGUE_ADMIN_SETTINGS_CTRL_STAT_SAVED');

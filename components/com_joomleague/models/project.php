@@ -69,7 +69,8 @@ class JoomleagueModelProject extends JModelLegacy
 
 	function __construct()
 	{
-		$this->projectid=JRequest::getInt('p',0);
+		$jinput = JFactory::getApplication() -> input;
+		$this->projectid=$jinput -> get('p',0,'int');
 		parent::__construct();
 	}
 
@@ -78,15 +79,15 @@ class JoomleagueModelProject extends JModelLegacy
 		if (is_null($this->_project) && $this->projectid > 0)
 		{
 			//fs_sport_type_name = sport_type folder name
-			$query='SELECT p.*, l.country, st.id AS sport_type_id, st.name AS sport_type_name, 
+			$query='SELECT p.*, l.country, st.id AS sport_type_id, st.name AS sport_type_name,
 					LOWER(SUBSTR(st.name, CHAR_LENGTH( "COM_JOOMLEAGUE_ST_")+1)) AS fs_sport_type_name,
 					CASE WHEN CHAR_LENGTH( p.alias )
 					THEN CONCAT_WS( \':\', p.id, p.alias )
 					ELSE p.id
 					END AS slug
 					FROM #__joomleague_project AS p
-					INNER JOIN #__joomleague_sports_type AS st ON p.sports_type_id = st.id 
-					LEFT JOIN #__joomleague_league AS l ON p.league_id = l.id 
+					INNER JOIN #__joomleague_sports_type AS st ON p.sports_type_id = st.id
+					LEFT JOIN #__joomleague_league AS l ON p.league_id = l.id
 					WHERE p.id='. $this->_db->Quote($this->projectid);
 			$this->_db->setQuery($query,0,1);
 			$this->_project = $this->_db->loadObject();
@@ -107,13 +108,13 @@ class JoomleagueModelProject extends JModelLegacy
 			$this->setError(0, Jtext::_('COM_JOOMLEAGUE_ERROR_PROJECTMODEL_PROJECT_IS_REQUIRED'));
 			return false;
 		}
-		
+
 		return $project->sports_type_id;
 	}
 
 	/**
 	 * returns project current round id
-	 * 
+	 *
 	 * @return int
 	 */
 	function getCurrentRound()
@@ -124,7 +125,7 @@ class JoomleagueModelProject extends JModelLegacy
 
 	/**
 	 * returns project current round code
-	 * 
+	 *
 	 * @return int
 	 */
 	function getCurrentRoundNumber()
@@ -145,9 +146,9 @@ class JoomleagueModelProject extends JModelLegacy
 				$this->setError(0, Jtext::_('COM_JOOMLEAGUE_ERROR_PROJECTMODEL_PROJECT_IS_REQUIRED'));
 				return false;
 			}
-			
+
 			$current_date=strftime("%Y-%m-%d %H:%M:%S");
-	
+
 			// determine current round according to project settings
 			switch ($project->current_round_auto)
 			{
@@ -155,21 +156,21 @@ class JoomleagueModelProject extends JModelLegacy
 					$query="SELECT r.id, r.roundcode FROM #__joomleague_round AS r
 							 WHERE r.id =".$project->current_round;
 					break;
-	
+
 				case 1 :	 // get current round from round_date_first
 					$query="SELECT r.id, r.roundcode FROM #__joomleague_round AS r
 							 WHERE r.project_id=".$project->id."
 								AND (r.round_date_first - INTERVAL ".($project->auto_time)." MINUTE < '".$current_date."')
 							 ORDER BY r.round_date_first DESC LIMIT 1";
 					break;
-	
+
 				case 2 : // get current round from round_date_last
 					$query="SELECT r.id, r.roundcode FROM #__joomleague_round AS r
 							  WHERE r.project_id=".$project->id."
 								AND (r.round_date_last + INTERVAL ".($project->auto_time)." MINUTE > '".$current_date."')
 							  ORDER BY r.round_date_first ASC LIMIT 1";
 					break;
-	
+
 				case 3 : // get current round from first game of the round
 					$query="SELECT r.id, r.roundcode FROM #__joomleague_round AS r,#__joomleague_match AS m
 							WHERE r.project_id=".$project->id."
@@ -177,7 +178,7 @@ class JoomleagueModelProject extends JModelLegacy
 								AND (m.match_date - INTERVAL ".($project->auto_time)." MINUTE < '".$current_date."')
 							ORDER BY m.match_date DESC LIMIT 1";
 					break;
-	
+
 				case 4 : // get current round from last game of the round
 					$query="SELECT r.id, r.roundcode FROM #__joomleague_round AS r, #__joomleague_match AS m
 							WHERE r.project_id=".$project->id."
@@ -188,8 +189,8 @@ class JoomleagueModelProject extends JModelLegacy
 			}
 			$this->_db->setQuery($query);
 			$result = $this->_db->loadObject();
-				
-			// If result is empty, it probably means either this is not started, either this is over, depending on the mode. 
+
+			// If result is empty, it probably means either this is not started, either this is over, depending on the mode.
 			// Either way, do not change current value
 			if (!$result)
 			{
@@ -198,7 +199,7 @@ class JoomleagueModelProject extends JModelLegacy
 				       ;
 				$this->_db->setQuery($query);
 				$result = $this->_db->loadObject();
-				
+
 				if (!$result)
 				{
 					if ($project->current_round_auto == 2) {
@@ -208,7 +209,7 @@ class JoomleagueModelProject extends JModelLegacy
 						    . ' ORDER BY . r.roundcode DESC '
 						    ;
 					    $this->_db->setQuery($query);
-					    $result = $this->_db->loadObject();					
+					    $result = $this->_db->loadObject();
 					} else {
 					    // the current value is invalid... just take the first round
 					    $query = ' SELECT r.id, r.roundcode FROM #__joomleague_round AS r '
@@ -218,10 +219,10 @@ class JoomleagueModelProject extends JModelLegacy
 					    $this->_db->setQuery($query);
 					    $result = $this->_db->loadObject();
 					}
-					    
+
 				}
 			}
-			
+
 			// Update the database if determined current round is different from that in the database
 			if ($result && ($project->current_round <> $result->id))
 			{
@@ -229,7 +230,7 @@ class JoomleagueModelProject extends JModelLegacy
 				       . ' WHERE id = ' . $this->_db->Quote($project->id);
 				$this->_db->setQuery($query);
 				if (!$this->_db->query()) {
-					JError::raiseWarning(0, JText::_('COM_JOOMLEAGUE_ERROR_CURRENT_ROUND_UPDATE_FAILED'));					
+					JError::raiseWarning(0, JText::_('COM_JOOMLEAGUE_ERROR_CURRENT_ROUND_UPDATE_FAILED'));
 				}
 			}
 			$this->_current_round = $result;
@@ -326,7 +327,7 @@ class JoomleagueModelProject extends JModelLegacy
 
 	function getDivisions($divLevel=0)
 	{
-		$project = $this->getProject(); 
+		$project = $this->getProject();
 		if ($project->project_type == 'DIVISIONS_LEAGUE')
 		{
 			if (empty($this->_divisions))
@@ -413,12 +414,12 @@ class JoomleagueModelProject extends JModelLegacy
 				c.logo_middle,
 				c.logo_big,
 				c.country,
-				IF((ISNULL(pt.picture) OR (pt.picture="")), 
+				IF((ISNULL(pt.picture) OR (pt.picture="")),
 					(IF((ISNULL(t.picture) OR (t.picture="")), c.logo_big , t.picture)) , pt.picture) as picture,
-				t.extended as teamextended, pt.project_id AS project_id, pt.id AS ptid  
-				FROM #__joomleague_project_team AS pt 
+				t.extended as teamextended, pt.project_id AS project_id, pt.id AS ptid
+				FROM #__joomleague_project_team AS pt
 				INNER JOIN #__joomleague_team AS t ON pt.team_id=t.id
-				LEFT JOIN #__joomleague_club AS c ON t.club_id=c.id 
+				LEFT JOIN #__joomleague_club AS c ON t.club_id=c.id
 				WHERE pt.id='. $this->_db->Quote($projectteamid);
 		$this->_db->setQuery($query);
 		return $this->_db->loadObject();
@@ -450,7 +451,7 @@ class JoomleagueModelProject extends JModelLegacy
 								tl.is_in_score,
 								tl.picture AS projectteam_picture,
 								t.picture as team_picture,
-								IF((ISNULL(tl.picture) OR (tl.picture="")), 
+								IF((ISNULL(tl.picture) OR (tl.picture="")),
 									(IF((ISNULL(t.picture) OR (t.picture="")), c.logo_small , t.picture)) , t.picture) as picture,
 								tl.project_id,
 
@@ -682,6 +683,7 @@ class JoomleagueModelProject extends JModelLegacy
 		//first load the default settings from the default <template>.xml file
 		$paramsdata="";
 		$arrStandardSettings=array();
+		$jinput = JFactory::getApplication() -> input;
 		if(file_exists(JLG_PATH_SITE.DIRECTORY_SEPARATOR.'settings'.DIRECTORY_SEPARATOR."default".DIRECTORY_SEPARATOR.$template.'.xml')) {
 			$strXmlFile = JLG_PATH_SITE.DIRECTORY_SEPARATOR.'settings'.DIRECTORY_SEPARATOR."default".DIRECTORY_SEPARATOR.$template.'.xml';
 			$form = JForm::getInstance($template, $strXmlFile);
@@ -689,11 +691,11 @@ class JoomleagueModelProject extends JModelLegacy
 			foreach ($fieldsets as $fieldset) {
 				foreach($form->getFieldset($fieldset->name) as $field) {
 					$arrStandardSettings[$field->name]=$field->value;
-				}				
+				}
 			}
 		}
 		//second load the default settings from the default extensions <template>.xml file
-		$extensions=JoomleagueHelper::getExtensions(JRequest::getInt('p'));
+		$extensions=JoomleagueHelper::getExtensions($jinput -> get('p', 0, 'int'));
 		foreach ($extensions as $e => $extension) {
 			$JLGPATH_EXTENSION= JPATH_COMPONENT_SITE.DIRECTORY_SEPARATOR.'extensions'.DIRECTORY_SEPARATOR.$extension;
 			$paramsdata="";
@@ -747,11 +749,11 @@ class JoomleagueModelProject extends JModelLegacy
 		}
 		$jRegistry = new JRegistry;
 		$jRegistry->loadString($result, 'ini');
-		$configvalues = $jRegistry->toArray(); 
+		$configvalues = $jRegistry->toArray();
 
 		//merge and overwrite standard settings with individual view settings
 		$settings = array_merge($arrStandardSettings,$configvalues);
-		
+
 		return $settings;
 	}
 
@@ -766,7 +768,7 @@ class JoomleagueModelProject extends JModelLegacy
 	}
 
   	/**
-   	* @author diddipoeler 
+   	* @author diddipoeler
    	* @since  2011-11-12
    	* @return country from project-league
    	*/
@@ -775,13 +777,13 @@ class JoomleagueModelProject extends JModelLegacy
 		 $query = 'SELECT l.country
 					from #__joomleague_league as l
 					inner join #__joomleague_project as pro
-					on pro.league_id = l.id 
+					on pro.league_id = l.id
 					WHERE pro.id = '. $this->_db->Quote($this->projectid);
 		  $this->_db->setQuery( $query );
 		  $this->country = $this->_db->loadResult();
 		  return $this->country;
-  	} 
-        
+  	}
+
 	/**
 	 * return events assigned to the project
 	 * @param int position_id if specified,returns only events assigned to this position
@@ -831,10 +833,10 @@ class JoomleagueModelProject extends JModelLegacy
 						FROM #__joomleague_statistic AS stat
 						INNER JOIN #__joomleague_position_statistic AS ps ON ps.statistic_id=stat.id
 						INNER JOIN #__joomleague_project_position AS ppos ON ppos.position_id=ps.position_id
-						  AND ppos.project_id='.$project_id.' 
+						  AND ppos.project_id='.$project_id.'
 						INNER JOIN #__joomleague_position AS pos ON pos.id=ps.position_id
-						WHERE stat.published=1 
-						  AND pos.published =1 
+						WHERE stat.published=1
+						  AND pos.published =1
 						  ';
 			$query .= ' ORDER BY pos.ordering,ps.ordering ';
 			$this->_db->setQuery($query);
@@ -978,11 +980,11 @@ class JoomleagueModelProject extends JModelLegacy
 		$result=false;
 		if($userId > 0)
 		{
-			$id = $project->id; 
+			$id = $project->id;
 			//$result= ($userId==$project->admin || $userId==$project->editor);
-			$result = (	JFactory::getUser()->authorise('core.admin', 'com_joomleague.project.'.$id) || 
-						JFactory::getUser()->authorise('core.manage', 'com_joomleague.project.'.$id) || 
-						JFactory::getUser()->authorise('core.edit', 'com_joomleague.project.'.$id) ? true : false);			
+			$result = (	JFactory::getUser()->authorise('core.admin', 'com_joomleague.project.'.$id) ||
+						JFactory::getUser()->authorise('core.manage', 'com_joomleague.project.'.$id) ||
+						JFactory::getUser()->authorise('core.edit', 'com_joomleague.project.'.$id) ? true : false);
 		}
 		return $result;
 	}
@@ -1049,7 +1051,7 @@ class JoomleagueModelProject extends JModelLegacy
 							me.event_time,
 							me.notice,'
 							. $addline .
-							'pt.team_id AS team_id, 
+							'pt.team_id AS team_id,
 							et.name AS eventtype_name,
 							t.name AS team_name,
 							me.projectteam_id AS ptid,
@@ -1068,13 +1070,13 @@ class JoomleagueModelProject extends JModelLegacy
 						  AND tp.published = 1
 					LEFT JOIN #__joomleague_person AS p ON tp.person_id = p.id
 						  AND p.published = 1
-					WHERE me.match_id = ' . $match_id . ' 
+					WHERE me.match_id = ' . $match_id . '
 					ORDER BY (me.event_time + 0)'. $esort .', me.event_type_id, me.id';
-			
+
 		$this->_db->setQuery( $query );
 		return $this->_db->loadObjectList();
 	}
-	
+
 	function hasEditPermission($task=null)
 	{
 		$allowed = false;

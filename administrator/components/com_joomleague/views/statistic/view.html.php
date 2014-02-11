@@ -28,7 +28,7 @@ class JoomleagueViewStatistic extends JLGView
 {
 	function display($tpl = null)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
 		$document	= JFactory::getDocument();
@@ -40,7 +40,7 @@ class JoomleagueViewStatistic extends JLGView
 		$form 	= $this->get('form');
 		$isNew	= ( $item->id < 1 );
 
-		$edit = JRequest::getVar('edit',true);
+		$edit = $jinput -> get('edit',true, 'boolean');
 
 		// fail if checked out not by 'me'
 		if ( $model->isCheckedOut( $user->get('id') ) )

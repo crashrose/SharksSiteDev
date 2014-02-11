@@ -23,7 +23,7 @@ jimport( 'joomla.application.component.controller' );
 class JoomleagueControllerDivision extends JoomleagueController
 {
 	protected $view_list = 'divisions&task=division.display';
-	
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -36,7 +36,8 @@ class JoomleagueControllerDivision extends JoomleagueController
 
 	public function display($cachable = false, $urlparams = false)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 
 		$mainframe	= JFactory::getApplication();
 		$document = JFactory::getDocument();
@@ -92,7 +93,7 @@ class JoomleagueControllerDivision extends JoomleagueController
 				$view->setModel( $model, true );	// true is for the default model;
 
 				$projectws = $this->getModel ( 'project' );
-				
+
 				$projectws->setId( $mainframe->getUserState( $option . 'project', 0 ) );
 				$view->setModel( $projectws );
 			}
@@ -108,11 +109,12 @@ class JoomleagueControllerDivision extends JoomleagueController
 		// Check for request forgeries
 		JSession::checkToken() or die( 'COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN' );
 
-		$post	= JRequest::get( 'post' );
-		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$jinput = JFactory::getApplication() -> input;
+		$post=$input->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id'] = (int) $cid[0];
 		// decription must be fetched without striping away html code
-		$post['notes']=JRequest:: getVar('notes','none','post','STRING',JREQUEST_ALLOWHTML);
+		$post['notes']=$jinput -> get('notes','none','string');
 
 		$model = $this->getModel( 'division' );
 
@@ -145,7 +147,8 @@ class JoomleagueControllerDivision extends JoomleagueController
 	public function remove()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$jinput = JFactory::getApplication() -> input;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger( $cid );
 
 		if ( count( $cid ) < 1 )
@@ -171,7 +174,7 @@ class JoomleagueControllerDivision extends JoomleagueController
 
 		$this->setRedirect( 'index.php?option=com_joomleague&view=divisions&task=division.display' );
 	}
-	
+
 	/**
 	 * Proxy for getModel
 	 *

@@ -23,7 +23,8 @@ JHtml::_( 'behavior.modal' );
 <div id="gamesevents">
 	<form method="post" id="adminForm">
 		<?php
-		$option		= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$params		= JComponentHelper::getParams( $option );
 		$model		= $this->getModel();
 		if(!empty($this->teams)) {
@@ -32,7 +33,7 @@ JHtml::_( 'behavior.modal' );
 			$teamname	= $this->teams->team1;
 			$this->_handlePreFillRoster($this->teams, $model, $params, $this->teams->projectteam1_id, $teamname);
 			echo $this->loadTemplate('home');
-			
+
 			echo JHtml::_('tabs.panel', $this->teams->team2, 'panel2');
 			$teamname = $this->teams->team2;
 			$this->_handlePreFillRoster($this->teams, $model, $params, $this->teams->projectteam2_id, $teamname);

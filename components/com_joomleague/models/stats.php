@@ -31,9 +31,10 @@ class JoomleagueModelStats extends JoomleagueModelProject
 	function __construct( )
 	{
 		parent::__construct();
+		$jinput = JFactory::getApplication() -> input;
 
-		$this->projectid = JRequest::getInt( "p", 0 );
-		$this->divisionid = JRequest::getint( "division", 0 );
+		$this->projectid = $jinput -> get('p',0,'int');
+		$this->divisionid = $jinput -> get('division',0,'int');
 	}
 
 	function getDivision()
@@ -72,7 +73,7 @@ class JoomleagueModelStats extends JoomleagueModelProject
 			$query .= ' AND published=1 '
 				. ' AND alt_decision=0 '
 				. ' AND team1_result > team2_result '
-				. ' AND (matches.cancel IS NULL OR matches.cancel = 0)'	
+				. ' AND (matches.cancel IS NULL OR matches.cancel = 0)'
 				. ' ORDER BY (team1_result-team2_result) DESC '
 			;
 
@@ -108,7 +109,7 @@ class JoomleagueModelStats extends JoomleagueModelProject
 			$query .= ' AND published=1 '
 				. ' AND alt_decision=0 '
 				. ' AND team2_result > team1_result '
-				. ' AND (matches.cancel IS NULL OR matches.cancel = 0)'	
+				. ' AND (matches.cancel IS NULL OR matches.cancel = 0)'
 				. ' ORDER BY (team2_result-team1_result) DESC '
 			;
 
@@ -145,7 +146,7 @@ class JoomleagueModelStats extends JoomleagueModelProject
 				$query .= ' AND pt1.division_id = '.$this->divisionid;
 			}
 			$query .= ' AND published=1 '
-				. ' AND (matches.cancel IS NULL OR matches.cancel = 0)'	
+				. ' AND (matches.cancel IS NULL OR matches.cancel = 0)'
 			;
 			$this->_db->setQuery($query, 0, 1);
 			$this->totals = $this->_db->loadObject();
@@ -273,8 +274,8 @@ class JoomleagueModelStats extends JoomleagueModelProject
 		$url = str_replace( '&', '%26', $url );
 		return $url;
 	}
-	
-	//comparisations in stats view	
+
+	//comparisations in stats view
 	function teamNameCmp2( &$a, &$b){
 	  return strcasecmp ($a->team, $b->team);
 	}

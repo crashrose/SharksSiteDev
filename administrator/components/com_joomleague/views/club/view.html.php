@@ -25,13 +25,13 @@ class JoomleagueViewClub extends JLGView
 
 	function display($tpl=null)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$uri 	= JFactory::getURI();
 		$user 	= JFactory::getUser();
 		$model	= $this->getModel();
 
-		$edit	= JRequest::getVar('edit',true);
+		$edit	= $jinput -> get('edit',true, 'boolean');
 
 		$lists=array();
 		//get the club

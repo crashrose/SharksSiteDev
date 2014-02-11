@@ -45,7 +45,8 @@ class JLGControllerAdmin extends JControllerAdmin
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array() )
 	{
-		$extensions = JoomleagueHelper::getExtensions(JRequest::getInt('p'));
+		$jinput = JFactory::getApplication() -> input;
+		$extensions=JoomleagueHelper::getExtensions($jinput -> get('p', 0, 'int'));
 
 		foreach ($extensions as $e => $extension)
 		{

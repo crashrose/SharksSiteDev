@@ -53,7 +53,7 @@ class JoomleagueModelProjectposition extends JoomleagueModelList
 
 	function _buildContentOrderBy()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$filter_order		= $mainframe->getUserStateFromRequest($option.'po_filter_order',		'filter_order',		'po.name',	'cmd');
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest($option.'po_filter_order_Dir',	'filter_order_Dir',	'',			'word');
@@ -71,7 +71,7 @@ class JoomleagueModelProjectposition extends JoomleagueModelList
 
 	function _buildContentWhere()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id=$mainframe->getUserState($option.'project');
 		$where =' WHERE  pt.project_id='.$project_id;

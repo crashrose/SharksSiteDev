@@ -19,7 +19,8 @@ class JoomleagueControllerClubInfo extends JoomleagueController
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the view name from the query string
-		$viewName = JRequest::getVar( "view", "clubinfo" );
+		$jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'clubinfo', 'string');
 
 		// Get the view
 		$view = $this->getView( $viewName );
@@ -50,8 +51,9 @@ class JoomleagueControllerClubInfo extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die( 'COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN' );
-		
-		$cid = JRequest::getInt( "cid", 0 );
+		$jinput = JFactory::getApplication() -> input;
+
+		$cid = $jinput -> get('cid', 0, 'int');
 		$post = JRequest::get( 'post' );
 
 		if( $cid > 0 )
@@ -68,8 +70,8 @@ class JoomleagueControllerClubInfo extends JoomleagueController
 				$user = JFactory::getUser();
 
 				$query = "SELECT email
-                         FROM #__users 
-                         WHERE usertype = 'Super Administrator' 
+                         FROM #__users
+                         WHERE usertype = 'Super Administrator'
                             OR usertype = 'Administrator'";
 
 				$db->setQuery( $query );
@@ -100,8 +102,9 @@ class JoomleagueControllerClubInfo extends JoomleagueController
 
 	private function _getShowClubInfoLink( )
 	{
-		$p = JRequest::getInt( "p", 0 );
-		$cid = JRequest::getInt( "cid", 0 );
+		$jinput = JFactory::getApplication() -> input;
+		$p = $jinput -> get('p',0,'int');
+		$cid = $jinput -> get('cid', 0, 'int');
 		$link = JoomleagueHelperRoute::getClubInfoRoute( $p, $cid );
 		return $link;
 	}

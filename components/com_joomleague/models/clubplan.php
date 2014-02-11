@@ -25,14 +25,16 @@ class JoomleagueModelClubPlan extends JoomleagueModelProject
 	var $enddate = null;
 	var $awaymatches = null;
 	var $homematches = null;
-	
+
 	function __construct()
 	{
+		$jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'curve', 'string' );
 		parent::__construct();
-		$this->clubid=JRequest::getInt("cid",0);
-		$this->project_id=JRequest::getInt("p",0);
-		$this->setStartDate(JRequest::getVar("startdate", $this->startdate,'request','string'));
-		$this->setEndDate(JRequest::getVar("enddate",$this->enddate,'request','string'));
+		$this->clubid=$jinput -> get('cid', 0, 'int');
+		$this->project_id=$jinput -> get('p', 0, 'int');
+		$this->setStartDate($jinput -> get('startdate', $this->startdate,'string'));
+		$this->setEndDate($jinput -> get('enddate',$this->enddate,'string'));
 	}
 
 	function getClub()
@@ -136,7 +138,7 @@ class JoomleagueModelClubPlan extends JoomleagueModelProject
 		. ' p.id          AS project_id,'
 		. ' r.id          AS roundid,'
 		. ' r.roundcode   AS roundcode,'
-		. ' r.name		  AS roundname,'		
+		. ' r.name		  AS roundname,'
 		. ' t1.id         AS team1_id,'
 		. ' t2.id         AS team2_id,'
 		. ' t1.name       AS tname1,'
@@ -154,12 +156,12 @@ class JoomleagueModelClubPlan extends JoomleagueModelProject
 		. ' c1.logo_small AS home_logo_small,'
 		. ' c1.logo_middle AS home_logo_middle,'
 		. ' c1.logo_big AS home_logo_big,'
-		. ' c2.country AS away_country, ' 
-		. ' c2.logo_small AS away_logo_small, ' 
-		. ' c2.logo_middle AS away_logo_middle, ' 
-		. ' c2.logo_big AS away_logo_big, ' 
+		. ' c2.country AS away_country, '
+		. ' c2.logo_small AS away_logo_small, '
+		. ' c2.logo_middle AS away_logo_middle, '
+		. ' c2.logo_big AS away_logo_big, '
 		. ' tj1.division_id, t1.club_id as t1club_id, t2.club_id as t2club_id,'
-		
+
 		. ' d.name AS division_name, d.shortname AS division_shortname, d.parent_id AS parent_division_id,'
 
 		. ' CASE WHEN CHAR_LENGTH(p.alias) THEN CONCAT_WS(\':\',p.id,p.alias) ELSE p.id END AS project_slug,'
@@ -168,7 +170,7 @@ class JoomleagueModelClubPlan extends JoomleagueModelProject
 		. ' CASE WHEN CHAR_LENGTH(c2.alias) THEN CONCAT_WS(\':\',c2.id,c2.alias) ELSE c2.id END AS club2_slug,'
 		. ' CASE WHEN CHAR_LENGTH(t1.alias) THEN CONCAT_WS(\':\',t1.id,t1.alias) ELSE t1.id END AS team1_slug,'
 		. ' CASE WHEN CHAR_LENGTH(t2.alias) THEN CONCAT_WS(\':\',t2.id,t2.alias) ELSE t2.id END AS team2_slug'
-		
+
 		. ' FROM #__joomleague_match AS m '
 		. ' INNER JOIN #__joomleague_project_team tj1 ON tj1.id=m.projectteam1_id '
 		. ' INNER JOIN #__joomleague_project_team tj2 ON tj2.id=m.projectteam2_id '
@@ -222,7 +224,7 @@ class JoomleagueModelClubPlan extends JoomleagueModelProject
 		. ' p.id          AS project_id,'
 		. ' r.id          AS roundid,'
 		. ' r.roundcode   AS roundcode,'
-		. ' r.name		  AS roundname,'			
+		. ' r.name		  AS roundname,'
 		. ' t1.id         AS team1_id,'
 		. ' t2.id         AS team2_id,'
 		. ' t1.name       AS tname1,'
@@ -234,18 +236,18 @@ class JoomleagueModelClubPlan extends JoomleagueModelProject
 		. ' t1.club_id    AS club1_id,'
 		. ' t2.club_id    AS club2_id,'
 		. ' p.id          AS prid,'
-		. ' l.name        AS l_name,'		
+		. ' l.name        AS l_name,'
 		. ' playground.name AS pl_name,'
 		. ' c1.country AS home_country,'
 		. ' c1.logo_small AS home_logo_small,'
 		. ' c1.logo_middle AS home_logo_middle,'
 		. ' c1.logo_big AS home_logo_big,'
-		. ' c2.country AS away_country, ' 
-		. ' c2.logo_small AS away_logo_small, ' 
-		. ' c2.logo_middle AS away_logo_middle, ' 
-		. ' c2.logo_big AS away_logo_big, ' 
+		. ' c2.country AS away_country, '
+		. ' c2.logo_small AS away_logo_small, '
+		. ' c2.logo_middle AS away_logo_middle, '
+		. ' c2.logo_big AS away_logo_big, '
 		. ' tj1.division_id, t1.club_id as t1club_id, t2.club_id as t2club_id,'
-		
+
 		. ' d.name AS division_name, d.shortname AS division_shortname, d.parent_id AS parent_division_id,'
 
 		. ' CASE WHEN CHAR_LENGTH(p.alias) THEN CONCAT_WS(\':\',p.id,p.alias) ELSE p.id END AS project_slug,'
@@ -254,18 +256,18 @@ class JoomleagueModelClubPlan extends JoomleagueModelProject
 		. ' CASE WHEN CHAR_LENGTH(c2.alias) THEN CONCAT_WS(\':\',c2.id,c2.alias) ELSE c2.id END AS club2_slug,'
 		. ' CASE WHEN CHAR_LENGTH(t1.alias) THEN CONCAT_WS(\':\',t1.id,t1.alias) ELSE t1.id END AS team1_slug,'
 		. ' CASE WHEN CHAR_LENGTH(t2.alias) THEN CONCAT_WS(\':\',t2.id,t2.alias) ELSE t2.id END AS team2_slug'
-		
+
 		. ' FROM #__joomleague_match AS m '
 		. ' INNER JOIN #__joomleague_project_team tj1 ON tj1.id=m.projectteam1_id '
 		. ' INNER JOIN #__joomleague_project_team tj2 ON tj2.id=m.projectteam2_id '
 		. ' INNER JOIN #__joomleague_team t1 ON t1.id=tj1.team_id '
 		. ' INNER JOIN #__joomleague_team t2 ON t2.id=tj2.team_id '
 		. ' INNER JOIN #__joomleague_project AS p ON p.id=tj1.project_id '
-		. ' INNER JOIN #__joomleague_league l ON p.league_id=l.id '				
+		. ' INNER JOIN #__joomleague_league l ON p.league_id=l.id '
 		. ' INNER JOIN #__joomleague_club c1 ON c1.id=t1.club_id '
 		. ' INNER JOIN #__joomleague_round r ON m.round_id=r.id '
 		. ' LEFT JOIN #__joomleague_club c2 ON c2.id=t2.club_id '
-		. ' LEFT JOIN #__joomleague_playground AS playground ON playground.id=m.playground_id '		
+		. ' LEFT JOIN #__joomleague_playground AS playground ON playground.id=m.playground_id '
 		. ' LEFT JOIN #__joomleague_division d ON d.id=tj1.division_id'
 		. ' WHERE p.published=1 '
 		. ' AND (m.match_date BETWEEN '.$this->_db->Quote($startdate).' AND '.$this->_db->Quote($enddate).')';
@@ -308,7 +310,7 @@ class JoomleagueModelClubPlan extends JoomleagueModelProject
 		. ' p.id          AS project_id,'
 		. ' r.id          AS roundid,'
 		. ' r.roundcode   AS roundcode,'
-		. ' r.name		  AS roundname,'			
+		. ' r.name		  AS roundname,'
 		. ' t1.id         AS team1_id,'
 		. ' t2.id         AS team2_id,'
 		. ' t1.name       AS tname1,'
@@ -320,18 +322,18 @@ class JoomleagueModelClubPlan extends JoomleagueModelProject
 		. ' t1.club_id    AS club1_id,'
 		. ' t2.club_id    AS club2_id,'
 		. ' p.id          AS prid,'
-		. ' l.name        AS l_name,'		
+		. ' l.name        AS l_name,'
 		. ' playground.name AS pl_name,'
 		. ' c1.country AS home_country,'
 		. ' c1.logo_small AS home_logo_small,'
 		. ' c1.logo_middle AS home_logo_middle,'
 		. ' c1.logo_big AS home_logo_big,'
-		. ' c2.country AS away_country, ' 
-		. ' c2.logo_small AS away_logo_small, ' 
-		. ' c2.logo_middle AS away_logo_middle, ' 
-		. ' c2.logo_big AS away_logo_big, ' 
+		. ' c2.country AS away_country, '
+		. ' c2.logo_small AS away_logo_small, '
+		. ' c2.logo_middle AS away_logo_middle, '
+		. ' c2.logo_big AS away_logo_big, '
 		. ' tj1.division_id, t1.club_id as t1club_id, t2.club_id as t2club_id,'
-		
+
 		. ' d.name AS division_name, d.shortname AS division_shortname, d.parent_id AS parent_division_id,'
 
 		. ' CASE WHEN CHAR_LENGTH(p.alias) THEN CONCAT_WS(\':\',p.id,p.alias) ELSE p.id END AS project_slug,'
@@ -340,14 +342,14 @@ class JoomleagueModelClubPlan extends JoomleagueModelProject
 		. ' CASE WHEN CHAR_LENGTH(c2.alias) THEN CONCAT_WS(\':\',c2.id,c2.alias) ELSE c2.id END AS club2_slug,'
 		. ' CASE WHEN CHAR_LENGTH(t1.alias) THEN CONCAT_WS(\':\',t1.id,t1.alias) ELSE t1.id END AS team1_slug,'
 		. ' CASE WHEN CHAR_LENGTH(t2.alias) THEN CONCAT_WS(\':\',t2.id,t2.alias) ELSE t2.id END AS team2_slug'
-		
+
 		. ' FROM #__joomleague_match AS m '
 		. ' INNER JOIN #__joomleague_project_team tj1 ON tj1.id=m.projectteam1_id '
 		. ' INNER JOIN #__joomleague_project_team tj2 ON tj2.id=m.projectteam2_id '
 		. ' INNER JOIN #__joomleague_team t1 ON t1.id=tj1.team_id '
 		. ' INNER JOIN #__joomleague_team t2 ON t2.id=tj2.team_id '
 		. ' INNER JOIN #__joomleague_project AS p ON p.id=tj1.project_id '
-		. ' INNER JOIN #__joomleague_league l ON p.league_id=l.id '				
+		. ' INNER JOIN #__joomleague_league l ON p.league_id=l.id '
 		. ' INNER JOIN #__joomleague_club c2 ON c2.id=t2.club_id '
 		. ' INNER JOIN #__joomleague_round r ON m.round_id=r.id '
 		. ' LEFT JOIN #__joomleague_club c1 ON c1.id=t1.club_id '

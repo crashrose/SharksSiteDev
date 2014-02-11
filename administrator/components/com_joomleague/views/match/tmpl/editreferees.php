@@ -11,15 +11,16 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 <?php
-//save and close 
-$close = JRequest::getInt('close',0);
+//save and close
+$jinput = JFactory::getApplication() -> input;
+$close = $jinput -> get('close',0,'int');;
 if($close == 1) {
 	?><script>
 	window.addEvent('domready', function() {
-		$('cancel').onclick();	
+		$('cancel').onclick();
 	});
 	</script>
-	<?php 
+	<?php
 }
 ?>
 <div id="lineup">
@@ -48,9 +49,9 @@ if($close == 1) {
 					</th>
 					<th>
 					<?php echo JText::_('COM_JOOMLEAGUE_ADMIN_MATCH_ER_ASSIGNED'); ?>
-					</th>					
+					</th>
 				</tr>
-			</thead>			
+			</thead>
 				<tr>
 					<td style="text-align:center; ">
 						<?php

@@ -1,9 +1,11 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die('Restricted access');
+$jinput = JFactory::getApplication() -> input;
+?>
 
 <!-- START: matches -->
 
 	<?php
-		$club_id = JRequest::getInt('cid') != -1 ? JRequest::getInt('cid') : false;
+		$club_id = $jinput -> get('cid',0,'int'); != -1 ? $jinput -> get('cid',0,'int'); : false;
 
 		//sort matches by dates
 		$gamesByDate = Array();
@@ -12,12 +14,12 @@
 			$gameDate = JoomleagueHelper::getGameDate($game);
 			$gamesByDate[$gameDate][] = $game;
 		}
-		
+
 		$k=0;
 		foreach ( $gamesByDate as $date => $games )
 		{
 			?>
-			<table class="clubplan">				
+			<table class="clubplan">
 			<?php
 			if($this->config['showMatchDateLine'])
 			{
@@ -27,14 +29,14 @@
 					<?php echo JoomleagueHelper::getMatchDate($game, JText::_('COM_JOOMLEAGUE_CLUBPLAN_MATCHDATE'));?>
 					</th>
 				</tr>
-				<?php 
+				<?php
 			}
 			?>
 			<h3><?php echo $game->roundname;?></h3>
 			<?php
 			foreach ( $games as $game )
 			{
-	
+
 
 			$class = ($k==0)? 'sectiontableentry1' : 'sectiontableentry2';
 			$result_link = JoomleagueHelperRoute::getResultsRoute($game->project_id,$game->roundid);
@@ -43,7 +45,7 @@
 			$teaminfo2_link = JoomleagueHelperRoute::getTeamInfoRoute($game->project_id,$game->team2_id);
 			$teamstats1_link = JoomleagueHelperRoute::getTeamStatsRoute($game->project_id,$game->team1_id);
 			$teamstats2_link = JoomleagueHelperRoute::getTeamStatsRoute($game->project_id,$game->team2_id);
-			$playground_link = JoomleagueHelperRoute::getPlaygroundRoute($game->project_id,$game->playground_id);			
+			$playground_link = JoomleagueHelperRoute::getPlaygroundRoute($game->project_id,$game->playground_id);
 
 			$hometeam				= $game;
 			$awayteam				= $game;
@@ -101,7 +103,7 @@
 			?>
 			<tr class="<?php echo $class; ?>"<?php echo $favStyle; ?>>
 					<?php
-				/*	
+				/*
 					if ($this->config['show_matchday']==1) { ?>
 				<td>
 					<?php if ($this->config['which_link']==0) { ?>
@@ -121,15 +123,15 @@
 					?>
 				</td>
 					<?php } ;
-					
+
 					*/?>
-					
+
 					<?php if ($this->config['show_match_nr']==1) { ?>
 				<td>
 					<?php echo $game->match_number ; ?>
 				</td>
 					<?php } ;?>
-					
+
 				<td nowrap="nowrap">
 					<?php
 					echo JoomleagueHelper::getMatchTime($game);
@@ -142,13 +144,13 @@
 					?>
 				</td>
 					<?php } ?>
-					<?php if ($this->config['show_league']==1) { ?>							
+					<?php if ($this->config['show_league']==1) { ?>
 			   <td>
 					<?php
 					echo $game->l_name;
 					?>
 				</td>
-					<?php } ?>				
+					<?php } ?>
 				<td class="td_r">
 					<?php if ($this->config['which_link2']==0) { ?>
 					<?php
@@ -168,16 +170,16 @@
 				</td>
 					<?php if ($this->config['show_club_logo']==1) { ?>
 				<td class="icon">
-					<?php 
+					<?php
 					//dynamic object property string
 					$pic = '';
 					$pic = 'home_'.$this->config['show_picture'];
-					
+
 					$type=3;
 					switch ($this->config['show_picture']) {
-						case 'logo_small': 
+						case 'logo_small':
 							$picture = $game->$pic;
-							$type = 3; 
+							$type = 3;
 							echo JoomleagueHelper::getPictureThumb(
 									$picture,
 									$game->tname1,
@@ -186,7 +188,7 @@
 									$type
 							);
 							break;
-						case 'logo_medium': 
+						case 'logo_medium':
 							$picture = $game->$pic;
 							$type = 2;
 							echo JoomleagueHelper::getPictureThumb(
@@ -197,7 +199,7 @@
 									$type
 							);
 							break;
-						case 'logo_big': 
+						case 'logo_big':
 							$picture = $game->$pic;
 							$type = 1;
 							echo JoomleagueHelper::getPictureThumb(
@@ -208,15 +210,15 @@
 									$type
 							);
 							break;
-						case 'country_small': 
+						case 'country_small':
 							$type = 6;
 							$pic = 'home_country';
 							if($game->$pic != '' && !empty($game->$pic)) {
 								echo Countries::getCountryFlag($game->$pic, 'height="11"');
 							}
 							break;
-						case 'country_big': 
-							$type = 7; 
+						case 'country_big':
+							$type = 7;
 							$pic = 'home_country';
 							if($game->$pic != '' && !empty($game->$pic)) {
 								echo Countries::getCountryFlag($game->$pic, 'height="50"');
@@ -225,22 +227,22 @@
 					}
 					?>
 				</td>
-				<?php } ?>				
+				<?php } ?>
 				<td class="vs">
 					-
 				</td>
 					<?php if ($this->config['show_club_logo']==1) { ?>
 				<td class="icon">
-					<?php 
+					<?php
 					//dynamic object property string
 					$pic = '';
 					$pic = 'away_'.$this->config['show_picture'];
-					
+
 					$type=3;
 					switch ($this->config['show_picture']) {
-						case 'logo_small': 
+						case 'logo_small':
 							$picture = $game->$pic;
-							$type = 3; 
+							$type = 3;
 							echo JoomleagueHelper::getPictureThumb(
 									$picture,
 									$game->tname1,
@@ -249,7 +251,7 @@
 									$type
 							);
 							break;
-						case 'logo_medium': 
+						case 'logo_medium':
 							$picture = $game->$pic;
 							$type = 2;
 							echo JoomleagueHelper::getPictureThumb(
@@ -260,7 +262,7 @@
 									$type
 							);
 							break;
-						case 'logo_big': 
+						case 'logo_big':
 							$picture = $game->$pic;
 							$type = 1;
 							echo JoomleagueHelper::getPictureThumb(
@@ -271,15 +273,15 @@
 									$type
 							);
 							break;
-						case 'country_small': 
+						case 'country_small':
 							$type = 6;
 							$pic = 'home_country';
 							if($game->$pic != '' && !empty($game->$pic)) {
 								echo Countries::getCountryFlag($game->$pic, 'height="11"');
 							}
 							break;
-						case 'country_big': 
-							$type = 7; 
+						case 'country_big':
+							$type = 7;
 							$pic = 'home_country';
 							if($game->$pic != '' && !empty($game->$pic)) {
 								echo Countries::getCountryFlag($game->$pic, 'height="50"');
@@ -338,7 +340,7 @@
 						$e1 =(isset($game->team1_result_decision)) ? $game->team1_result_decision : 'X';
 						$e2 =(isset($game->team2_result_decision)) ? $game->team2_result_decision : 'X';
 					}
-					
+
 					if ($game->cancel==0) {
 						$score .= '<td align="center">';
 						$score .= $e1;

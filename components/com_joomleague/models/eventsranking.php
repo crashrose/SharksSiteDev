@@ -28,17 +28,18 @@ class JoomleagueModelEventsRanking extends JoomleagueModelProject
 
 	function __construct()
 	{
+		$jinput = JFactory::getApplication() -> input;
 		parent::__construct();
-		$this->projectid=JRequest::getInt('p',0);
-		$this->divisionid = JRequest::getInt( 'division', 0 );
-		$this->teamid = JRequest::getInt( 'tid', 0 );
-		$this->setEventid(JRequest::getVar('evid', '0'));
-		$this->matchid = JRequest::getInt('mid',0);
+		$this->projectid=$jinput -> get('p',0, 'int');
+		$this->divisionid = $jinput -> get('division', 0, 'int' );
+		$this->teamid = $jinput -> get('tid', 0, 'int' );
+		$this->setEventid($jinput -> get('evid', '0', 'string'));
+		$this->matchid = $jinput -> get('mid',0, 'int');
 		$config = $this->getTemplateConfig($this->getName());
 		$defaultLimit = $this->eventid != 0 ? $config['max_events'] : $config['count_events'];
-		$this->limit=JRequest::getInt('limit',$defaultLimit);
-		$this->limitstart=JRequest::getInt('limitstart',0);
-		$this->setOrder(JRequest::getVar('order','desc'));
+		$this->limit=$jinput -> get('limit',$defaultLimit, 'int');
+		$this->limitstart=$jinput -> get('limitstart',0, 'int');
+		$this->setOrder($jinput -> get('order','desc', 'string'));
 	}
 
 	function getDivision()
@@ -146,7 +147,7 @@ class JoomleagueModelEventsRanking extends JoomleagueModelProject
 	{
 		if (empty($this->_total))
 		{
-			$eventids = is_array($this->eventid) ? $this->eventid : array($this->eventid); 
+			$eventids = is_array($this->eventid) ? $this->eventid : array($this->eventid);
 
 			// Make sure the same restrictions are used here as in statistics/basic.php in getPlayersRanking()
 			$query=	 ' SELECT	COUNT(DISTINCT(teamplayer_id)) as count_player'
@@ -223,7 +224,7 @@ class JoomleagueModelEventsRanking extends JoomleagueModelProject
 		// get ranks
 		$previousval = 0;
 		$currentrank = 1 + $limitstart;
-		foreach ($rows as $k => $row) 
+		foreach ($rows as $k => $row)
 		{
 			$rows[$k]->rank = ($row->p == $previousval) ? $currentrank : $k + 1 + $limitstart;
 			$previousval = $row->p;

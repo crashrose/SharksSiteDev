@@ -19,7 +19,8 @@ class JoomleagueControllerCurve extends JoomleagueController
     function display($cachable = false, $urlparams = false)
     {
         // Get the view name from the query string
-        $viewName = JRequest::getVar( "view", "curve" );
+        $jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'curve', 'string' );
 
         // Get the view
         $view = $this->getView( $viewName );
@@ -39,16 +40,17 @@ class JoomleagueControllerCurve extends JoomleagueController
         {
             $view->setModel ( $sr );
         }
-        
+
         $this->showprojectheading();
         $view->display();
         $this->showbackbutton();
         $this->showfooter();
     }
-        
+
     function chartdata()
     {
-        $viewName = JRequest::getVar( "view", "curve" );
+        $jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'curve', 'string');
 
         // Get the view
         $view = $this->getView( $viewName );
@@ -68,7 +70,7 @@ class JoomleagueControllerCurve extends JoomleagueController
         {
             $view->setModel ( $sr );
         }
-        
+
         $view->setLayout( "chartdata" );
         $view->display();
     }

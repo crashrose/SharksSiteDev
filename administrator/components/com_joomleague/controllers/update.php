@@ -47,8 +47,8 @@ class JoomleagueControllerUpdate extends JoomleagueController
 	public function save()
 	{
 		JToolBarHelper::back(JText::_('COM_JOOMLEAGUE_BACK_UPDATELIST'),JRoute::_('index.php?option=com_joomleague&view=updates&task=update.display'));
-		$post=JRequest::get('post');
-		$file_name=JRequest::getVar('file_name');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$file_name=$jinput -> get('file_name', '', 'string');
 		$path=explode('/',$file_name);
 		if (count($path) > 1)
 		{

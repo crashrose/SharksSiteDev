@@ -21,9 +21,10 @@ class JoomleagueModelMatrix extends JoomleagueModelProject
 	function __construct( )
 	{
 		parent::__construct( );
+		$jinput = JFactory::getApplication() -> input;
 
-		$this->divisionid	= JRequest::getInt( 'division', 0 );
-		$this->roundid		= JRequest::getInt( 'r', 0 );
+		$this->divisionid	= $jinput -> get('division', 0, 'int' );
+		$this->roundid		= $jinput -> get('r', 0, 'int' );
 	}
 
 	function getDivisionID( )

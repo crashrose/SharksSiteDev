@@ -19,7 +19,8 @@ class JoomleagueControllerAbout extends JLGController
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the view name from the query string
-		$viewName = JRequest::getVar( "view", "about" );
+		$jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'about', 'string');
 
 		// Get the view
 		$view = $this->getView( $viewName );

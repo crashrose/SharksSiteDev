@@ -32,12 +32,14 @@ class JoomleagueViewRounds extends JLGView
 	**/
 	function _displayJsonOptions( $tpl = null )
 	{
+		$jinput = JFactory::getApplication() -> input;
+		$p = $jinput -> get('p','','string');
 		// Get some data from the model
 		$db	= JFactory::getDbo();
 		$db->setQuery(	"	SELECT CASE WHEN CHAR_LENGTH(r.alias) THEN CONCAT_WS(':', r.roundcode, r.alias) ELSE r.roundcode END AS value,
 									r.name AS text
 							FROM #__joomleague_round AS r
-							WHERE r.project_id = " . JRequest::getVar( 'p' ) . "
+							WHERE r.project_id = " . $p . "
 							ORDER BY r.roundcode" );
 
 		echo '[';

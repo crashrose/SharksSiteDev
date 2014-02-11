@@ -38,15 +38,15 @@ class JoomleagueControllerTemplate extends JoomleagueController
 
 	public function display($cachable = false, $urlparams = false)
 	{
-		$option 	= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe 	= JFactory::getApplication();
 		$document 	= JFactory::getDocument();
 		$model		= $this->getModel('templates');
-		
+
 		$viewType=$document->getType();
 		$view=$this->getView('templates',$viewType);
 		$view->setModel($model,true);	// true is for the default model;
-		
+
 		$projectws=$this->getModel('project');
 		$projectws->setId($mainframe->getUserState($option.'project',0));
 		$view->setModel($projectws, false);
@@ -68,11 +68,11 @@ class JoomleagueControllerTemplate extends JoomleagueController
 					$projectws->setId($mainframe->getUserState($option.'project',0));
 					$view->setModel($projectws, false);
 					$view->setLayout('form');
-					
+
 					JRequest::setVar('layout', 'form');
 					JRequest::setVar('view','template');
 					JRequest::setVar('edit',true);
-					
+
 					// Checkout the project
 					$model->checkout();
 				} break;
@@ -83,8 +83,8 @@ class JoomleagueControllerTemplate extends JoomleagueController
 
 	public function apply()
 	{
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(0),'post','array');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id']=(int) $cid[0];
 		$model=$this->getModel('template');
 		$index=0;
@@ -112,10 +112,9 @@ class JoomleagueControllerTemplate extends JoomleagueController
 	public function save()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(0),'post','array');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$index=0;
-		//$master_id=JRequest::getVar('master_id',0,'post','int');
 		if(count($cid) == 1)
 		{
 			$post['id']=(int) $cid[0];
@@ -182,9 +181,10 @@ class JoomleagueControllerTemplate extends JoomleagueController
 
 	public function remove()
 	{
-		$cid=JRequest::getVar('cid',array(0),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
-		$isMaster=JRequest::getVar('isMaster',array(),'post','array');
+		$isMaster=$jinput -> get('isMaster',array(),'array');
 		JArrayHelper::toInteger($isMaster);
 		if (count($cid) < 1){
 			JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_DELETE'));
@@ -216,8 +216,9 @@ class JoomleagueControllerTemplate extends JoomleagueController
 
 	public function masterimport()
 	{
-		$templateid=JRequest::getVar('templateid',0,'post','int');
-		$projectid=JRequest::getVar('project_id',0,'post','int');
+		$jinput = JFactory::getApplication() -> input;
+		$templateid=$jinput -> get('templateid',0,'int');
+		$projectid=$jinput -> get('project_id',0,'int');
 		$model=$this->getModel('template');
 		if ($model->import($templateid,$projectid))
 		{

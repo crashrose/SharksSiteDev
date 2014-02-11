@@ -26,7 +26,7 @@ require_once (JPATH_COMPONENT.DIRECTORY_SEPARATOR.'models'.DIRECTORY_SEPARATOR.'
 class JoomleagueModelTemplates extends JoomleagueModelList
 {
 	var $_identifier = "templates";
-	
+
 	var $_project_id=null;
 
 	function __construct()
@@ -62,7 +62,7 @@ class JoomleagueModelTemplates extends JoomleagueModelList
 	function _buildContentWhere()
 	{
 		$mainframe = JFactory::getApplication();
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$project_id=$mainframe->getUserState($option.'project');
 
 		$where=array();
@@ -82,7 +82,7 @@ class JoomleagueModelTemplates extends JoomleagueModelList
 	function _buildContentOrderBy()
 	{
 		$mainframe = JFactory::getApplication();
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 
 		$filter_order		= $mainframe->getUserStateFromRequest($option.'tmpl_filter_order',		'filter_order',		'tmpl.template',	'cmd');
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest($option.'tmpl_filter_order_Dir',	'filter_order_Dir',	'',					'word');
@@ -104,6 +104,7 @@ class JoomleagueModelTemplates extends JoomleagueModelList
 	 */
 	function checklist()
 	{
+		$jinput = JFactory::getApplication() -> input;
 		$project_id=$this->_project_id;
 		$defaultpath=JPATH_COMPONENT_SITE.DIRECTORY_SEPARATOR.'settings';
 		$predictionTemplatePrefix='prediction';
@@ -126,11 +127,11 @@ class JoomleagueModelTemplates extends JoomleagueModelList
 		$this->_db->setQuery($query);
 		$records=$this->_db->loadColumn();
 		if (empty($records)) { $records=array(); }
-		
+
 		// add default folder
 		$xmldirs[]=$defaultpath.DIRECTORY_SEPARATOR.'default';
-		
-		$extensions = JoomleagueHelper::getExtensions(JRequest::getInt('p'));
+
+		$extensions = JoomleagueHelper::getExtensions($jinput -> get('p',0,'int'));
 		foreach ($extensions as $e => $extension) {
 			$extensiontpath =  JPATH_COMPONENT_SITE .DIRECTORY_SEPARATOR. 'extensions' .DIRECTORY_SEPARATOR. $extension;
 			if (is_dir($extensiontpath.DIRECTORY_SEPARATOR.'settings'.DIRECTORY_SEPARATOR.'default'))
@@ -166,23 +167,23 @@ class JoomleagueModelTemplates extends JoomleagueModelList
 							foreach ($fieldsets as $fieldset) {
 								foreach($form->getFieldset($fieldset->name) as $field) {
 									$jRegistry->set($field->name, $field->value);
-								}				
+								}
 							}
 							$defaultvalues = $jRegistry->toString('ini');
-							
+
 							$tblTemplate_Config = JTable::getInstance('template', 'table');
 							$tblTemplate_Config->template = $template;
 							$tblTemplate_Config->title = $file;
 							$tblTemplate_Config->params = $defaultvalues;
 							$tblTemplate_Config->project_id = $project_id;
-							
+
 								// Make sure the item is valid
 							if (!$tblTemplate_Config->check())
 							{
 								$this->setError($this->_db->getErrorMsg());
 								return false;
 							}
-					
+
 							// Store the item to the database
 							if (!$tblTemplate_Config->store())
 							{

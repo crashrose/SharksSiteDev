@@ -20,6 +20,7 @@ class JoomleagueViewProjectteams extends JLGView
 	**/
 	function display( $tpl = null )
 	{
+		$jinput = JFactory::getApplication() -> input;
 		// Get some data from the model
 		$db	= JFactory::getDbo();
 		$db->setQuery(	"	SELECT CASE WHEN CHAR_LENGTH(t.alias) THEN CONCAT_WS(':', t.id, t.alias) ELSE t.id END AS value,
@@ -27,7 +28,7 @@ class JoomleagueViewProjectteams extends JLGView
 							FROM #__joomleague_project_team tt
 							JOIN #__joomleague_team t ON t.id = tt.team_id
 							JOIN #__joomleague_project p ON p.id = tt.project_id
-							WHERE tt.project_id = " . JRequest::getInt( 'p' ) . "
+							WHERE tt.project_id = " . $jinput -> get('p',0,'int' ) . "
 							ORDER BY t.name" );
 
 		echo '[';

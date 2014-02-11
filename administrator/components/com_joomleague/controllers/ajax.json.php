@@ -35,114 +35,128 @@ class JoomleagueControllerAjax extends JControllerLegacy
 	public function projectdivisionsoptions()
 	{
 		$model = $this->getModel('ajax');
-		$req = JRequest::getVar('required', false);
+		$jinput = JFactory::getApplication() -> input;
+		$req = $jinput -> get('required', false, 'boolean');
 		$required = ($req == 'true' || $req == '1') ? true : false;
-		echo json_encode((array) $model->getProjectDivisionsOptions(JRequest::getInt('p'), $required));
+		echo json_encode((array) $model->getProjectDivisionsOptions($jinput -> get('p', 0, 'int' ), $required));
 	}
 
 	public function projecteventsoptions()
 	{
 		$model = $this->getModel('ajax');
-		$req = JRequest::getVar('required', false);
+		$jinput = JFactory::getApplication() -> input;
+		$req = $jinput -> get('required', false, 'boolean');
 		$required = ($req == 'true' || $req == '1') ? true : false;
-		echo json_encode((array) $model->getProjectEventsOptions(JRequest::getInt('p'), $required));
+		echo json_encode((array) $model->getProjectEventsOptions($jinput -> get('p', 0, 'int' ), $required));
 	}
 
 	public function projectteamsbydivisionoptions()
 	{
 		$model = $this->getModel('ajax');
-		$req = JRequest::getVar('required', false);
+		$jinput = JFactory::getApplication() -> input;
+		$req = $jinput -> get('required', false, 'boolean');
 		$required = ($req == 'true' || $req == '1') ? true : false;
-		echo json_encode((array) $model->getProjectTeamsByDivisionOptions(JRequest::getInt('p'), JRequest::getInt( 'division' ), $required));
+		echo json_encode((array) $model->getProjectTeamsByDivisionOptions($jinput -> get('p', 0, 'int' ), $jinput -> get('division', 0, 'int' ), $required));
 	}
 
 	public function projectsbysportstypesoptions()
 	{
 		$model = $this->getModel('ajax');
-		$req = JRequest::getVar('required', false);
+		$jinput = JFactory::getApplication() -> input;
+		$req = $jinput -> get('required', false, 'boolean');
 		$required = ($req == 'true' || $req == '1') ? true : false;
-		echo json_encode((array) $model->getProjectsBySportsTypesOptions(JRequest::getInt('sportstype'), $required));
+		echo json_encode((array) $model->getProjectsBySportsTypesOptions($jinput -> get('sportstype', 0, 'int' ), $required));
 	}
 
 	public function projectsbycluboptions()
 	{
 		$model = $this->getModel('ajax');
-		$req = JRequest::getVar('required', false);
+		$jinput = JFactory::getApplication() -> input;
+		$req = $jinput -> get('required', false, 'boolean');
 		$required = ($req == 'true' || $req == '1') ? true : false;
-		echo json_encode((array) $model->getProjectsByClubOptions(JRequest::getInt( 'cid' ), $required));
+		echo json_encode((array) $model->getProjectsByClubOptions($jinput -> get('cid', 0, 'int' ), $required));
 	}
 
 	public function projectteamsoptions()
 	{
 		$model = $this->getModel('ajax');
-		$req = JRequest::getVar('required', false);
+		$jinput = JFactory::getApplication() -> input;
+		$req = $jinput -> get('required', false, 'boolean');
 		$required = ($req == 'true' || $req == '1') ? true : false;
-		echo json_encode((array) $model->getProjectTeamOptions(JRequest::getInt('p'),JRequest::getInt('division'),$required));
+		echo json_encode((array) $model->getProjectTeamOptions($jinput -> get('p', 0, 'int' ),$jinput -> get('division', 0, 'int' ),$required));
 	}
-	
+
 	public function projectplayeroptions()
 	{
 		$model = $this->getModel('ajax');
-		$req = JRequest::getVar('required', false);
+		$jinput = JFactory::getApplication() -> input;
+		$req = $jinput -> get('required', false, 'boolean');
 		$required = ($req == 'true' || $req == '1') ? true : false;
-		echo json_encode((array) $model->getProjectPlayerOptions(JRequest::getInt('p'),JRequest::getInt('division'),$required));
+		echo json_encode((array) $model->getProjectPlayerOptions($jinput -> get('p', 0, 'int' ),$jinput -> get('division', 0, 'int' ),$required));
 	}
 
 	public function projectstaffoptions()
 	{
 		$model = $this->getModel('ajax');
-		$req = JRequest::getVar('required', false);
+		$jinput = JFactory::getApplication() -> input;
+		$req = $jinput -> get('required', false, 'boolean');
 		$required = ($req == 'true' || $req == '1') ? true : false;
-		echo json_encode((array) $model->getProjectStaffOptions(JRequest::getInt('p'),JRequest::getInt('division'),$required));
+		echo json_encode((array) $model->getProjectStaffOptions($jinput -> get('p', 0, 'int' ),$jinput -> get('division', 0, 'int' ),$required));
 	}
 
 	public function projectclubsoptions()
 	{
 		$model = $this->getModel('ajax');
-		$req = JRequest::getVar('required', false);
+		$jinput = JFactory::getApplication() -> input;
+		$req = $jinput -> get('required', false, 'boolean');
 		$required = ($req == 'true' || $req == '1') ? true : false;
-		echo json_encode((array) $model->getProjectClubOptions(JRequest::getInt('p'), $required));
+		echo json_encode((array) $model->getProjectClubOptions($jinput -> get('p', 0, 'int' ), $required));
 	}
 
 	public function projectstatsoptions()
 	{
 		$model = $this->getModel('ajax');
-		$req = JRequest::getVar('required', false);
+		$jinput = JFactory::getApplication() -> input;
+		$req = $jinput -> get('required', false, 'boolean');
 		$required = ($req == 'true' || $req == '1') ? true : false;
-		echo json_encode((array) $model->getProjectStatOptions(JRequest::getInt('p'), $required));
+		echo json_encode((array) $model->getProjectStatOptions($jinput -> get('p', 0, 'int' ), $required));
 	}
 
 	public function matchesoptions()
 	{
 		$model = $this->getModel('ajax');
-		$req = JRequest::getVar('required', false);
+		$jinput = JFactory::getApplication() -> input;
+		$req = $jinput -> get('required', false, 'boolean');
 		$required = ($req == 'true' || $req == '1') ? true : false;
-		echo json_encode((array) $model->getMatchesOptions(JRequest::getInt('p'),JRequest::getInt('division'), $required));
+		echo json_encode((array) $model->getMatchesOptions($jinput -> get('p', 0, 'int' ),$jinput -> get('division', 0, 'int' ), $required));
 	}
 
 	public function refereesoptions()
 	{
 		$model = $this->getModel('ajax');
-		$req = JRequest::getVar('required', false);
+		$jinput = JFactory::getApplication() -> input;
+		$req = $jinput -> get('required', false, 'boolean');
 		$required = ($req == 'true' || $req == '1') ? true : false;
-		echo json_encode((array) $model->getRefereesOptions(JRequest::getInt('p'), $required));
+		echo json_encode((array) $model->getRefereesOptions($jinput -> get('p', 0, 'int' ), $required));
 	}
 
 	public function roundsoptions()
 	{
-		$req = JRequest::getVar('required', false);
+		$jinput = JFactory::getApplication() -> input;
+		$req = $jinput -> get('required', false, 'boolean');
 		$required = ($req == 'true' || $req == '1') ? true : false;
-		echo json_encode((array) JoomleagueHelper::getRoundsOptions(JRequest::getInt('p'),'ASC', $required));
+		echo json_encode((array) JoomleagueHelper::getRoundsOptions($jinput -> get('p', 0, 'int' ),'ASC', $required));
 	}
 
 	public function projecttreenodeoptions()
 	{
 		$model = $this->getModel('ajax');
-		$req = JRequest::getVar('required', false);
+		$jinput = JFactory::getApplication() -> input;
+		$req = $jinput -> get('required', false, 'boolean');
 		$required = ($req == 'true' || $req == '1') ? true : false;
-		echo json_encode((array) $model->getProjectTreenodeOptions(JRequest::getInt('p'), $required));
+		echo json_encode((array) $model->getProjectTreenodeOptions($jinput -> get('p', 0, 'int' ), $required));
 	}
-	
+
 	public function sportstypesoptions()
 	{
 		echo json_encode((array) JoomleagueModelSportsTypes::getSportsTypes());

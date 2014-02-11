@@ -25,7 +25,7 @@ class JoomleagueViewPlayground extends JLGView
 {
 	function display($tpl=null)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$uri = JFactory::getURI();
 		$user = JFactory::getUser();
@@ -72,8 +72,8 @@ class JoomleagueViewPlayground extends JLGView
 		$this->extended = $extended;
 		//$this->assignRef('lists',$lists);
 		$this->venue = $venue;
-		$this->form = $this->get('form');	
-		$this->addToolbar();		
+		$this->form = $this->get('form');
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 	/**
@@ -82,9 +82,10 @@ class JoomleagueViewPlayground extends JLGView
 	* @since	1.7
 	*/
 	protected function addToolbar()
-	{		
+	{
 		// Set toolbar items for the page
-		$edit=JRequest::getVar('edit',true);
+		$jinput = JFactory::getApplication() -> input;
+		$edit= $jinput -> get('edit',true, 'boolean');
 		$text=!$edit ? JText::_('COM_JOOMLEAGUE_GLOBAL_NEW') : JText::_('COM_JOOMLEAGUE_GLOBAL_EDIT');
 		JLToolBarHelper::save('playground.save');
 		if (!$edit)
@@ -102,7 +103,7 @@ class JoomleagueViewPlayground extends JLGView
 			JLToolBarHelper::cancel('playground.cancel','COM_JOOMLEAGUE_GLOBAL_CLOSE');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.joomleague',true);	
+		JToolBarHelper::help('screen.joomleague',true);
 	}
 }
 ?>

@@ -1,7 +1,8 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <!-- START: matches -->
-<table class="clubplan">				
+<table class="clubplan">
 <?php
+$jinput = JFactory::getApplication() -> input;
 if ($this->config['type_matches'] != 0) {
 ?>
 	<tr class="sectiontableheader">
@@ -10,7 +11,7 @@ if ($this->config['type_matches'] != 0) {
 		<?php } ;?>
 		<?php if ($this->config['show_match_nr']==1) { ?>
 		<th><?php echo JText::_('COM_JOOMLEAGUE_CLUBPLAN_MATCH_NR'); ?></th>
-		<?php } ;?>		
+		<?php } ;?>
 		<?php if ($this->config['show_match_date']==1) { ?>
 		<th><?php echo JText::_('COM_JOOMLEAGUE_CLUBPLAN_DATE');?></th>
 		<?php } ;?>
@@ -20,9 +21,9 @@ if ($this->config['type_matches'] != 0) {
 		<?php if ($this->config['show_time_present']==1) { ?>
 		<th><?php echo JText::_('COM_JOOMLEAGUE_CLUBPLAN_TIME_PRESENT'); ?></th>
 		<?php } ;?>
-		<?php if ($this->config['show_league']==1) { ?>		
+		<?php if ($this->config['show_league']==1) { ?>
 		<th><?php echo JText::_('COM_JOOMLEAGUE_CLUBPLAN_LEAGUE'); ?></th>
-		<?php } ;?>		
+		<?php } ;?>
 		<?php if ($this->config['show_club_logo']==1) { ?>
 		<th></th>
 		<?php } ?>
@@ -47,7 +48,7 @@ if ($this->config['type_matches'] != 0) {
 }
 		$k   = 0;
 		$cnt = 0;
-		$club_id = JRequest::getInt('cid') != -1 ? JRequest::getInt('cid') : false;
+		$club_id = $jinput -> get('cid',0,'int'); != -1 ? $jinput -> get('cid',0,'int'); : false;
 		$prevDate = '';
 		foreach ($this->matches as $game)
 		{
@@ -58,9 +59,9 @@ if ($this->config['type_matches'] != 0) {
 					?>
 					<tr class="sectiontableheader">
 						<th colspan="16">
-							<?php 
+							<?php
 							if ($game->match_date)
-							{	
+							{
 								echo $gameDate;
 							}
 							?>
@@ -95,7 +96,7 @@ if ($this->config['type_matches'] != 0) {
 			}
 			$hometeam               = $game;
 			$awayteam               = $game;
-			
+
 			$isFavTeam              = false;
 			$isFavTeam              = in_array($game->team1_id,$favteams);
 			$hometeam->name         = $game->tname1;
@@ -109,7 +110,7 @@ if ($this->config['type_matches'] != 0) {
 			$hometeam->club_slug    = $game->club1_slug;
 			$hometeam->team_slug    = $game->team1_slug;
 			$tname1 = JoomleagueHelper::formatTeamName($hometeam,'clubplanhome'.$cnt++,$this->config,$isFavTeam, $link1);
-			
+
 			$isFavTeam              = false;
 			$isFavTeam              = in_array($game->team2_id,$favteams);
 			$awayteam->name         = $game->tname2;
@@ -152,7 +153,7 @@ if ($this->config['type_matches'] != 0) {
 			<tr class="<?php echo $class; ?>"<?php echo $favStyle; ?>>
 					<?php if ($this->config['show_matchday']==1) { ?>
 				<td>
-					<?php 
+					<?php
 					$roundcode = (!empty($game->roundcode)) ? $game->roundcode : '';
 					if ($this->config['which_link']==0) { ?>
 					<?php
@@ -171,13 +172,13 @@ if ($this->config['type_matches'] != 0) {
 					?>
 				</td>
 					<?php } ;?>
-					
+
 					<?php if ($this->config['show_match_nr']==1) { ?>
 				<td>
 					<?php echo $game->match_number ; ?>
 				</td>
 					<?php } ;?>
-				
+
 				<?php if ($this->config['show_match_date']==1) { ?>
 				<td>
 					<?php
@@ -188,7 +189,7 @@ if ($this->config['type_matches'] != 0) {
 					?>
 				</td>
 					<?php } ;?>
-					
+
 				<?php if ($this->config['show_match_time']==1) { ?>
 				<td nowrap="nowrap">
 					<?php
@@ -196,7 +197,7 @@ if ($this->config['type_matches'] != 0) {
 					?>
 				</td>
 					<?php } ;?>
-					
+
 				<?php if ($this->config['show_time_present']==1) { ?>
 				<td nowrap="nowrap">
 					<?php
@@ -204,12 +205,12 @@ if ($this->config['type_matches'] != 0) {
 					?>
 				</td>
 					<?php } ?>
-					
-				<?php if ($this->config['show_league']==1) { ?>							
+
+				<?php if ($this->config['show_league']==1) { ?>
 				<td>
 					<?php echo $game->l_name; ?>
 				</td>
-					<?php } ?>				
+					<?php } ?>
 				<td class="td_r">
 					<?php
 						echo $tname1;
@@ -217,76 +218,14 @@ if ($this->config['type_matches'] != 0) {
 				</td>
 					<?php if ($this->config['show_club_logo']==1) { ?>
 				<td class="icon">
-					<?php 
+					<?php
 					//dynamic object property string
 					$pic = '';
 					$pic = 'home_'.$this->config['show_picture'];
-					
+
 					$type=3;
 					switch ($this->config['show_picture']) {
-						case 'logo_small': 
-							$picture = $game->$pic;
-							$type = 3; 
-							echo JoomleagueHelper::getPictureThumb(
-									$picture,
-									$game->tname1,
-									$this->config['picture_width'],
-									$this->config['picture_height'],
-									$type
-							);
-							break;
-						case 'logo_medium': 
-							$picture = $game->$pic;
-							$type = 2;
-							echo JoomleagueHelper::getPictureThumb(
-									$picture,
-									$game->tname1,
-									$this->config['picture_width'],
-									$this->config['picture_height'],
-									$type
-							);
-							break;
-						case 'logo_big': 
-							$picture = $game->$pic;
-							$type = 1;
-							echo JoomleagueHelper::getPictureThumb(
-									$picture,
-									$game->tname1,
-									$this->config['picture_width'],
-									$this->config['picture_height'],
-									$type
-							);
-							break;
-						case 'country_small': 
-							$type = 6;
-							$pic = 'home_country';
-							if($game->$pic != '' && !empty($game->$pic)) {
-								echo Countries::getCountryFlag($game->$pic, 'height="11"');
-							}
-							break;
-						case 'country_big': 
-							$type = 7; 
-							$pic = 'home_country';
-							if($game->$pic != '' && !empty($game->$pic)) {
-								echo Countries::getCountryFlag($game->$pic, 'height="50"');
-							}
-							break;
-					}
-					?>
-				</td>
-					<?php } ?>				
-				<td class="vs">
-					-
-				</td>
-					<?php if ($this->config['show_club_logo']==1) { ?>
-				<td class="icon">
-					<?php 
-					//dynamic object property string
-					$pic = '';
-					$pic = 'away_'.$this->config['show_picture'];
-					$type=3;
-					switch ($this->config['show_picture']) {
-						case 'logo_small': 
+						case 'logo_small':
 							$picture = $game->$pic;
 							$type = 3;
 							echo JoomleagueHelper::getPictureThumb(
@@ -297,7 +236,7 @@ if ($this->config['type_matches'] != 0) {
 									$type
 							);
 							break;
-						case 'logo_medium': 
+						case 'logo_medium':
 							$picture = $game->$pic;
 							$type = 2;
 							echo JoomleagueHelper::getPictureThumb(
@@ -308,7 +247,7 @@ if ($this->config['type_matches'] != 0) {
 									$type
 							);
 							break;
-						case 'logo_big': 
+						case 'logo_big':
 							$picture = $game->$pic;
 							$type = 1;
 							echo JoomleagueHelper::getPictureThumb(
@@ -319,15 +258,77 @@ if ($this->config['type_matches'] != 0) {
 									$type
 							);
 							break;
-						case 'country_small': 
+						case 'country_small':
+							$type = 6;
+							$pic = 'home_country';
+							if($game->$pic != '' && !empty($game->$pic)) {
+								echo Countries::getCountryFlag($game->$pic, 'height="11"');
+							}
+							break;
+						case 'country_big':
+							$type = 7;
+							$pic = 'home_country';
+							if($game->$pic != '' && !empty($game->$pic)) {
+								echo Countries::getCountryFlag($game->$pic, 'height="50"');
+							}
+							break;
+					}
+					?>
+				</td>
+					<?php } ?>
+				<td class="vs">
+					-
+				</td>
+					<?php if ($this->config['show_club_logo']==1) { ?>
+				<td class="icon">
+					<?php
+					//dynamic object property string
+					$pic = '';
+					$pic = 'away_'.$this->config['show_picture'];
+					$type=3;
+					switch ($this->config['show_picture']) {
+						case 'logo_small':
+							$picture = $game->$pic;
+							$type = 3;
+							echo JoomleagueHelper::getPictureThumb(
+									$picture,
+									$game->tname1,
+									$this->config['picture_width'],
+									$this->config['picture_height'],
+									$type
+							);
+							break;
+						case 'logo_medium':
+							$picture = $game->$pic;
+							$type = 2;
+							echo JoomleagueHelper::getPictureThumb(
+									$picture,
+									$game->tname1,
+									$this->config['picture_width'],
+									$this->config['picture_height'],
+									$type
+							);
+							break;
+						case 'logo_big':
+							$picture = $game->$pic;
+							$type = 1;
+							echo JoomleagueHelper::getPictureThumb(
+									$picture,
+									$game->tname1,
+									$this->config['picture_width'],
+									$this->config['picture_height'],
+									$type
+							);
+							break;
+						case 'country_small':
 							$type = 6;
 							$pic = 'away_country';
 							if($game->$pic != '' && !empty($game->$pic)) {
 								echo Countries::getCountryFlag($game->$pic, 'height="11"');
 							}
 							break;
-						case 'country_big': 
-							$type = 7; 
+						case 'country_big':
+							$type = 7;
 							$pic = 'away_country';
 							if($game->$pic != '' && !empty($game->$pic)) {
 								echo Countries::getCountryFlag($game->$pic, 'height="50"');
@@ -374,7 +375,7 @@ if ($this->config['type_matches'] != 0) {
 						$e1 =(isset($game->team1_result_decision)) ? $game->team1_result_decision : 'X';
 						$e2 =(isset($game->team2_result_decision)) ? $game->team2_result_decision : 'X';
 					}
-					
+
 					if (empty($game->cancel) || $game->cancel==0) {
 						$score .= '<td class="td_r_right">';
 						$score .= $e1;

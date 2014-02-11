@@ -23,7 +23,7 @@ jimport('joomla.application.component.controller');
 class JoomleagueControllerTreeto extends JoomleagueController
 {
 	protected $view_list = 'treetos';
-	
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -36,7 +36,7 @@ class JoomleagueControllerTreeto extends JoomleagueController
 
 	public function display($cachable = false, $urlparams = false)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$model=$this->getModel('treetos');
@@ -47,7 +47,7 @@ class JoomleagueControllerTreeto extends JoomleagueController
 		$projectws=$this->getModel('project');
 		$projectws->setId($mainframe->getUserState($option.'project',0));
 		$view->setModel($projectws);
-				
+
 		switch($this->getTask())
 		{
 			case 'add':
@@ -60,7 +60,7 @@ class JoomleagueControllerTreeto extends JoomleagueController
 				$model=$this->getModel('treeto');
 				//$model->checkout();
 				break;
-			} 
+			}
 
 			case 'edit':
 			{
@@ -80,16 +80,18 @@ class JoomleagueControllerTreeto extends JoomleagueController
 	// save the checked rows inside the treetos list (save division assignment)
 	public function saveshort()
 	{
-		$option		= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
+
 		$mainframe	= JFactory::getApplication();
  		$project_id = $mainframe->getUserState($option . 'project');
-		
-		$post	= JRequest::get('post');
-		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
+
 		JArrayHelper::toInteger($cid);
-		
+
 		$model = $this->getModel('treetos');
-		
+
 		if ($model->storeshort($cid, $post))
 		{
 			$msg = JText::_('COM_JOOMLEAGUE_ADMIN_TREETO_CTRL_SAVED');
@@ -105,12 +107,12 @@ class JoomleagueControllerTreeto extends JoomleagueController
 
 	public function genNode()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$proj=$mainframe->getUserState($option.'project',0);
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'get','array');
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 
 		$model=$this->getModel('treeto');
@@ -137,9 +139,9 @@ class JoomleagueControllerTreeto extends JoomleagueController
 	public function generatenode()
 	{
 		JSession::checkToken() or die(JText::_('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN'));
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
-		$post=JRequest::get('post');
+		$post=$jinput->post;
 		$model=$this->getModel('treeto');
 		$project_id=$mainframe->getUserState($option.'project');
 		if ($model->setGenerateNode() )
@@ -159,8 +161,9 @@ class JoomleagueControllerTreeto extends JoomleagueController
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 		$app = JFactory::getApplication();
-		$post=JRequest::get('post');
-		$cid	= JRequest::getVar('cid', array(0), 'post', 'array');
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id'] = (int) $cid[0];
 		$msg='';
 
@@ -188,7 +191,7 @@ class JoomleagueControllerTreeto extends JoomleagueController
 
 	public function remove()
 	{
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_DELETE'));}
 		$model=$this->getModel('treeto');

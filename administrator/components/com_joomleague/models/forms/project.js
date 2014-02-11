@@ -24,7 +24,7 @@ window.addEvent('domready', function() {
 			if (!regexp.test(value)) {
 				return false;
 			} else {
-				return (getInt(value) > 0);
+				return ($jinput -> get(value) > 0);
 			}
 		}
 	});

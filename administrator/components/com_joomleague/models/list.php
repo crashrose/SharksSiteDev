@@ -56,7 +56,7 @@ class JoomleagueModelList extends JModelLegacy
 	function __construct()
 	{
 		parent::__construct();
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
 		// Get the pagination request variables
@@ -153,7 +153,7 @@ class JoomleagueModelList extends JModelLegacy
 	 */
 	public function getProject()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 
 		$mainframe	= JFactory::getApplication();
 		$project_id = $mainframe->getUserState($option . 'project');

@@ -15,13 +15,15 @@
 // no direct access
 defined('_JEXEC') or die;
 $app			= JFactory::getApplication();
-$arrExtensions 	= JoomleagueHelper::getExtensions(JRequest::getInt('p'));
+$jinput = JFactory::getApplication() -> input;
+$arrExtensions 	= JoomleagueHelper::getExtensions($jinput -> get('p',0,'int'));
 $model_pathes[]	= array();
 $view_pathes[]	= array();
 $lang 			= JFactory::getLanguage();
 $type 			= '';
 $task 			= '';
-$command = JRequest::getVar('task', 'display');
+$jinput = JFactory::getApplication() -> input;
+$command = $jinput -> get('task', 'display', 'string');
 
 // Check for array format.
 $filter = JFilterInput::getInstance();

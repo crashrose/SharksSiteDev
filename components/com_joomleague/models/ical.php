@@ -26,11 +26,12 @@ class JoomleagueModelIcal extends JoomleagueModelProject
 	function __construct()
 	{
 		parent::__construct();
+		$jinput = JFactory::getApplication() -> input;
 
-		$this->projectid	= JRequest::getInt( 'p',	0 );
-		$this->teamid		= JRequest::getInt( 'teamid',	0 );
-		$this->divisionid	= JRequest::getInt( 'division',	0 );
-		$this->playgroundid	= JRequest::getInt( 'pgid',	0 );
+		$this->projectid	= $jinput -> get('p', 0, 'int');
+		$this->teamid		= $jinput -> get('teamid', 0, 'int');
+		$this->divisionid	= $jinput -> get('division', 0, 'int');
+		$this->playgroundid	= $jinput -> get('pgid', 0, 'int');
 	}
 
 	function getMatches()

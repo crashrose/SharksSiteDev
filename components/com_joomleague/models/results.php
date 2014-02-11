@@ -33,11 +33,12 @@ class JoomleagueModelResults extends JoomleagueModelProject
 	function __construct()
 	{
 		parent::__construct();
+		$jinput = JFactory::getApplication() -> input;
 
-		$this->divisionid = JRequest::getInt('division',0);
-		$this->mode = JRequest::getInt('mode',0);
-		$this->order = JRequest::getInt('order',0);
-		$round = JRequest::getInt('r', 0);
+		$this->divisionid = $jinput -> get('division',0, 'int');
+		$this->mode = $jinput -> get('mode',0, 'int');
+		$this->order = $jinput -> get('order',0, 'int');
+		$round = $jinput -> get('r', 0, 'int');
 		$roundid = $round;
 		if ($round > 0) {
 			$roundid = $round;
@@ -75,7 +76,7 @@ class JoomleagueModelResults extends JoomleagueModelProject
 		{
 			$this->matches = $this->getResultsRows($this->roundid,$this->divisionid,$this->config);
 		}
-		
+
 		$allowed = $this->isAllowed();
 		$user = JFactory::getUser();
 
@@ -117,7 +118,7 @@ class JoomleagueModelResults extends JoomleagueModelProject
 		$result=array();
 
 		$query_SELECT='
-		SELECT	m.*, p.timezone, 
+		SELECT	m.*, p.timezone,
 			DATE_FORMAT(m.time_present,"%H:%i") time_present,
 			playground.name AS playground_name,
 			playground.short_name AS playground_short_name,
@@ -136,8 +137,8 @@ class JoomleagueModelResults extends JoomleagueModelProject
 			LEFT JOIN #__joomleague_division AS d2 ON pt2.division_id=d2.id
 			LEFT JOIN #__joomleague_playground AS playground ON playground.id=m.playground_id';
 
-		$query_WHERE	= ' WHERE m.published=1 
-							  AND r.id='.$round.' 
+		$query_WHERE	= ' WHERE m.published=1
+							  AND r.id='.$round.'
 							  AND r.project_id='.(int)$project->id;
 		$query_END		= ' GROUP BY m.id ORDER BY m.match_date ASC,m.match_number';
 
@@ -309,7 +310,7 @@ class JoomleagueModelResults extends JoomleagueModelProject
 						$utcTimezone = new DateTimeZone('UTC');
 						$matchDate = new DateTime($result, $projectTimezone);
 						$matchDate->setTimeZone($utcTimezone);
-						$result = $matchDate->format('Y-m-d H:i:s'); 
+						$result = $matchDate->format('Y-m-d H:i:s');
 					}
 					if ($keys=='team1_result_split' || $keys=='team2_result_split' || $keys=='homeroster' || $keys=='awayroster')
 					{

@@ -174,15 +174,16 @@ class JoomleagueViewTeamPlayer extends JLGView
 	protected function addToolbar()
 	{
 		// Set toolbar items for the page
-		$edit = JRequest::getVar( 'edit', true );
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$edit= $jinput -> get('edit',true, 'boolean');
+		$option = $jinput -> get('option', '', 'string');
 		$params = JComponentHelper::getParams( $option );
 		$default_name_format = $params->get("name_format");
 		$name = JoomleagueHelper::formatName(null, $this->project_player->firstname, $this->project_player->nickname, $this->project_player->lastname, $default_name_format);
 		$text = !$edit ? JText::_( 'COM_JOOMLEAGUE_GLOBAL_NEW' ) : JText::_( 'COM_JOOMLEAGUE_ADMIN_TEAMPLAYER_TITLE' ). ': ' . $name;
 		JToolBarHelper::title( $text);
 		JLToolBarHelper::save('teamplayer.save');
-			
+
 		if ( !$edit )
 		{
 			JLToolBarHelper::cancel('teamplayer.cancel');

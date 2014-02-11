@@ -30,11 +30,12 @@ class JoomleagueModelTeamPlan extends JoomleagueModelProject
 	function __construct()
 	{
 		parent::__construct();
+		$jinput = JFactory::getApplication() -> input;
 
-		$this->projectid=JRequest::getInt('p',0);
-		$this->teamid=JRequest::getInt('tid',0);
-		$this->divisionid=JRequest::getInt('division',0);
-		$this->mode=JRequest::getInt("mode",0);
+		$this->projectid=$jinput -> get('p',0,'int');
+		$this->teamid=$jinput -> get('tid',0,'int');
+		$this->divisionid=$jinput -> get('division',0, 'int');
+		$this->mode=$jinput -> get('mode',0, 'int');
 	}
 
 	function getDivisionID()
@@ -143,10 +144,10 @@ class JoomleagueModelTeamPlan extends JoomleagueModelProject
 //win matches
 		if (($this->mode)== 1)
 		{
-		$query_WHERE .= ' AND ((t1.id= ' .$this->teamid 
+		$query_WHERE .= ' AND ((t1.id= ' .$this->teamid
 						. ' AND m.team1_result > m.team2_result)'
-						.' OR (t2.id= ' .$this->teamid 
-						. ' AND m.team1_result < m.team2_result))';						
+						.' OR (t2.id= ' .$this->teamid
+						. ' AND m.team1_result < m.team2_result))';
 		}
 //draw matches
 		if (($this->mode)== 2)
@@ -156,12 +157,12 @@ class JoomleagueModelTeamPlan extends JoomleagueModelProject
 //lost matches
 		if (($this->mode)== 3)
 		{
-		$query_WHERE .= ' AND ((t1.id= ' .$this->teamid 
+		$query_WHERE .= ' AND ((t1.id= ' .$this->teamid
 						. ' AND m.team1_result < m.team2_result)'
-						.' OR (t2.id= ' .$this->teamid 
-						. ' AND m.team1_result > m.team2_result))';	
+						.' OR (t2.id= ' .$this->teamid
+						. ' AND m.team1_result > m.team2_result))';
 		}
-	
+
 		if ($this->divisionid > 0)
 		{
 			$query_WHERE .= ' AND (pt1.division_id IN ('.(implode(',',$div_for_teams)).') OR pt2.division_id IN ('.(implode(',',$div_for_teams)).'))';
@@ -298,7 +299,7 @@ class JoomleagueModelTeamPlan extends JoomleagueModelProject
 								LEFT JOIN #__joomleague_project_referee AS pref ON pref.person_id=ref.id
 								LEFT JOIN #__joomleague_match_referee link ON link.project_referee_id=pref.id
 								INNER JOIN #__joomleague_project_position AS ppos ON ppos.id=link.project_position_id
-								INNER JOIN #__joomleague_position AS pos ON pos.id=ppos.position_id	
+								INNER JOIN #__joomleague_position AS pos ON pos.id=ppos.position_id
 								WHERE link.match_id=".$matches[$index]->id."
 								  AND ref.published = 1
 								  ORDER BY link.ordering";

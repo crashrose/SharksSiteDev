@@ -21,7 +21,8 @@ class JLGModel extends JModelLegacy
 	 */
 	public static function getInstance($type, $prefix = '', $config = array() )
 	{
-		$extensions = JoomleagueHelper::getExtensions(JRequest::getInt('p'));
+		$jinput = JFactory::getApplication() -> input;
+		$extensions=JoomleagueHelper::getExtensions($jinput -> get('p', 0, 'int'));
 
 		foreach ($extensions as $e => $extension)
 		{

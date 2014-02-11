@@ -24,7 +24,7 @@ jimport('joomla.filesystem.file');
 class JoomleagueControllerClub extends JoomleagueController
 {
 	protected $view_list = 'clubs';
-	
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -41,7 +41,9 @@ class JoomleagueControllerClub extends JoomleagueController
 		{
 			case 'add'     :
 				{
-					JRequest::setVar('hidemainmenu',JRequest::getVar('hidemainmenu',0));
+					$jinput = JFactory::getApplication() -> input;
+					$hidemainmenu = $jinput -> get('hidemainmenu', 0, 'int');
+					JRequest::setVar('hidemainmenu',$hidemainmenu);
 					JRequest::setVar('layout','form');
 					JRequest::setVar('view','club');
 					JRequest::setVar('edit',false);
@@ -52,7 +54,9 @@ class JoomleagueControllerClub extends JoomleagueController
 				} break;
 			case 'edit'    :
 				{
-					JRequest::setVar('hidemainmenu', JRequest::getVar('hidemainmenu',0));
+					$jinput = JFactory::getApplication() -> input;
+					$hidemainmenu = $jinput -> get('hidemainmenu', 0, 'int');
+					JRequest::setVar('hidemainmenu', $hidemainmenu);
 					JRequest::setVar('layout','form');
 					JRequest::setVar('view','club');
 					JRequest::setVar('edit',true);
@@ -70,17 +74,18 @@ class JoomleagueControllerClub extends JoomleagueController
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 		$msg='';
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(0),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$post=$input->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id']=(int) $cid[0];
 		$model=$this->getModel('club');
 		if ($clubid = $model->store($post))
 		{
 			$msg=JText::_('COM_JOOMLEAGUE_ADMIN_CLUB_CTRL_SAVED');
-			$createTeam=JRequest::getVar('createTeam');
+			$createTeam=$jinput -> get('createTeam', '', 'string');
 			if ($createTeam)
 			{
-				$team_name=JRequest::getVar('name');
+				$team_name=$jinput -> get('name', '', 'string');
 				$team_short_name=strtoupper(substr(ereg_replace("[^a-zA-Z]","",$team_name),0,3));
 				$teammodel=$this->getModel('team');
 				$tpost['id']= "0";
@@ -104,7 +109,8 @@ class JoomleagueControllerClub extends JoomleagueController
 		{
 			$link='index.php?option=com_joomleague&task=club.edit&cid[]='.$post['id'];
 		}
-		$link .= '&hidemainmenu='.JRequest::getVar('hidemainmenu',0);
+		$hidemainmenu = $jinput -> get('hidemainmenu', 0, 'int');
+		$link .= '&hidemainmenu='.$hidemainmenu;
 		$this->setRedirect($link,$msg);
 	}
 
@@ -112,7 +118,8 @@ class JoomleagueControllerClub extends JoomleagueController
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 		$user = JFactory::getUser();
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$msg='';
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_ADMIN_CLUB_CTRL_SELECT_TO_DELETE'));}
@@ -127,7 +134,7 @@ class JoomleagueControllerClub extends JoomleagueController
 				JError::raiseNotice(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 			}
 		}
-		
+
 		$model=$this->getModel('club');
 		if(!$model->delete($cid))
 		{
@@ -139,7 +146,8 @@ class JoomleagueControllerClub extends JoomleagueController
 			$msg=JText::_('COM_JOOMLEAGUE_ADMIN_CLUB_CTRL_DELETED');
 		}
 		$link .= 'index.php?option=com_joomleague&view=clubs&task=club.display';
-		$link .= '&hidemainmenu='.JRequest::getVar('hidemainmenu',0);
+		$hidemainmenu = $jinput -> get('hidemainmenu', 0, 'int');
+		$link .= '&hidemainmenu='.$hidemainmenu;
 		$this->setRedirect($link,$msg);
 	}
 
@@ -148,8 +156,10 @@ class JoomleagueControllerClub extends JoomleagueController
 		// Checkin the club
 		$model=$this->getModel('club');
 		$model->checkin();
+		$jinput = JFactory::getApplication() -> input;
+		$hidemainmenu = $jinput -> get('hidemainmenu', 0, 'int');
 		$link = 'index.php?option=com_joomleague&view=clubs&task=club.display';
-		$link .= '&hidemainmenu='.JRequest::getVar('hidemainmenu',0);
+		$link .= '&hidemainmenu='.$hidemainmenu;
 		$this->setRedirect($link);
 	}
 
@@ -163,14 +173,15 @@ class JoomleagueControllerClub extends JoomleagueController
 	public function export()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$post=$input->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_EXPORT'));}
 		$model = $this->getModel("club");
 		$model->export($cid, "club", "Club");
 	}
-	
+
 	/**
 	 * Proxy for getModel
 	 *

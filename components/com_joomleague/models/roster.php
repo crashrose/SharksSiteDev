@@ -38,10 +38,11 @@ class JoomleagueModelRoster extends JoomleagueModelProject
 	function __construct()
 	{
 		parent::__construct();
+		$jinput = JFactory::getApplication() -> input;
 
-		$this->projectid=JRequest::getInt('p',0);
-		$this->teamid=JRequest::getInt('tid',0);
-		$this->projectteamid=JRequest::getInt('ttid',0);
+		$this->projectid=$jinput -> get('p',0,'int');
+		$this->teamid=$jinput -> get('tid',0,'int');
+		$this->projectteamid=J$jinput -> get('ttid',0, 'int');
 		$this->getProjectTeam();
 	}
 
@@ -71,7 +72,7 @@ class JoomleagueModelRoster extends JoomleagueModelProject
 				}
 				$query='	SELECT	pt.id
 							FROM #__joomleague_project_team AS pt
-							WHERE pt.team_id='.$this->_db->Quote($this->teamid).' 
+							WHERE pt.team_id='.$this->_db->Quote($this->teamid).'
 							  AND pt.project_id='.$this->_db->Quote($this->projectid);
 				$this->_db->setQuery($query);
 				$this->projectteamid = $this->_db->loadObject()->id;
@@ -119,7 +120,7 @@ class JoomleagueModelRoster extends JoomleagueModelProject
 		$projectteam = $this->getprojectteam();
 		if (empty($this->_players))
 		{
-			$query='	SELECT	pr.firstname, 
+			$query='	SELECT	pr.firstname,
 								pr.nickname,
 								pr.lastname,
 								pr.country,
@@ -168,7 +169,7 @@ class JoomleagueModelRoster extends JoomleagueModelProject
 	function getStaffList()
 	{
 		$projectteam = $this->getprojectteam();
-		$query='	SELECT	pr.firstname, 
+		$query='	SELECT	pr.firstname,
 							pr.nickname,
 							pr.lastname,
 							pr.country,
@@ -186,7 +187,7 @@ class JoomleagueModelRoster extends JoomleagueModelProject
 							ts.suspension AS suspension,
 							ts.away AS away,
 							pos.parent_id,
-							posparent.name AS parentname,				
+							posparent.name AS parentname,
 							CASE WHEN CHAR_LENGTH(pr.alias) THEN CONCAT_WS(\':\',pr.id,pr.alias) ELSE pr.id END AS slug
 					FROM #__joomleague_team_staff ts
 					INNER JOIN #__joomleague_person AS pr ON ts.person_id=pr.id
@@ -253,7 +254,7 @@ class JoomleagueModelRoster extends JoomleagueModelProject
 				$playerstats[$projectPositionId] = array();
 			}
 			$playerstats[$projectPositionId][$eventTypeId] = $this->getPositionEventStat($this->projectteamid, $projectPositionId, $eventTypeId);
-		} 
+		}
 		return $playerstats;
 	}
 
@@ -268,7 +269,7 @@ class JoomleagueModelRoster extends JoomleagueModelProject
 		$result=$this->_db->loadObjectList();
 		return $result;
 	}
-	
+
 	function getPositionEventStat($projectTeamId, $projectPositionId, $eventTypeId)
 	{
 		$query	= ' FROM       #__joomleague_team_player        AS tp'
@@ -289,10 +290,10 @@ class JoomleagueModelRoster extends JoomleagueModelProject
 		$this->_db->setQuery('SELECT COALESCE(sum(me.event_sum),0) AS value'.$query);
 		$result["totals"] = $this->_db->loadObject();
 		$result["totals"]->person_id = 0;
-		
+
 		return $result;
 	}
-	
+
 	function getInOutStats($player_id)
 	{
 		$teaminout=&$this->_getTeamInOutStats();
@@ -351,7 +352,7 @@ class JoomleagueModelRoster extends JoomleagueModelProject
 				$this->_teaminout[$row->person_id1]->started += ($row->came_in == 0);
 				$this->_teaminout[$row->person_id1]->sub_in  += ($row->came_in == 1);
 				$this->_teaminout[$row->person_id1]->sub_out += ($row->out == 1);
-							
+
 				// Handle the second player tp2 (only applicable when one goes out AND another comes in; tp2 is the player that goes out)
 				if (isset($row->person_id2))
 				{
@@ -410,8 +411,8 @@ class JoomleagueModelRoster extends JoomleagueModelProject
 					INNER JOIN #__joomleague_round AS r ON r.project_id=pt.project_id
 					INNER JOIN #__joomleague_project_position AS ppos ON ppos.id=tp.project_position_id
 					INNER JOIN #__joomleague_position AS pos ON pos.id=ppos.position_id
-					WHERE r.id=".$round_id." 
-					  AND tp.id=".$player_id." 
+					WHERE r.id=".$round_id."
+					  AND tp.id=".$player_id."
 					  AND pr.published = '1'
 					  AND tp.published = '1'
 					  ";

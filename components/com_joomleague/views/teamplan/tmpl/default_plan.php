@@ -3,16 +3,17 @@
 if ($this->config['show_comments_count'] == 1 || $this->config['show_comments_count'] == 2)
 {
 	$plugin = JoomleagueHelper::getCommentsIntegrationPlugin();
-	
+
 	$pluginParams = is_object($plugin) ? json_decode($plugin->params) : Array();
 	$separate_comments 	= $pluginParams->separate_comments;
 }
 ?>
 <a name="jl_top" id="jl_top"></a>
 <?php
+$jinput = JFactory::getApplication() -> input;
 if (!empty($this->matches))
 {
-$teamid=JRequest::getInt('tid');
+$teamid=$jinput -> get('tid',0,'int');
 $nbcols = 0;
 ?>
 
@@ -539,7 +540,7 @@ $nbcols = 0;
 
 		$isFavTeam = in_array($guestteam->id, $this->favteams);
 		$away = JoomleagueHelper::formatTeamName($guestteam,"g".$match->id."t".$guestteam->id,$this->config, $isFavTeam, $awaylink);
-		
+
 		$teamB .= '<td class="'.$class2.'">'.$away.'</td>';
 
 		if (!$match->cancel)
@@ -651,7 +652,7 @@ $nbcols = 0;
 
             if ($this->config['results_linkable']==1) {
 		$result = JHtml::link($link,$result);
-	    } 
+	    }
 
             $ResultsTooltipTp = '( ';
             $PartResult = '';

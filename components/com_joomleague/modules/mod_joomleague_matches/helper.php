@@ -91,7 +91,7 @@ class modMatchesHelper {
 		}
 		return $array;
 	}
-	
+
 	public function sortArray($array, $comparefunction, $property = '') {
 		$zcount = count($array);
 		for ($i = 1; $i < $zcount; $i++) {
@@ -121,7 +121,7 @@ class modMatchesHelper {
 		return 0;
 		return 1;
 	}
-	
+
 	public function array_trim($a) {
 		$j = 0;
 		$b = array ();
@@ -133,7 +133,7 @@ class modMatchesHelper {
 		}
 		return $b;
 	}
-	
+
 	private function addusedprojects() {
 		$usedp = $this->params->get('project');
 		if (is_array($usedp)) {
@@ -145,11 +145,11 @@ class modMatchesHelper {
 			$this->usedteams[$usedp] = array ();
 		}
 	}
-	
+
 	public function usedteamscheck($team_id, $project_id) {
 		return ((isset ($this->usedteams[0]) AND is_array($this->usedteams[0]) AND in_array($team_id, $this->usedteams[0])) OR (isset ($this->usedteams[$project_id]) AND is_array($this->usedteams[$project_id]) AND in_array($team_id, $this->usedteams[$project_id]))) ? 1 : 0;
 	}
-	
+
 	public function addteamicon($which) {
 		$path = ($this->iconpath) ? $this->iconpath . 'teamlinks/' : false;
 		if ($path) {
@@ -158,7 +158,7 @@ class modMatchesHelper {
 			return $this->params->get($which . '_text') . '<br />';
 		}
 	}
-	
+
 	public function getTeamDetails(& $team, $nr) {
 		if (!is_object($team))
 		return false;
@@ -186,7 +186,7 @@ class modMatchesHelper {
 		$teamdetails['name'] .= '</span>';
 		return $teamdetails;
 	}
-	
+
 	public function getpix($team) {
 		$pt = $this->params->get('picture_type');
 		if ($this->params->get('show_picture') == 0)
@@ -215,7 +215,7 @@ class modMatchesHelper {
 		$pic['append'] = $appendimage;
 		return $pic;
 	}
-	
+
 	public function formatResults(& $row, & $match) {
 		$live = ($match->live == 'z') ? 0 : 1;
 		$mrt = array (
@@ -289,7 +289,7 @@ class modMatchesHelper {
 		if ($live == 0)
 		$row['result'] .= $mrt[$match->match_result_type][$live];
 	}
-	
+
 	public function createMatchInfo(& $row, $match) {
 		$row['notice'] = ($match->match_result_detail != '' AND $this->params->get('show_match_notice') == 1) ? $match->match_result_detail : '';
 		if ($this->params->get('show_referee', 1) == 1 AND $match->refname != '') {
@@ -316,7 +316,7 @@ class modMatchesHelper {
 			$row['spectators'] = '';
 		}
 	}
-	
+
 	public function formatMatches(& $matches) {
 		if ($this->params->get('lastsortorder') == 'desc') {
 			$matches = $this->sortObject($matches, 'desc', 'alreadyplayed');
@@ -330,7 +330,8 @@ class modMatchesHelper {
 		$teams = $this->getTeamsFromMatches($matches);
 		$rows = array ();
 		$useicons = $this->iconpath;
-		$cnt = JRequest :: getVar('nr', 0, 'default', 'POST');
+		$jinput = JFactory::getApplication() -> input;
+		$cnt = $jinput -> get('nr', 0, 'int');
 		$hteam = false;
 		$ateam = false;
 		foreach ((array) $matches AS $key => $match) {
@@ -411,7 +412,7 @@ class modMatchesHelper {
 		}
 		return $rows;
 	}
-	
+
 	public function getTimeLimit() {
 		$livematchestime = "IF((p.allow_add_time > 0), ((p.game_regular_time+(p.game_parts * p.halftime)) + p.add_time), (p.game_regular_time+(p.game_parts * p.halftime)))";
 		$timeforfirstmatch = "DATE_SUB(" . $this->getDateString() . ", INTERVAL $livematchestime MINUTE) > NOW()";
@@ -426,7 +427,7 @@ class modMatchesHelper {
 		$wheretime .= ")";
 		return $wheretime;
 	}
-	
+
 	public function createAjaxMenu(& $row, $cnt) {
 		if ($this->params->get('next_last', 0) == 0) {
 			$row->ajax = false;
@@ -438,7 +439,8 @@ class modMatchesHelper {
 		else {
 		$this->next_last($row);
 		}
-		$origin = JRequest :: getVar('origin', $row->match_id, 'default', 'POST');
+		$jinput = JFactory::getApplication() -> input;
+		$origin = $jinput -> get('origin', $row->match_id, 'int');
 		$jsfunc = "jlml_loadMatch('%s', '%s', '" . $this->module_id . "', '" . $cnt . "', '%s')";
 		$options = array (
 			'height' => '16',
@@ -513,7 +515,7 @@ class modMatchesHelper {
 			$temp .= '</div>';
 			$row->ajax = $temp;
 	}
-	
+
 	public function arrayToUri(& $arr) {
 		if (!is_array($arr))
 		return false;

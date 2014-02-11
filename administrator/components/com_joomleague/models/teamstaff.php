@@ -132,7 +132,7 @@ class JoomleagueModelTeamStaff extends JoomleagueModelItem
 	 */
 	function getProjectPositions()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id=$mainframe->getUserState($option.'project');
 		$query="	SELECT ppos.id AS value, pos.name AS text
@@ -160,7 +160,7 @@ class JoomleagueModelTeamStaff extends JoomleagueModelItem
 	 */
 	function getProjectMatchdays()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id=$mainframe->getUserState($option.'project');
 		$query="	SELECT roundcode AS value, name AS text

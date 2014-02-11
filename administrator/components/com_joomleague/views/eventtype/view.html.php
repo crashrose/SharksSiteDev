@@ -36,7 +36,7 @@ class JoomleagueViewEventtype extends JLGView
 
 	function _displayForm($tpl)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 
 		$db = JFactory::getDbo();
@@ -65,9 +65,9 @@ class JoomleagueViewEventtype extends JLGView
 		$this->event = $event;
 		//$extended = $this->getExtended($projectreferee->extended, 'eventtype');
 		//$this->assignRef( 'extended', $extended );
-		
-		$this->form = $this->get('form');		
-		$this->addToolbar();			
+
+		$this->form = $this->get('form');
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 	/**
@@ -76,10 +76,12 @@ class JoomleagueViewEventtype extends JLGView
 	* @since	1.7
 	*/
 	protected function addToolbar()
-	{	
-	
+	{
+
 		// Set toolbar items for the page
-		$edit=JRequest::getVar('edit',true);
+
+		$jinput = JFactory::getApplication() -> input;
+		$edit= $jinput -> get('edit',true, 'boolean');
 		$text=!$edit ? JText::_('COM_JOOMLEAGUE_GLOBAL_NEW') : JText::_('COM_JOOMLEAGUE_GLOBAL_EDIT'). ': ' . JText::_($this->event->name);
 		JToolBarHelper::title((JText::_('COM_JOOMLEAGUE_ADMIN_EVENTTYPE_EVENT').': <small><small>[ '.$text.' ]</small></small>'),'events');
 		JLToolBarHelper::save('eventtype.save');
@@ -89,7 +91,7 @@ class JoomleagueViewEventtype extends JLGView
 			JLToolBarHelper::cancel('eventtype.cancel');
 		}
 		else
-		{		
+		{
 			// for existing items the button is renamed `close` and the apply button is showed
 			JLToolBarHelper::apply('eventtype.apply');
 			JToolBarHelper::divider();

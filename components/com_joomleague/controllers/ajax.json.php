@@ -24,83 +24,85 @@ class JoomleagueControllerAjax extends JoomleagueController
 		$document->setMimeEncoding('application/json');
 		parent::__construct();
 	}
-	
+
 	public function getprojectsoptions()
 	{
 		$app = JFactory::getApplication();
-		
-		$season = Jrequest::getInt('s');
-		$league = Jrequest::getInt('l');
-		$ordering = Jrequest::getInt('o');
-		
+		$jinput = JFactory::getApplication() -> input;
+
+		$season = $jinput -> get('s', 0, 'int');
+		$league = $jinput -> get('l', 0, 'int');
+		$ordering = $jinput -> get('o', 0, 'int');
+
 		$model = $this->getModel('ajax');
-		
+
 		$res = $model->getProjectsOptions($season, $league, $ordering);
-		
+
 		echo json_encode($res);
-		
+
 		$app->close();
 	}
-	
+
 	public function getroute()
 	{
-		$view = Jrequest::getCmd('view');
-	
+		$jinput = JFactory::getApplication() -> input;
+		$view = $jinput -> get('view', '', 'string');
+
 		switch ($view)
 		{
 			case "matrix":
-				$link = JoomleagueHelperRoute::getMatrixRoute( JRequest::getVar('p'), JRequest::getVar('division'), JRequest::getVar('r') );
+				$link = JoomleagueHelperRoute::getMatrixRoute($jinput -> get('p', '', 'string'),$jinput -> get('division', '', 'string'),$jinput -> get('r', '', 'string') );
 				break;
-				
+
 			case "teaminfo":
-				$link = JoomleagueHelperRoute::getTeamInfoRoute( JRequest::getVar('p'), JRequest::getVar('tid') );
+				$link = JoomleagueHelperRoute::getTeamInfoRoute($jinput -> get('p', '', 'string'), $jinput -> get('tid', '', 'string') );
 				break;
-				
+
 			case "referees":
-				$link = JoomleagueHelperRoute::getRefereesRoute( JRequest::getVar('p') );
+				$link = JoomleagueHelperRoute::getRefereesRoute($jinput -> get('p', '', 'string') );
 				break;
-				
+
 			case "results":
-				$link = JoomleagueHelperRoute::getResultsRoute( JRequest::getVar('p'), JRequest::getVar('r'), JRequest::getVar('division') );
+				$link = JoomleagueHelperRoute::getResultsRoute($jinput -> get('p', '', 'string'),$jinput -> get('r', '', 'string'),$jinput -> get('division', '', 'string') );
 				break;
-				
+
 			case "resultsranking":
-				$link = JoomleagueHelperRoute::getResultsRankingRoute( JRequest::getVar('p') );
+				$link = JoomleagueHelperRoute::getResultsRankingRoute($jinput -> get('p', '', 'string') );
 				break;
-				
+
 			case "rankingmatrix":
-				$link = JoomleagueHelperRoute::getRankingMatrixRoute( JRequest::getVar('p'), JRequest::getVar('r'), JRequest::getVar('division') );
+				$link = JoomleagueHelperRoute::getRankingMatrixRoute($jinput -> get('p', '', 'string'),$jinput -> get('r', '', 'string'),$jinput -> get('division', '', 'string') );
 				break;
-				
+
 			case "resultsrankingmatrix":
-				$link = JoomleagueHelperRoute::getResultsRankingMatrixRoute( JRequest::getVar('p'), JRequest::getVar('r'), JRequest::getVar('division') );
+				$link = JoomleagueHelperRoute::getResultsRankingMatrixRoute($jinput -> get('p', '', 'string'),$jinput -> get('r', '', 'string'),$jinput -> get('division', '', 'string') );
 				break;
-				
+
 			case "teamplan":
-				$link = JoomleagueHelperRoute::getTeamPlanRoute( JRequest::getVar('p'), JRequest::getVar('tid'), JRequest::getVar('division') );
+				$link = JoomleagueHelperRoute::getTeamPlanRoute($jinput -> get('p', '', 'string'), $jinput -> get('tid', '', 'string'),$jinput -> get('division', '', 'string') );
 				break;
-				
+
 			case "roster":
-				$link = JoomleagueHelperRoute::getPlayersRoute( JRequest::getVar('p'), JRequest::getVar('tid') );
+				$link = JoomleagueHelperRoute::getPlayersRoute($jinput -> get('p', '', 'string'), $jinput -> get('tid', '', 'string') );
 				break;
-				
-			case "eventsranking":				
-				$link = JoomleagueHelperRoute::getEventsRankingRoute( JRequest::getVar('p'), JRequest::getVar('division'),JRequest::getVar('tid') );
+
+			case "eventsranking":
+				$link = JoomleagueHelperRoute::getEventsRankingRoute($jinput -> get('p', '', 'string'),$jinput -> get('division', '', 'string'),$jinput -> get('tid', '', 'string') );
 				break;
-				
+
 			case "curve":
-				$link = JoomleagueHelperRoute::getCurveRoute( JRequest::getVar('p'),JRequest::getVar('tid'),0, JRequest::getVar('division') );
+				$link = JoomleagueHelperRoute::getCurveRoute($jinput -> get('p', '', 'string'),$jinput -> get('tid', '', 'string'),0,$jinput -> get('division', '', 'string') );
 				break;
-				
+
 			case "statsranking":
-				$link = JoomleagueHelperRoute::getStatsRankingRoute( JRequest::getVar('p'), JRequest::getVar('division') );
+				$link = JoomleagueHelperRoute::getStatsRankingRoute($jinput -> get('p', '', 'string'),$jinput -> get('division', '', 'string') );
 				break;
-								
+
 			default:
 			case "ranking":
-				$link = JoomleagueHelperRoute::getRankingRoute( JRequest::getVar('p'),JRequest::getVar('r'),null,null,0,JRequest::getVar('division') );
+				$link = JoomleagueHelperRoute::getRankingRoute($jinput -> get('p', '', 'string'),$jinput -> get('r', '', 'string'),null,null,0,$jinput -> get('division', '', 'string') );
 		}
-		
+
 		echo json_encode($link);
 	}
 }

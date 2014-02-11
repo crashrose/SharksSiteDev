@@ -19,7 +19,8 @@ class JoomleagueControllerRoster extends JoomleagueController
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the view name from the query string
-		$viewName = JRequest::getVar( 'view', 'roster' );
+		$jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'roster', 'string' );
 
 		// Get the view
 		$view = $this->getView( $viewName );

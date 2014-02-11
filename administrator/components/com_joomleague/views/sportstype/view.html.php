@@ -39,7 +39,7 @@ class JoomleagueViewSportsType extends JLGView
 
 	function _displayForm($tpl)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDbo();
 		$uri = JFactory::getURI();
@@ -67,7 +67,7 @@ class JoomleagueViewSportsType extends JLGView
 		$this->form =  $this->get('form');
 		//$extended = $this->getExtended($sportstype->extended, 'sporttype');
 		//$this->assignRef( 'extended', $extended );
-		$this->addToolbar();		
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
@@ -77,9 +77,10 @@ class JoomleagueViewSportsType extends JLGView
 	* @since	1.7
 	*/
 	protected function addToolbar()
-	{	
+	{
 		// Set toolbar items for the page
-		$edit=JRequest::getVar('edit',true);
+		$jinput = JFactory::getApplication() -> input;
+		$edit= $jinput -> get('edit',true, 'boolean');
 		$text=!$edit ? JText::_('COM_JOOMLEAGUE_GLOBAL_NEW') : JText::_('COM_JOOMLEAGUE_GLOBAL_EDIT');
 
 		JLToolBarHelper::save('sportstype.save');
@@ -99,7 +100,7 @@ class JoomleagueViewSportsType extends JLGView
 			JLToolBarHelper::cancel('sportstype.cancel','COM_JOOMLEAGUE_GLOBAL_CLOSE');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.joomleague',true);	
-	}	
+		JToolBarHelper::help('screen.joomleague',true);
+	}
 }
 ?>

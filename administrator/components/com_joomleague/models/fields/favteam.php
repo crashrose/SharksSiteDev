@@ -38,17 +38,19 @@ class JFormFieldFavteam extends JFormFieldList
 		// Initialize variables.
 		$options = array();
 
+		$jinput = JFactory::getApplication() -> input;
 		$varname = (string) $this->element['varname'];
-		$project_id = JRequest::getVar($varname);
+		$project_id = $jinput -> get($varname, array(), 'array');
+
 		if (is_array($project_id)) {
 			$project_id = $project_id[0];
 		}
-		
+
 		if ($project_id)
-		{		
+		{
 			$db = &JFactory::getDbo();
 			$query = $db->getQuery(true);
-			
+
 			$query->select('pt.team_id AS value, t.name AS text');
 			$query->from('#__joomleague_team AS t');
 			$query->join('inner', '#__joomleague_project_team AS pt ON pt.team_id=t.id');
@@ -57,7 +59,7 @@ class JFormFieldFavteam extends JFormFieldList
 			$db->setQuery($query);
 			$options = $db->loadObjectList();
 		}
-		
+
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
 		return $options;

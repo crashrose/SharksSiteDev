@@ -26,7 +26,7 @@ class JoomleagueViewTemplate extends JLGView
 {
 	function display($tpl=null)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
 		$uri = JFactory::getURI();
 		$user = JFactory::getUser();
@@ -48,7 +48,7 @@ class JoomleagueViewTemplate extends JLGView
 		$templatepath=JPATH_COMPONENT_SITE.DIRECTORY_SEPARATOR.'settings';
 		$xmlfile=$templatepath.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.$template->template.'.xml';
 
-		$extensions = JoomleagueHelper::getExtensions(JRequest::getInt('p'));
+		$extensions = JoomleagueHelper::getExtensions($jinput -> get('p',0,'int'););
 		foreach ($extensions as $e => $extension) {
 			$extensiontpath =  JPATH_COMPONENT_SITE .DIRECTORY_SEPARATOR. 'extensions' .DIRECTORY_SEPARATOR. $extension;
 			if (is_dir($extensiontpath.DIRECTORY_SEPARATOR.'settings'.DIRECTORY_SEPARATOR.'default'))
@@ -59,11 +59,11 @@ class JoomleagueViewTemplate extends JLGView
 				}
 			}
 		}
-		
+
 		$form =& JForm::getInstance($template->template, $xmlfile,
 									array('control'=> 'params'));
 		$form->bind($template->params);
-		
+
 		$master_id=($projectws->master_template) ? $projectws->master_template : '-1';
 		$templates=array();
 		//$templates[]=JHtml::_('select.option','0',JText::_('COM_JOOMLEAGUE_ADMIN_TEMPLATE_OTHER_TEMPLATE' ),'value','text');
@@ -97,8 +97,8 @@ class JoomleagueViewTemplate extends JLGView
 	protected function addToolbar()
 	{
 		// Set toolbar items for the page
-		$edit=JRequest::getVar('edit',true);
-
+		$jinput = JFactory::getApplication() -> input;
+		$edit= $jinput -> get('edit',true, 'boolean');
 		JLToolBarHelper::save('template.save');
 		JLToolBarHelper::apply('template.apply');
 

@@ -1,5 +1,5 @@
-<?php 
-defined('_JEXEC') or die('Restricted access'); 
+<?php
+defined('_JEXEC') or die('Restricted access');
 $option = 'com_joomleague';
 ?>
 <!--[if gt IE 5.5]>
@@ -65,7 +65,7 @@ window.addEvent('domready', function() {
 				$title	= '';
 				$image	= '';
 				$text	= '';
-				
+
 				echo JHtml::_('sliders.start','sliders',array(
 												'allowAllClose' => true,
 												'startOffset' => $this->active,
@@ -86,9 +86,8 @@ window.addEvent('domready', function() {
 								$text	=& $label[$n][$i];
 								$allowed= true;
 								$data 	= JUri::getInstance($href)->getQuery(true);
-								$jinput = new JInput($data);
-								$task 	= $jinput->getCmd('task');
-								//$option = JRequest::getCmd('option');
+								$jinput = JFactory::getApplication() -> input;
+								$task = $jinput -> get('task', '', 'string');
 								if($task != '' && $option == 'com_joomleague')  {
 									if (!JFactory::getUser()->authorise($task, 'com_joomleague')) {
 										//display the task which is not handled by the access.xml

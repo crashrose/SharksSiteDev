@@ -20,6 +20,8 @@ class JoomleagueViewTeamPlayer extends JLGView
 	 **/
 	function display( $tpl = null )
 	{
+		$jinput = JFactory::getApplication() -> input;
+		$p= $jinput -> get('p','','string');
 		// Get some data from the model
 		$db	= JFactory::getDbo();
 
@@ -28,7 +30,7 @@ class JoomleagueViewTeamPlayer extends JLGView
 							FROM #__joomleague_team_player AS plt
 							INNER JOIN #__joomleague_project_team AS pt ON pt.id = plt.projectteam_id
 							INNER JOIN #__joomleague_person AS pl ON pl.id=plt.person_id
-							WHERE pt.project_id='" . JRequest::getVar( 'p' ) . "' AND pl.published = '1' ORDER BY pl.lastname");
+							WHERE pt.project_id='" . $p . "' AND pl.published = '1' ORDER BY pl.lastname");
 
 		$dropdrowlistoptions =  JHtml::_( 'select.options', $db->loadObjectList(), 'value', 'pid' );
 

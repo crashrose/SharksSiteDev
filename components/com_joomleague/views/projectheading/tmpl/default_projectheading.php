@@ -1,6 +1,7 @@
 <?php defined( '_JEXEC' ) or die( 'Restricted access' );
-if ($this->overallconfig['show_print_button'] == 1 && 
-	JRequest::getVar('print') == 1) {
+$jinput = JFactory::getApplication() -> input;
+if ($this->overallconfig['show_print_button'] == 1 &&
+	$jinput -> get('print', 0, 'int') == 1) {
 	$document = JFactory::getDocument();
 	$content = "window.addEvent('domready', function(){ window.print(); });";
 	$document->addScriptDeclaration($content);
@@ -21,7 +22,7 @@ if ( $this->overallconfig['show_division_text'] ) {
 if ( $this->overallconfig['show_project_heading'] == 1 && $this->project)
 {
 	if ($this->project && $this->project->project_type == 'DIVISIONS_LEAGUE') {
-		$division_id = JRequest::getInt('division', 0);
+		$division_id = $jinput -> get('division',0,'int');;
 		if(empty($this->division) && $division_id >0) {
 			$model = JModelLegacy::getInstance('project', 'JoomLeagueModel');
 			$division = $model->getDivision($division_id);
@@ -31,7 +32,7 @@ if ( $this->overallconfig['show_project_heading'] == 1 && $this->project)
 	if($this->overallconfig['show_project_text'] ||
 		$this->overallconfig['show_project_picture'] ||
 		$this->overallconfig['show_division_picture'] ||
-		($this->overallconfig['show_print_button'] == 1 && JRequest::getVar('print') != 1)
+		($this->overallconfig['show_print_button'] == 1 && $jinput -> get('print', 0, 'int') != 1)
 	) {
 	?>
 <div class="componentheading">
@@ -89,14 +90,14 @@ if ( $this->overallconfig['show_project_heading'] == 1 && $this->project)
 					}
 				}
 				if($this->overallconfig['show_print_button'] == 1) {
-					if(JRequest::getVar('print') != 1) {
+					if($jinput -> get('print', 0, 'int') != 1) {
 						echo '<td>';
 						$overallconfig = $this->overallconfig;
 						echo '<td class="buttonheading">';
 						echo JoomleagueHelper::printbutton(null, $overallconfig);
 						echo '&nbsp;</td>';
 					} else {
-						
+
 					}
 				}
 				echo '</td>';
@@ -108,14 +109,14 @@ if ( $this->overallconfig['show_project_heading'] == 1 && $this->project)
 <?php
 	}
 } else {
-	if ($this->overallconfig['show_print_button'] == 1 && JRequest::getVar('print') != 1) {
+	if ($this->overallconfig['show_print_button'] == 1 && $jinput -> get('print', 0, 'int') != 1) {
 	?>
 <div class="componentheading">
 	<table class="contentpaneopen">
 		<tbody>
 			<tr class="contentheading">
 				<td class="buttonheading" align="right"><?php
-				if(JRequest::getVar('print') != 1) {
+				if($jinput -> get('print', 0, 'int') != 1) {
 				  echo JoomleagueHelper::printbutton(null, $this->overallconfig);
 				}
 				?> &nbsp;</td>

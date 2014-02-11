@@ -27,7 +27,8 @@ class JoomleagueControllerRanking extends JoomleagueController
     public function showranking( )
     {
         // Get the view name from the query string
-        $viewName = JRequest::getVar( "view", "ranking" );
+        $jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'ranking', 'string');
 
         // Get the view
         $view = $this->getView( $viewName );

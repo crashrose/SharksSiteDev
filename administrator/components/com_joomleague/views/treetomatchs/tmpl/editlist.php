@@ -3,7 +3,7 @@
 JHtml::_( 'behavior.tooltip' );
 
 // Set toolbar items for the page
-//$edit = JRequest::getVar('edit',true);
+//$edit = $jinput -> get('edit',true, 'boolean');
 
 JToolBarHelper::title( JText::_( 'COM_JOOMLEAGUE_ADMIN_TREETOMATCH_ASSIGN' ) );
 

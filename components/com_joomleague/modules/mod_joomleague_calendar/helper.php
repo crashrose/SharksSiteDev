@@ -226,7 +226,8 @@ class JLCalendar extends PHPCalendar
 	//this function is called to get the links of the two arrows in the header.
 	function getCalendarLink($month, $year)
 	{
-		$getquery = JRequest::get('GET'); //get the GET query
+		$jinput = JFactory::getApplication() -> input;
+		$getquery=$jinput->get; //get the GET query
 		$calendarLink= JUri::current().'?'; //get the current url, without the GET query; and add "?", to set the GET vars
 
 		foreach($getquery as $key => $value){  /*this bucle goes through every GET variable that was in the url*/

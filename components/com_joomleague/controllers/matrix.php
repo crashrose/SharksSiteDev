@@ -27,7 +27,8 @@ class JoomleagueControllerMatrix extends JoomleagueController
     public function showmatrix( )
     {
         // Get the view name from the query string
-        $viewName = JRequest::getVar( "view", "matrix" );
+        $jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'matrix', 'string');
 
         // Get the view
         $view = $this->getView( $viewName );

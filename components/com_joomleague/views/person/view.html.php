@@ -15,7 +15,9 @@ class JoomleagueViewPerson extends JLGView
 
 		// Get the type of persondata to be shown from the query string
 		// pt==1 ==> as player // pt==2 ==> as staffmember  // pt==3 ==> as referee // pt==4 ==> as club-staffmember
-		$showType = JRequest::getVar( 'pt', '1', 'default', 'int' ); if ($showType > 3) { $showType = 1; }
+		$jinput = JFactory::getApplication() -> input;
+		$showType = $jinput -> get('pt', 1, 'int' );
+		if ($showType > 3) { $showType = 1; }
 		$person = $model->getPerson();
 		$this->assignRef('showType',		$showType );
 		$this->assignRef('project',			$model->getProject() );
@@ -24,7 +26,7 @@ class JoomleagueViewPerson extends JLGView
 		$this->assignRef('person',			$person );
 		//$extended = $this->getExtended($person->extended, 'person');
 		//$this->assignRef( 'extended', $extended );
-		switch ($showType) 
+		switch ($showType)
 		{
 			case '4':
 				$titleStr = 'About %1$s %2$s as a Club staff';

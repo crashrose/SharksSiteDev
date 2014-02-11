@@ -35,7 +35,8 @@ class JoomleagueControllerTreetomatch extends JoomleagueController
 
 	public function display($cachable = false, $urlparams = false)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
@@ -47,18 +48,18 @@ class JoomleagueControllerTreetomatch extends JoomleagueController
 		$projectws=$this->getModel('project');
 		$projectws->setId($mainframe->getUserState($option.'project',0));
 		$view->setModel($projectws);
-			if ( $nid = JRequest::getVar( 'nid', null, '', 'array' ) )
+			if ( $nid = $jinput -> get('nid', array(), 'array'))
 		{
 			$mainframe->setUserState( $option . 'node_id', $nid[0] );
 		}
-		if ( $tid = JRequest::getVar( 'tid', null, '', 'array' ) )
+		if ( $tid = $jinput -> get('tid', array(), 'array') )
 		{
 			$mainframe->setUserState( $option . 'treeto_id', $tid[0] );
 		}
 		$nodews = $this->getModel( 'treetonode' );
 		$nodews->setId( $mainframe->getUserState( $option.'node_id') );
 		$view->setModel( $nodews );
-		
+
 		switch($this->getTask())
 		{
 			case 'edit'	:
@@ -68,7 +69,7 @@ class JoomleagueControllerTreetomatch extends JoomleagueController
 				$view=$this->getView('treetomatch',$viewType);
 				$view->setModel($model,true);	// true is for the default model;
 				$view->setModel($projectws);
-				
+
 				JRequest::setVar('hidemainmenu',0);
 				JRequest::setVar('layout','form');
 				JRequest::setVar('view','treetomatch');
@@ -89,7 +90,8 @@ class JoomleagueControllerTreetomatch extends JoomleagueController
 
 	public function editlist()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 
 		$mainframe	= JFactory::getApplication();
 		$document	= JFactory::getDocument();
@@ -101,19 +103,19 @@ class JoomleagueControllerTreetomatch extends JoomleagueController
 		$projectws = $this->getModel ('project');
 		$projectws->setId($mainframe->getUserState($option . 'project', 0));
 		$view->setModel($projectws);
-		
-			if ( $nid = JRequest::getVar( 'nid', null, '', 'array' ) )
+
+			if ( $nid = $jinput -> get('nid', array(), 'array') )
 		{
 			$mainframe->setUserState( $option . 'node_id', $nid[0] );
 		}
-		if ( $tid = JRequest::getVar( 'tid', null, '', 'array' ) )
+		if ( $tid = $jinput -> get('tid', array(), 'array') )
 		{
 			$mainframe->setUserState( $option . 'treeto_id', $tid[0] );
 		}
 		$nodews = $this->getModel( 'treetonode' );
 		$nodews->setId( $mainframe->getUserState( $option.'node_id') );
 		$view->setModel( $nodews );
-		
+
 		JRequest::setVar('hidemainmenu', 0);
 		JRequest::setVar('layout', 'editlist' );
 		JRequest::setVar('view', 'treetomatchs');
@@ -127,8 +129,9 @@ class JoomleagueControllerTreetomatch extends JoomleagueController
 
 	public function save_matcheslist()
 	{
-		$post	= JRequest::get('post');
-		$cid	= JRequest::getVar('cid', array(0), 'post', 'array');
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id'] = (int) $cid[0];
 
 		$model = $this->getModel('treetomatchs');
@@ -150,7 +153,7 @@ class JoomleagueControllerTreetomatch extends JoomleagueController
 
 	public function publish()
 	{
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_PUBLISH'));}
 		$model=$this->getModel('treetomatch');
@@ -160,7 +163,7 @@ class JoomleagueControllerTreetomatch extends JoomleagueController
 
 	public function unpublish()
 	{
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_UNPUBLISH'));}
 		$model=$this->getModel('treetomatch');

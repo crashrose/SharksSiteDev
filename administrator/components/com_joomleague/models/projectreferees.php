@@ -52,7 +52,7 @@ class JoomleagueModelProjectReferees extends JoomleagueModelList
 
 	function _buildContentOrderBy()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$filter_order		= $mainframe->getUserStateFromRequest($option.'p_filter_order',		'filter_order',		'p.lastname',	'cmd');
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest($option.'p_filter_order_Dir',	'filter_order_Dir',	'',				'word');
@@ -69,7 +69,7 @@ class JoomleagueModelProjectReferees extends JoomleagueModelList
 
 	function _buildContentWhere()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id=$mainframe->getUserState($option.'project');
 		$search			= $mainframe->getUserStateFromRequest($option.'p_search',		'search',		'',		'string');
@@ -172,7 +172,7 @@ class JoomleagueModelProjectReferees extends JoomleagueModelList
 		*/
 	function getPositions()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id=$mainframe->getUserState($option.'project');
 		$query='	SELECT	pp.id AS value,
@@ -206,7 +206,7 @@ class JoomleagueModelProjectReferees extends JoomleagueModelList
 	 */
 	function getRefereePositions()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id=$mainframe->getUserState($option.'project');
 		$query='	SELECT	ppos.id AS value,

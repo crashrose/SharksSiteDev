@@ -68,8 +68,8 @@ class JoomleagueConnector extends JLCalendar{
 		$limitingconditions = array();
 
 		$database = JFactory::getDbo();
-
-		$customteam = JRequest::getVar('jlcteam',0,'default','POST');
+		$jinput = JFactory::getApplication() -> input;
+		$customteam = $jinput -> get('jlcteam',0,'int');
 		$teamid		= $this->xparams->get('team_ids') ;
 
 
@@ -289,7 +289,8 @@ class JoomleagueConnector extends JLCalendar{
 		$limitingconditions = array();
 		$favConds = array();
 
-		$customteam = JRequest::getVar('jlcteam',0,'default','POST');
+		$jinput = JFactory::getApplication() -> input;
+		$customteam = $jinput -> get('jlcteam',0,'int');
 
 		$teamid		= $this->xparams->get('team_ids') ;
 

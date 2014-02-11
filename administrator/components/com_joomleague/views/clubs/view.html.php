@@ -26,7 +26,7 @@ class JoomleagueViewClubs extends JLGView
 
 	function display($tpl=null)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$uri	= JFactory::getURI();
 

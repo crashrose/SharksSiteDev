@@ -19,7 +19,8 @@ class JoomleagueControllerNextMatch extends JoomleagueController
     function display($cachable = false, $urlparams = false)
     {
         // Get the view name from the query string
-        $viewName = JRequest::getVar( "view", "nextmatch" );
+        $jinput = JFactory::getApplication() -> input;
+		$viewName = $jinput -> get('view', 'nextmatch', 'string');
 
         // Get the view
         $view = $this->getView( $viewName );
@@ -39,7 +40,7 @@ class JoomleagueControllerNextMatch extends JoomleagueController
         {
             $view->setModel ( $sr );
         }
-        
+
         $this->showprojectheading();
         $view->display();
         $this->showbackbutton();

@@ -39,7 +39,7 @@ class JoomleagueViewTeamStaffs extends JLGView
 	function _displayDefault( $tpl )
 	{
 		$document = &JFactory::getDocument();
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
 		$uri = JFactory::getURI();

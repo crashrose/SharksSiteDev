@@ -167,7 +167,8 @@ class JoomleagueHelperHtml {
 	 */
 	function showMatchdaysTitle($title,$current_round,&$config,$mode=0)
 	{
-		$projectid=JRequest::getInt('p',0);
+		$jinput = JFactory::getApplication() -> input;
+		$projectid=$jinput -> get('p',0,'int');
 		$project = JTable::getInstance('Project','Table');
 		$project->load($projectid);
 
@@ -217,8 +218,9 @@ class JoomleagueHelperHtml {
 
 	function getRoundSelectNavigation($form)
 	{
+		$jinput = JFactory::getApplication() -> input;
 		$rounds = $this->get('RoundOptions');
-		$division = JRequest::getInt('division',0);
+		$division = $jinput -> get('division', 0, 'int');
 
 		if($form){
 			$currenturl=JoomleagueHelperRoute::getResultsRoute($this->project->slug, $this->roundid, $division);
@@ -454,22 +456,23 @@ class JoomleagueHelperHtml {
 
 	public static function printColumnHeadingSort( $columnTitle, $paramName, $config = null, $default="DESC" )
 	{
+		$jinput = JFactory::getApplication() -> input;
 		$output = "";
 		$img='';
 		if ( $config['column_sorting'] || $config == null)
 		{
 			$params = array(
 					"option" => "com_joomleague",
-					"view"   => JRequest::getVar("view", "ranking"),
-					"p" => JRequest::getInt( "p", 0 ),
-					"r" => JRequest::getInt( "r", 0 ),
-					"type" => JRequest::getVar( "type", "" ) );
+					"view"   => $jinput -> get('view', 'ranking', 'string' ),
+					"p" => $jinput -> get('p', 0, 'int'),
+					"r" => $jinput -> get('r', 0, 'int'),
+					"type" => $jinput -> get('type', '', 'string' ));
 
-			if ( JRequest::getVar( 'order', '' ) == $paramName )
+			if ( $jinput -> get('order', '', 'string' ) == $paramName )
 			{
 				$params["order"] = $paramName;
-				$params["dir"] = ( JRequest::getVar( 'dir', '') == 'ASC' ) ? 'DESC' : 'ASC';
-				$imgname = 'sort'.(JRequest::getVar( 'dir', '') == 'ASC' ? "02" :"01" ).'.gif';
+				$params["dir"] = ( $jinput -> get('dir', '', 'string' ) == 'ASC' ) ? 'DESC' : 'ASC';
+				$imgname = 'sort'.($jinput -> get('dir', '', 'string' ) == 'ASC' ? "02" :"01" ).'.gif';
 				$img = JHtml::image(
 										'media/com_joomleague/jl_images/' . $imgname,
 				$params["dir"] );

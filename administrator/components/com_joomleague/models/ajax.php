@@ -116,7 +116,7 @@ class JoomleagueModelAjax extends JModelLegacy
 
 	function getProjectPlayerOptions($project_id, $division_id=0, $required = false)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$params = JComponentHelper::getParams( $option );
 		$default_name_format = $params->get("name_format");
 		$query = "	SELECT CASE WHEN CHAR_LENGTH(p.alias) THEN CONCAT_WS(':', p.id, p.alias) ELSE p.id END AS value,
@@ -151,7 +151,7 @@ class JoomleagueModelAjax extends JModelLegacy
 
 	function getProjectStaffOptions($project_id, $division_id=0, $required = false)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$params = JComponentHelper::getParams( $option );
 		$default_name_format = $params->get("name_format");
 		$query = "	SELECT CASE WHEN CHAR_LENGTH(p.alias) THEN CONCAT_WS(':', p.id, p.alias) ELSE p.id END AS value,

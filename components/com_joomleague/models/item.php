@@ -46,8 +46,9 @@ class JoomleagueModelItem extends JModelAdmin
 	{
 		parent::__construct();
 
-		$array = JRequest::getVar( 'cid', array(0), '', 'array' );
-		$edit = JRequest::getVar( 'edit', true );
+		$jinput = JFactory::getApplication() -> input;
+		$array= $jinput -> get('cid', array(0), 'array');
+		$edit = $jinput -> get('edit', true, 'boolean' );
 		if( $edit )
 		{
 			$this->setId( (int)$array[0] );
@@ -198,7 +199,7 @@ class JoomleagueModelItem extends JModelAdmin
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
-	
+
 	/**
 	 * Method to get the record form.
 	 *
@@ -218,7 +219,7 @@ class JoomleagueModelItem extends JModelAdmin
 		}
 		return $form;
 	}
-	
+
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *

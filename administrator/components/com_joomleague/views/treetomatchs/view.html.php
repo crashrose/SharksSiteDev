@@ -41,7 +41,7 @@ class JoomleagueViewTreetomatchs extends JLGView
 
 	function _displayEditlist($tpl)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$project_id = $mainframe->getUserState( $option . 'project' );
 		$node_id = $mainframe->getUserState( $option . 'node_id' );
@@ -156,7 +156,7 @@ class JoomleagueViewTreetomatchs extends JLGView
 
 	function _displayDefault($tpl)
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		$uri = JFactory::getURI();
 

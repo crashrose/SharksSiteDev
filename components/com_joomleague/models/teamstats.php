@@ -35,9 +35,10 @@ class JoomleagueModelTeamStats extends JoomleagueModelProject
 	function __construct( )
 	{
 		parent::__construct();
+		$jinput = JFactory::getApplication() -> input;
 
-		$this->projectid = JRequest::getInt( "p", 0 );
-		$this->teamid = JRequest::getInt( "tid", 0 );
+		$this->projectid = $jinput -> get('p',0,'int');
+		$this->teamid = $jinput -> get('tid',0,'int');
 		//preload the team;
 		$this->getTeam();
 	}
@@ -202,7 +203,7 @@ class JoomleagueModelTeamStats extends JoomleagueModelProject
     	}
     	return $this->highestdraw_away;
     }
-    
+
     function getHighestDrawHome( )
     {
     	if ( is_null( $this->highestdraw_home ) )
@@ -224,13 +225,13 @@ class JoomleagueModelTeamStats extends JoomleagueModelProject
     		. ' AND (matches.cancel IS NULL OR matches.cancel = 0)'
     		. ' ORDER BY team1_result DESC '
     		;
-    
+
     		$this->_db->setQuery($query, 0, 1);
     		$this->highestdraw_home = $this->_db->loadObject( );
     	}
     	return $this->highestdraw_home;
     }
-    
+
     function getNoGoalsAgainst( )
     {
     	if ( (!isset( $this->nogoals_against )) || is_null( $this->nogoals_against ) )
@@ -315,7 +316,7 @@ class JoomleagueModelTeamStats extends JoomleagueModelProject
 
     /**
      * get data for chart
-     * @return  
+     * @return
      */
 		function getChartData( )
 		{
@@ -338,7 +339,7 @@ class JoomleagueModelTeamStats extends JoomleagueModelProject
     		$this->matchdaytotals = $this->_db->loadObjectList();
     		return $this->matchdaytotals;
     }
-    
+
     function getMatchDayTotals( )
     {
     	if ( is_null( $this->matchdaytotals ) )
@@ -418,7 +419,7 @@ class JoomleagueModelTeamStats extends JoomleagueModelProject
 		$attendance = $this->_getAttendance();
 		return (count($attendance)>0) ? array_sum($attendance) : 0;
 	}
-	
+
 	function getAverageAttendance( )
 	{
 		$attendance = $this->_getAttendance();
@@ -462,9 +463,9 @@ class JoomleagueModelTeamStats extends JoomleagueModelProject
 		       ;
 		$this->_db->setQuery($query);
 		$matches = $this->_db->loadObjectList();
-		
+
 		$results = array(	'win' => array(), 'tie' => array(), 'loss' => array(), 'forfeit' => array(),
-							'home_wins' => 0, 'home_draws' => 0, 'home_losses' => 0, 
+							'home_wins' => 0, 'home_draws' => 0, 'home_losses' => 0,
 							'away_wins' => 0, 'away_draws' => 0, 'away_losses' => 0,);
 		foreach ($matches as $match)
 		{
@@ -561,24 +562,24 @@ class JoomleagueModelTeamStats extends JoomleagueModelProject
 				}
 			}
 		}
-		
+
 		return $results;
 	}
-	
+
 	function getStats()
 	{
 		$stats = $this->getProjectStats();
-		
+
 		// those are per positions, group them so that we have team globlas stats
-		
+
 		$teamstats = array();
 		foreach ($stats as $pos => $pos_stats)
 		{
-			foreach ($pos_stats as $k => $stat) 
+			foreach ($pos_stats as $k => $stat)
 			{
 				if ($stat->getParam('show_in_teamstats', 1))
 				{
-					if (!isset($teamstats[$k])) 
+					if (!isset($teamstats[$k]))
 					{
 						$teamstats[$k] = $stat;
 						$teamstats[$k]->value = $stat->getRosterTotalStats($this->teamid, $this->projectid);
@@ -586,7 +587,7 @@ class JoomleagueModelTeamStats extends JoomleagueModelProject
 				}
 			}
 		}
-		
+
 		return $teamstats;
 	}
 }

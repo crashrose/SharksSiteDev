@@ -31,33 +31,34 @@ class JoomleagueModelStatsRanking extends JoomleagueModelProject
 	 * @var object
 	 */
 	var $_pagination = null;
-	
+
 	var $order = null;
 	var $divisionid = 0;
 	var $teamid = 0;
-	
+
 	function __construct( )
 	{
 		parent::__construct( );
 
-		$this->projectid	= JRequest::getInt( 'p', 0 );
-		$this->divisionid	= JRequest::getInt( 'division', 0 );
-		$this->teamid		= JRequest::getInt( 'tid', 0 );
-		$this->setStatid(JRequest::getVar( 'sid', 0 ));
+		$jinput = JFactory::getApplication() -> input;
+		$this->projectid	= $jinput -> get('p', 0, 'int' );
+		$this->divisionid	= $jinput -> get( 'division', 0, 'int' );
+		$this->teamid		= $jinput -> get( 'tid', 0, 'int' );
+		$this->setStatid($jinput -> get('sid', 0, 'int'));
 		$config = $this->getTemplateConfig($this->getName());
 		// TODO: the default value for limit should be updated when we know if there is more than 1 statistics type to be shown
 		if ( $this->stat_id != 0 )
 		{
-			$this->limit = JRequest::getInt( 'limit', $config["max_stats"] );
+			$this->limit = $jinput -> get('limit', $config["max_stats"] , 'int');
 		}
 		else
 		{
-			$this->limit = JRequest::getInt( 'limit', $config["count_stats"] );
+			$this->limit = $jinput -> get( 'limit', $config["count_stats"], 'int' );
 		}
-		$this->limitstart = JRequest::getInt( 'limitstart', 0 );
-		$this->setOrder(JRequest::getVar('order'));
+		$this->limitstart = $jinput -> get('limitstart', 0 , 'int');
+		$this->setOrder($jinput -> get('order', '', 'string'));
 	}
-	
+
 	function getDivision()
 	{
 		$division = null;
@@ -121,28 +122,28 @@ class JoomleagueModelStatsRanking extends JoomleagueModelProject
 	function getProjectUniqueStats()
 	{
 		$pos_stats = $this->getProjectStats($this->stat_id);
-		
+
 		$allstats = array();
-		foreach ($pos_stats as $pos => $stats) 
+		foreach ($pos_stats as $pos => $stats)
 		{
 			foreach ($stats as $stat) {
 				$allstats[$stat->id] = $stat;
-			} 
+			}
 		}
 		return $allstats;
 	}
-	
+
 	function getPlayersStats($order=null)
 	{
 		$stats = &$this->getProjectUniqueStats();
 		$order = ($order ? $order : $this->order);
-		
+
 		$results = array();
-		foreach ($stats as $stat) 
+		foreach ($stats as $stat)
 		{
 			$results[$stat->id] = $stat->getPlayersRanking($this->projectid, $this->divisionid, $this->teamid, $this->getLimit(), $this->getLimitStart(), $order);
 		}
-		
+
 		return $results;
 	}
 

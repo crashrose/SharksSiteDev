@@ -25,17 +25,18 @@ class JoomleagueViewTreetos extends JLGView
 
 	function display($tpl=null)
 	{
-		$option		= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		$project_id	= $mainframe->getUserState( $option . 'project' );
 		$uri 		= JFactory::getURI()->toString();
 		$user		= JFactory::getUser();
-		
+
 		// Get data from the model
 		$items		= $this->get('Data');
 		$total		= $this->get('Total');
 		$pagination = $this->get('Pagination');
-		
+
 		$model = $this->getModel();
 		$projectws = $this->get('Data','project');
 		$division = $mainframe->getUserStateFromRequest($option.'tt_division','division','','string');
@@ -48,7 +49,7 @@ class JoomleagueViewTreetos extends JLGView
 		}
 		$lists['divisions']=$divisions;
 		unset($divisions);
-	
+
 		$this->assignRef('user', 		$user);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('items',		$items);

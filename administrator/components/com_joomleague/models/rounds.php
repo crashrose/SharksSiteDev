@@ -27,23 +27,23 @@ class JoomleagueModelRounds extends JoomleagueModelList
 {
 	var $_identifier = "rounds";
 	var $_project_id;
-	
+
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		$option     = 'com_joomleague';
 		$mainframe	= JFactory::getApplication();
 		$params     = JComponentHelper::getParams('com_joomleague');
 		$defaultorder_dir = $params->get('cfg_be_show_matchdays_order', '');
-		
+
 		$filter_order		    = $mainframe->getUserStateFromRequest( $option . 'rounds_filter_order', 'filter_order', 'r.roundcode', 'cmd' );
 		$filter_order_Dir 	= $mainframe->getUserStateFromRequest( $option . 'rounds__filter_order_Dir', 'filter_order_Dir', $defaultorder_dir, 'word' );
-		
+
 		$this->setState('filter_order',     $filter_order);
 		$this->setState('filter_order_Dir', $filter_order_Dir);
 	}
-	
+
 	function _buildQuery()
 	{
 		// Get the WHERE and ORDER BY clauses for the query
@@ -61,7 +61,7 @@ class JoomleagueModelRounds extends JoomleagueModelList
 
 							(select count(*) FROM #__joomleague_match
 					 		WHERE round_id=r.id) countMatches
-								
+
 					FROM #__joomleague_round AS r
 					LEFT JOIN #__users u ON u.id=r.checked_out ' .
 					$where.$orderby;
@@ -70,7 +70,7 @@ class JoomleagueModelRounds extends JoomleagueModelList
 	}
 
 	function _buildContentOrderBy()
-	{		
+	{
 		$filter_order		    = $this->getState('filter_order');
 		$filter_order_Dir 	= $this->getState('filter_order_Dir');
 
@@ -79,7 +79,7 @@ class JoomleagueModelRounds extends JoomleagueModelList
 		return $orderby;
 	}
 
-	
+
 	function _buildContentWhere()
 	{
 		$where=' WHERE  r.project_id='.$this->_project_id;
@@ -89,11 +89,11 @@ class JoomleagueModelRounds extends JoomleagueModelList
 	function setProjectId($project_id) {
 		$this->_project_id = $project_id;
 	}
-	
+
 	function getProjectId() {
 		return $this->_project_id;
 	}
-	
+
 	/**
 	* Method to return the project teams array (id,name)
 	*
@@ -103,18 +103,18 @@ class JoomleagueModelRounds extends JoomleagueModelList
 	*/
 	function getProjectTeams()
 	{
-		$option 	= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$app		= JFactory::getApplication();
 		$project_id	= $app->getUserState($option.'project');
-		$division_id = JRequest::getInt('division_id',0);
-		
+		$division_id = $jinput -> get('division_id',0, 'int');
+
 		$query="	SELECT	t.id AS value,
 							t.name As text,
 							t.notes, pt.id AS projectteam_id, pt.ordering
 					FROM #__joomleague_team AS t
 					LEFT JOIN #__joomleague_project_team AS pt ON pt.team_id=t.id
 					WHERE pt.project_id= $project_id";
-		if($division_id>0)  {			
+		if($division_id>0)  {
 			$query .= " AND pt.division_id = $division_id";
 		}
 		$query .= " ORDER BY pt.ordering, text ASC ";
@@ -126,10 +126,10 @@ class JoomleagueModelRounds extends JoomleagueModelList
 		}
 		return $result;
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * @param int $projectid
 	 * @return assocarray
 	 */
@@ -146,9 +146,9 @@ class JoomleagueModelRounds extends JoomleagueModelList
 		}
 		return $result[0];
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param int $projectid
 	 * @return assocarray
 	 */
@@ -165,9 +165,9 @@ class JoomleagueModelRounds extends JoomleagueModelList
 		}
 		return $result[0];
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param int $roundid
 	 * @param int $projectid
 	 * @return assocarray
@@ -193,7 +193,7 @@ class JoomleagueModelRounds extends JoomleagueModelList
 			}
 		}
 	}
-	
+
 	/**
 	 * Get the next round by todays date
 	 * @param int $project_id
@@ -213,11 +213,11 @@ class JoomleagueModelRounds extends JoomleagueModelList
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-		return $result;		
+		return $result;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param int $roundid
 	 * @param int $projectid
 	 * @return assocarray
@@ -241,7 +241,7 @@ class JoomleagueModelRounds extends JoomleagueModelList
 			}
 		}
 	}
-	
+
 	/**
 	 * return project rounds as array of objects(roundid as value, name as text)
 	 *
@@ -255,7 +255,7 @@ class JoomleagueModelRounds extends JoomleagueModelList
 				    CASE LENGTH(name)
 				    	when 0 then CONCAT('".JText::_('COM_JOOMLEAGUE_GLOBAL_MATCHDAY_NAME'). "',' ', id)
 				    	else name
-				    END as text, id, name, round_date_first, round_date_last, roundcode 
+				    END as text, id, name, round_date_first, round_date_last, roundcode
 				  FROM #__joomleague_round
 				  WHERE project_id=".$project_id."
 				  ORDER BY roundcode ".$ordering;
@@ -263,7 +263,7 @@ class JoomleagueModelRounds extends JoomleagueModelList
 		$this->_db->setQuery($query);
 		return $this->_db->loadObjectList();
 	}
-	
+
 	/**
 	 * return count of  project rounds
 	 *
@@ -278,10 +278,10 @@ class JoomleagueModelRounds extends JoomleagueModelList
 		$this->_db->setQuery($query);
 		return $this->_db->loadResult();
 	}
-	
+
 	/**
 	 * Populate project with matchdays
-	 * 
+	 *
 	 * @param int $project_id project id
 	 * @param int $scheduling scheduling type
 	 * @param string $time start time for games
@@ -293,22 +293,22 @@ class JoomleagueModelRounds extends JoomleagueModelList
 	 * @return boolean true on success
 	 */
 	function populate($project_id, $scheduling, $time, $interval, $start, $roundname, $teamsorder = null, $iMatchnumber=0)
-	{		
+	{
 		if (!strtotime($start)) {
 			$start = strftime('%Y-%m-%d');
 		}
 		if (!preg_match("/^[0-9]+:[0-9]+$/", $time)) {
 			$time = '20:00';
 		}
-		
+
 		$teams = $this->getProjectTeams();
-		
+
 		if ($teamsorder)
 		{
 			$ordered = array();
-			foreach ($teamsorder as $ptid) 
+			foreach ($teamsorder as $ptid)
 			{
-				foreach ($teams as $t) 
+				foreach ($teams as $t)
 				{
 					if ($t->projectteam_id == $ptid) {
 						$ordered[] = $t;
@@ -320,27 +320,27 @@ class JoomleagueModelRounds extends JoomleagueModelList
 				$teams = $ordered;
 			}
 		}
-		
+
 		if (!$teams || !count($teams)) {
 			$this->setError(JText::_('COM_JOOMLEAGUE_ADMIN_ROUNDS_POPULATE_ERROR_NO_TEAM'));
 			return false;
 		}
 		$rounds = $this->getData();
 		$rounds = $rounds ? $rounds : array();
-		
+
 		if ($scheduling < 2)
 		{
 			require_once(JPATH_COMPONENT_ADMINISTRATOR.DIRECTORY_SEPARATOR.'helpers'.DIRECTORY_SEPARATOR.'rrobin.php');
 			$helper = new RRobin();
 			$helper->create($teams);
-			$schedule = $helper->getSchedule($scheduling+1);			
+			$schedule = $helper->getSchedule($scheduling+1);
 		}
 		else
 		{
 			$this->setError(JText::_('COM_JOOMLEAGUE_ADMIN_ROUNDS_POPULATE_ERROR_UNDEFINED_SCHEDULING'));
-			return false;			
+			return false;
 		}
-		
+
 		$current_date = null;
 		$current_code = 0;
 		foreach ($schedule as $k => $games)
@@ -361,13 +361,13 @@ class JoomleagueModelRounds extends JoomleagueModelList
 				$tblRound->name      		= sprintf($roundname, $tblRound->roundcode);
 				if (!($tblRound->check() && $tblRound->store())) {
 					$this->setError(JText::_('COM_JOOMLEAGUE_ADMIN_ROUNDS_POPULATE_ERROR_CREATING_ROUND').': '.$tblRound->getError());
-					return false;	
-				}				
+					return false;
+				}
 				$current_date	= $tblRound->round_date_first;
 				$current_code	= $tblRound->roundcode;
 				$round_id		= $tblRound->id;
 			}
-			
+
 			// create games !
 			// we need to convert game date+time to utc
 			$project_tz = $this->getProject()->timezone;
@@ -390,7 +390,7 @@ class JoomleagueModelRounds extends JoomleagueModelList
 				}
 				if (!($tblMatch->check() && $tblMatch->store())) {
 					$this->setError(JText::_('COM_JOOMLEAGUE_ADMIN_ROUNDS_POPULATE_ERROR_CREATING_GAME').': '.$tblMatch->getError());
-					return false;	
+					return false;
 				}
 			}
 		}
@@ -417,7 +417,7 @@ class JoomleagueModelRounds extends JoomleagueModelList
 		if (!preg_match("/^[0-9]+:[0-9]+$/", $time)) {
 			$time = '20:00';
 		}
-	
+
 		$teams = $this->getProjectTeams();
 		JArrayHelper::sortObjects($teams, "ordering");
 		if (!$teams || !count($teams)) {
@@ -426,9 +426,9 @@ class JoomleagueModelRounds extends JoomleagueModelList
 		}
 		$rounds = $this->getData();
 		$rounds = $rounds ? $rounds : array();
-		
+
 		$path = JPath::clean(JPATH_ROOT.'/images/com_joomleague/database/round_populate_templates');
-		
+
 		$handle = fopen ( $path.'/'.$filename, 'r' );
 		if (! $handle) {
 			$msg = JText::_ ( 'COM_JOOMLEAGUE_ADMIN_IMPORT_CTRL_CANNOT_OPEN' );
@@ -471,14 +471,14 @@ class JoomleagueModelRounds extends JoomleagueModelList
 				//all matches per round
 				$games[] = $game;
 			}
-			//assign matches to round 
+			//assign matches to round
 			$schedule[] = $games;
 			$row ++;
 		}
 		fclose ( $handle );
-			
+
 		$msg[] = JText::_ ( 'COM_JOOMLEAGUE_ADMIN_ROUNDS_POPULATE_TOTAL_ROUNDS_FOUND' ) . count ( $row );
-					
+
 		$current_date = null;
 		$current_code = 0;
 		foreach ($schedule as $k => $games)
@@ -505,7 +505,7 @@ class JoomleagueModelRounds extends JoomleagueModelList
 				$current_code	= $tblRound->roundcode;
 				$round_id		= $tblRound->id;
 			}
-				
+
 			// create games !
 			foreach ($games as $g)
 			{
@@ -529,6 +529,6 @@ class JoomleagueModelRounds extends JoomleagueModelList
 		}
 		return true;
 	}
-	
+
 }
 ?>

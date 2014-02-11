@@ -41,7 +41,8 @@ class JoomleagueViewRounds extends JLGView
 
 	function _displayDefault($tpl)
 	{
-		$option 			= JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input;
+		$option = $jinput -> get('option', '', 'string');
 		$uri 				= JFactory::getURI();
 		$url 				= $uri->toString();
 		$matchday 			= $this->get('Data');
@@ -57,7 +58,7 @@ class JoomleagueViewRounds extends JLGView
 		// table ordering
 		$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order']	    = $filter_order;
-		$massadd			= JRequest::getVar('massadd');
+		$massadd			= $jinput -> get('massadd', '', 'string');
 
 				//build the html options for divisions
 		$divisions[]=JHtmlSelect::option('0',JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_DIVISION'));
@@ -75,7 +76,7 @@ class JoomleagueViewRounds extends JLGView
 		$this->assignRef('pagination',			$pagination);
 		$this->assignRef('request_url',			$url);
 		$this->assignRef('populate',            $populate=0);
-		
+
 		$this->addToolbar();
 		parent::display($tpl);
 	}
@@ -113,7 +114,7 @@ class JoomleagueViewRounds extends JLGView
 		$this->assignRef('projectws',        $projectws);
 		$this->assignRef('request_url',      $url);
 		$this->assignRef('lists',            $lists);
-		
+
 		$this->addToolbar_Populate();
 		parent::display($tpl);
 	}

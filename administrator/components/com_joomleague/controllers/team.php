@@ -24,7 +24,7 @@ jimport('joomla.filesystem.file');
 class JoomleagueControllerTeam extends JoomleagueController
 {
 	protected $view_list = 'teams';
-	
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -66,7 +66,8 @@ class JoomleagueControllerTeam extends JoomleagueController
 			/*
 			case 'copy'	:
 			{
-				$cid = JRequest::getVar('cid',array(0),'post','array');
+				$jinput = JFactory::getApplication() -> input;
+				$cid = $jinput -> get('cid', array(0), 'array');
 				$copyID = (int)$cid[0];
 				JRequest::setVar('hidemainmenu',1);
 				JRequest::setVar('layout','form');
@@ -83,11 +84,12 @@ class JoomleagueControllerTeam extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post = JRequest::get('post');
-		$cid = JRequest::getVar('cid',array(0),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->post;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id'] = (int) $cid[0];
 		//decription must be fetched without striping away html code
-		$post['notes'] = JRequest:: getVar('notes','none','post','STRING',JREQUEST_ALLOWHTML);
+		$post['notes'] = $jinput -> get('notes','none','string');
 		$model = $this->getModel('team');
 
 		if ($model->store($post))
@@ -130,7 +132,8 @@ class JoomleagueControllerTeam extends JoomleagueController
 	public function remove()
 	{
 		$user = JFactory::getUser();
-		$cid = JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input;
+		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 
 		if (count($cid) < 1)
@@ -178,8 +181,8 @@ class JoomleagueControllerTeam extends JoomleagueController
 	public function export()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post=JRequest::get('post');
-		$cid=JRequest::getVar('cid',array(),'post','array');
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_EXPORT'));}
 		$model = $this->getModel("team");
@@ -199,6 +202,6 @@ class JoomleagueControllerTeam extends JoomleagueController
 	{
 		$model = parent::getModel($name, $prefix, $config);
 		return $model;
-	}	
+	}
 }
 ?>

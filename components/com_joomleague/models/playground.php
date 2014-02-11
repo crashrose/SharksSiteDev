@@ -24,16 +24,17 @@ class JoomleagueModelPlayground extends JoomleagueModelProject
     function __construct( )
     {
         parent::__construct( );
+        $jinput = JFactory::getApplication() -> input;
 
-        $this->projectid = JRequest::getInt( "p", 0 );
-        $this->playgroundid = JRequest::getInt( "pgid", 0 );
+        $this->projectid = $jinput -> get('p',0,'int');
+        $this->playgroundid = $jinput -> get('pgid', 0 , 'int');
     }
 
     function getPlayground( )
     {
         if ( is_null( $this->playground ) )
         {
-            $pgid = JRequest::getInt( "pgid", 0 );
+            $pgid = $jinput -> get('pgid'"', 0 , 'int');
             if ( $pgid > 0 )
             {
                 $this->playground = & $this->getTable( 'Playground', 'Table' );
@@ -62,7 +63,7 @@ class JoomleagueModelPlayground extends JoomleagueModelProject
                       WHERE standard_playground = ".(int)$playground->id;
             $this->_db->setQuery( $query );
             $rows = $this->_db->loadObjectList();
-			
+
             foreach ( $rows as $row )
             {
                 $teams[$row->id]->project_team[] = $row;
@@ -93,8 +94,8 @@ class JoomleagueModelPlayground extends JoomleagueModelProject
             $query = "SELECT m.*, DATE_FORMAT(m.time_present, '%H:%i') time_present,
                              p.name AS project_name, p.timezone, tj.team_id team1, tj2.team_id team2
                       FROM #__joomleague_match AS m
-                      INNER JOIN #__joomleague_project_team tj ON tj.id = m.projectteam1_id 
-                      INNER JOIN #__joomleague_project_team tj2 ON tj2.id = m.projectteam2_id 
+                      INNER JOIN #__joomleague_project_team tj ON tj.id = m.projectteam1_id
+                      INNER JOIN #__joomleague_project_team tj2 ON tj2.id = m.projectteam2_id
                       INNER JOIN #__joomleague_project AS p ON p.id=tj.project_id
                       INNER JOIN #__joomleague_team t ON t.id = tj.team_id
                       INNER JOIN #__joomleague_club c ON c.id = t.club_id
@@ -171,7 +172,7 @@ class JoomleagueModelPlayground extends JoomleagueModelProject
 
         return $teams;
     }
-    
+
     function _getRefereesByMatch($matches, $joomleague)
     {
     	for ($index=0; $index < count($matches); $index++) {
@@ -200,7 +201,7 @@ class JoomleagueModelPlayground extends JoomleagueModelProject
 								  AND ref.published = 1
 								  ORDER BY link.ordering";
     		}
-    
+
     		$this->_db->setQuery($query);
     		if (! $referees=$this->_db->loadObjectList())
     		{
@@ -211,6 +212,6 @@ class JoomleagueModelPlayground extends JoomleagueModelProject
     	}
     	return $matches;
     }
-    
+
 }
 ?>

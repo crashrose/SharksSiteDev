@@ -33,10 +33,11 @@ class JoomleagueModelJoomleague extends JoomleagueModelItem
 	 */
 	function _loadData()
 	{
+		$jinput = JFactory::getApplication() -> input;
 		// Lets load the content if it doesn't already exist
 		if ( empty( $this->_data ) )
 		{
-			$pid	= JRequest::getVar( 'pid',	array(0), '', 'array' );
+			$pid = $jinput -> get('pid', array(0), 'array');
 
 			$query = '	SELECT p.*
 						FROM #__joomleague_project AS p
@@ -116,7 +117,7 @@ class JoomleagueModelJoomleague extends JoomleagueModelItem
 	*/
 	function getProjectteams()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 
 		$project_id = $mainframe->getUserState( $option . 'project' );
@@ -170,7 +171,7 @@ class JoomleagueModelJoomleague extends JoomleagueModelItem
 			return $result;
 		}
 	}
-	
+
 	/**
 	* Method to return a season array (id, name)
 	*
@@ -189,7 +190,7 @@ class JoomleagueModelJoomleague extends JoomleagueModelItem
 		}
 		return $result;
 	}
-	
+
 	/**
 	* Method to return a project array (id, name)
 	*
@@ -200,7 +201,7 @@ class JoomleagueModelJoomleague extends JoomleagueModelItem
 	function getProjectsBySportsType($sportstype_id, $season = null)
 	{
 		$query = "SELECT id, name FROM #__joomleague_project as p
-						WHERE sports_type_id=$sportstype_id 
+						WHERE sports_type_id=$sportstype_id
 						AND published=1 ";
 		if ($season) {
 			$query .= ' AND season_id = '.(int) $season;
@@ -214,11 +215,11 @@ class JoomleagueModelJoomleague extends JoomleagueModelItem
 		}
 		return $result;
 	}
-	
+
 	function getVersion()
 	{
 		$query = "SELECT CONCAT(major,'.',minor,'.',build,'.',revision) AS version
-						FROM #__joomleague_version 
+						FROM #__joomleague_version
 						ORDER BY date DESC LIMIT 1";
 		$this->_db->setQuery($query);
 		if (!$result=$this->_db->loadObjectList())

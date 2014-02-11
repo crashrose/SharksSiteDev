@@ -63,7 +63,7 @@ class JoomleagueModelTreetomatchs extends JoomleagueModelList
 
 	function _buildContentWhere()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		
 		$mainframe	= JFactory::getApplication();
 		$node_id = $mainframe->getUserState($option . 'node_id');
@@ -118,7 +118,7 @@ class JoomleagueModelTreetomatchs extends JoomleagueModelList
 	//function getMatchToNode()
 	function getMatches()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe	= JFactory::getApplication();
 		$node_id = $mainframe->getUserState($option . 'node_id');
 		$treeto_id = $mainframe->getUserState($option . 'treeto_id');

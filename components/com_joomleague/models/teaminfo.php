@@ -28,9 +28,10 @@ class JoomleagueModelTeamInfo extends JoomleagueModelProject
 
 	function __construct( )
 	{
-		$this->projectid = JRequest::getInt( "p", 0 );
-		$this->projectteamid = JRequest::getInt( "ptid", 0 );
-		$this->teamid = JRequest::getInt( "tid", 0 );
+		$jinput = JFactory::getApplication() -> input;
+		$this->projectid = $jinput -> get('p',0,'int');
+		$this->projectteamid = $jinput -> get('ptid',0,'int');
+		$this->teamid = $jinput -> get('tid',0,'int');
 		parent::__construct( );
 	}
 
@@ -42,19 +43,19 @@ class JoomleagueModelTeamInfo extends JoomleagueModelProject
 	{
 		if (is_null($this->team))
 		{
-			$query = ' SELECT t.*,t.name AS tname, t.website AS team_website, pt.*, pt.notes AS notes, pt.info AS info, 
+			$query = ' SELECT t.*,t.name AS tname, t.website AS team_website, pt.*, pt.notes AS notes, pt.info AS info,
 						t.extended AS teamextended, t.picture AS team_picture, pt.picture AS projectteam_picture, c.*,
-						CASE WHEN CHAR_LENGTH( t.alias ) THEN CONCAT_WS( \':\', t.id, t.alias ) ELSE t.id END AS slug 
-						FROM #__joomleague_team t 
+						CASE WHEN CHAR_LENGTH( t.alias ) THEN CONCAT_WS( \':\', t.id, t.alias ) ELSE t.id END AS slug
+						FROM #__joomleague_team t
 						LEFT JOIN #__joomleague_club c ON t.club_id=c.id
-						INNER JOIN #__joomleague_project_team pt ON pt.team_id = t.id 
-						WHERE pt.project_id = '. $this->_db->Quote($this->projectid); 
+						INNER JOIN #__joomleague_project_team pt ON pt.team_id = t.id
+						WHERE pt.project_id = '. $this->_db->Quote($this->projectid);
 			if($this->projectteamid > 0) {
 				$query .= ' AND pt.id = '. $this->_db->Quote($this->projectteamid);
 			} else {
 				$query .= ' AND t.id = '. $this->_db->Quote($this->teamid);
-			}		
-			
+			}
+
 			$this->_db->setQuery($query);
 			$this->team  = $this->_db->loadObject();
 		}
@@ -179,7 +180,7 @@ class JoomleagueModelTeamInfo extends JoomleagueModelProject
 				$rank['series'] = $value->cnt_won . "/" . $value->cnt_draw . "/" . $value->cnt_lost;
 				$rank['goals']  = $value->sum_team1_result . ":" . $value->sum_team2_result;
 				break;
-			} 
+			}
 			else if ($value->getTeamId() == $this->teamid)
 			{
 				$rank['rank']   = $value->rank;
@@ -189,7 +190,7 @@ class JoomleagueModelTeamInfo extends JoomleagueModelProject
 				$rank['goals']  = $value->sum_team1_result . ":" . $value->sum_team2_result;
 				break;
 			}
-				
+
 		}
 		return $rank;
 	}
@@ -222,14 +223,14 @@ class JoomleagueModelTeamInfo extends JoomleagueModelProject
 		       . " INNER JOIN #__joomleague_project_team AS pt ON tp.projectteam_id = pt.id "
 		       . " WHERE pt.project_id=" . $projectid
 		       . " AND pt.id=" . $projectteamid
-		       . " AND tp.published = 1 " 
+		       . " AND tp.published = 1 "
 		       . " AND ps.published = 1 ";
 		       $this->_db->setQuery($query);
 		$player = $this->_db->loadResult();
 		return $player;
 	}
-	
-	
+
+
 	function getprojectteamID($teamid)
 	{
 		$query = "SELECT id "
@@ -242,7 +243,7 @@ class JoomleagueModelTeamInfo extends JoomleagueModelProject
 
 		return $result;
 	}
-	
+
 	/**
 	* Method to return a team trainingdata array
 	* @param int projectid
@@ -260,7 +261,7 @@ class JoomleagueModelTeamInfo extends JoomleagueModelProject
 		$trainingData = $this->_db->loadObjectList();
 		return $trainingData;
 	}
-	
+
 	function hasEditPermission($task=null)
 	{
 		//check for ACL permsission and project admin/editor
@@ -277,6 +278,6 @@ class JoomleagueModelTeamInfo extends JoomleagueModelProject
 		}
 		return $allowed;
 	}
-	
+
 }
 ?>

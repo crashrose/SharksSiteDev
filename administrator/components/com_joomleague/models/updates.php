@@ -113,7 +113,7 @@ class JoomleagueModelUpdates extends JModelLegacy
 
 	function loadUpdateFiles()
 	{
-		$option = JRequest::getCmd('option');
+		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
 		//$updateFileList=JFolder::files(JPATH_COMPONENT_ADMINISTRATOR.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'updates'.DS,'.php$',false,true,array('',''));
 		$updateFileList=JFolder::files(JPATH_COMPONENT_ADMINISTRATOR.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'updates'.DS,'.php$');

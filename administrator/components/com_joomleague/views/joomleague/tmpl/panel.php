@@ -16,17 +16,17 @@ $this->addTemplatePath(JPATH_COMPONENT.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEP
 							$text=JText::_('COM_JOOMLEAGUE_P_PANEL_PSETTINGS');
 							$imageFile='icon-48-ProjectSettings.png';
 							$linkParams="<span>$text</span>&nbsp;";
-							$image=JHtml::_('image.administrator',$imageFile,$path,NULL,NULL,$text).$linkParams;
+							$image=JHtml::image($path.'/'.$imageFile,$text,NULL,false,null).$linkParams;
 							?>
-							<div class="icon-wrapper"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>									
+							<div class="icon-wrapper" style="width: inherit;"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
 							<?php
 	 						$link=JRoute::_('index.php?option=com_joomleague&view=templates&task=template.display');
 							$text=JText::_('COM_JOOMLEAGUE_P_PANEL_FES');
 							$imageFile='icon-48-FrontendSettings.png';
 							$linkParams="<span>$text</span>&nbsp;";
-							$image=JHtml::_('image.administrator',$imageFile,$path,NULL,NULL,$text).$linkParams;
+							$image=JHtml::image($path.'/'.$imageFile,$text,NULL,false,null).$linkParams;
 							?>
-							<div class="icon-wrapper"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
+							<div class="icon-wrapper" style="width: inherit;"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
 							<?php
 							if ((isset($this->project->project_type)) &&
 								 (($this->project->project_type == PROJECT_DIVISIONS) ||
@@ -36,9 +36,9 @@ $this->addTemplatePath(JPATH_COMPONENT.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEP
 								$text=JText::plural('COM_JOOMLEAGUE_P_PANEL_DIVISIONS', $this->count_projectdivisions);
 								$imageFile='icon-48-Divisions.png';
 								$linkParams="<span>$text</span>&nbsp;";
-								$image=JHtml::_('image.administrator',$imageFile,$path,NULL,NULL,$text).$linkParams;
+								$image=JHtml::image($path.'/'.$imageFile,$text,NULL,false,null).$linkParams;
 								?>
-								<div class="icon-wrapper"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
+								<div class="icon-wrapper" style="width: inherit;"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
 								<?php
 							}
 							if ((isset($this->project->project_type)) &&
@@ -49,50 +49,50 @@ $this->addTemplatePath(JPATH_COMPONENT.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEP
 								$text=JText::_('COM_JOOMLEAGUE_P_PANEL_TREE');
 								$imageFile='icon-48-Tree.png';
 								$linkParams="<span>$text</span>&nbsp;";
-								$image=JHtml::_('image.administrator',$imageFile,$path,NULL,NULL,$text).$linkParams;
+								$image=JHtml::image($path.'/'.$imageFile,$text,NULL,false,null).$linkParams;
 								?>
-								<div class="icon-wrapper"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
+								<div class="icon-wrapper" style="width: inherit;"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
 							<?php
 							}
 							$link=JRoute::_('index.php?option=com_joomleague&view=projectposition&task=projectposition.display');
 							$text=JText::plural('COM_JOOMLEAGUE_P_PANEL_POSITIONS', $this->count_projectpositions);
 							$imageFile='icon-48-Positions.png';
 							$linkParams="<span>$text</span>&nbsp;";
-							$image=JHtml::_('image.administrator',$imageFile,$path,NULL,NULL,$text).$linkParams;
+							$image=JHtml::image($path.'/'.$imageFile,$text,NULL,false,null).$linkParams;
 							?>
-							<div class="icon-wrapper"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
+							<div class="icon-wrapper" style="width: inherit;"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
 							<?php
 							$link=JRoute::_('index.php?option=com_joomleague&view=projectreferees&task=projectreferee.display');
 							$text=JText::plural('COM_JOOMLEAGUE_P_PANEL_REFEREES', $this->count_projectreferees);
 							$imageFile='icon-48-Referees.png';
 							$linkParams="<span>$text</span>&nbsp;";
-							$image=JHtml::_('image.administrator',$imageFile,$path,NULL,NULL,$text).$linkParams;
+							$image=JHtml::image($path.'/'.$imageFile,$text,NULL,false,null).$linkParams;
 							?>
-							<div class="icon-wrapper"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
+							<div class="icon-wrapper" style="width: inherit;"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
 							<?php
 	 						$link=JRoute::_('index.php?option=com_joomleague&view=projectteams&task=projectteam.display');
 							$text=JText::plural('COM_JOOMLEAGUE_P_PANEL_TEAMS', $this->count_projectteams);
 							$imageFile='icon-48-Teams.png';
 							$linkParams="<span>$text</span>&nbsp;";
-							$image=JHtml::_('image.administrator',$imageFile,$path,NULL,NULL,$text).$linkParams;
+							$image=JHtml::image($path.'/'.$imageFile,$text,NULL,false,null).$linkParams;
 							?>
-							<div class="icon-wrapper"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
+							<div class="icon-wrapper" style="width: inherit;"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
 							<?php
 	 						$link=JRoute::_('index.php?option=com_joomleague&view=rounds&task=round.display');
 							$text=JText::plural('COM_JOOMLEAGUE_P_PANEL_MATCHDAYS', $this->count_matchdays);
 							$imageFile='icon-48-Matchdays.png';
 							$linkParams="<span>$text</span>&nbsp;";
-							$image=JHtml::_('image.administrator',$imageFile,$path,NULL,NULL,$text).$linkParams;
+							$image=JHtml::image($path.'/'.$imageFile,$text,NULL,false,null).$linkParams;
 							?>
-							<div class="icon-wrapper"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
+							<div class="icon-wrapper" style="width: inherit;"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
 							<?php
 	 						$link=JRoute::_('index.php?option=com_joomleague&view=jlxmlexports&task=jlxmlexport.display');
 							$text=JText::_('COM_JOOMLEAGUE_P_PANEL_XML_EXPORT');
 							$imageFile='icon-48-XMLExportData.png';
 							$linkParams="<span>$text</span>&nbsp;";
-							$image=JHtml::_('image.administrator',$imageFile,$path,NULL,NULL,$text).$linkParams;
+							$image=JHtml::image($path.'/'.$imageFile,$text,NULL,false,null).$linkParams;
 							?>
-							<div class="icon-wrapper"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
+							<div class="icon-wrapper" style="width: inherit;"><div class="icon"><?php echo JHtml::link($link,$image); ?></div></div>
 						</div>
 					</div>
 				</div>
