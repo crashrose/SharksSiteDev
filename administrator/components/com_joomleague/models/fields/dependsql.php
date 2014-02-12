@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
 * @copyright	Copyright (C) 2007-2013 joomleague.at. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
@@ -11,7 +11,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' ); // Check to ensure this file is included in Joomla!
 
-JHtml::_('behavior.framework');
+JHtml::_('jquery.framework');
 
 /**
  * Renders a Dynamic SQL field
@@ -42,7 +42,7 @@ class JFormFieldDependSQL extends JFormField
 		$depends = $this->element['depends'];
 
 		$ctrl = $this->name;
-		
+
 		// Construct the various argument calls that are supported.
 		$attribs	 = ' task="'.$task.'"';
 		$attribs	.= ' required="'.$required.'"';
@@ -65,7 +65,7 @@ class JFormFieldDependSQL extends JFormField
 			$attribs	.= '"';
 		}
 		$attribs	.= ' current="'.$this->value.'"';
-		
+
 		$lang = JFactory::getLanguage();
 		$lang->load("com_joomleague", JPATH_ADMINISTRATOR);
 		if ($required=='true') {
@@ -82,11 +82,11 @@ class JFormFieldDependSQL extends JFormField
 			$db->setQuery($query);
 			$options = array_merge($options, $db->loadObjectList());
 		}
-		
+
 		if ($depends)
 		{
 			$doc = JFactory::getDocument();
-			$doc->addScript(JUri::base() . 'components/com_joomleague/assets/js/depend.js' );
+			$doc->addScript(JUri::base() . 'components/com_joomleague/assets/js/dependJQ.js' );
 		}
 
 		return JHtml::_('select.genericlist',  $options, $ctrl, $attribs, $key, $val, $this->value, $this->id);

@@ -33,10 +33,11 @@ class modJLGTeamPlayersHelper
 	 */
 	function getData(&$params)
 	{
-		$p = $params->get('p');
+		var_dump($params);
+		$p = $params->p;
 		$p = explode(":", $p);
 		$p = $p[0];
-		$t = $params->get('team');
+		$t = $params->team;
 		$t = explode(":", $t);
 		$t = $t[0];
 		$db  = JFactory::getDbo();
@@ -51,7 +52,7 @@ class modJLGTeamPlayersHelper
 		$result = $db->loadRow();
 		$projectteamid = $result[0];
 		$team_name     = $result[1];
-		
+
 
 		JRequest::setVar( 'p', $p );
 		JRequest::setVar( 'tid', $t);
@@ -70,17 +71,17 @@ class modJLGTeamPlayersHelper
 	function getPlayerLink($item, $params)
 	{
 		$flag = "";
-		if ($params->get('show_player_flag')) {
+		if ($params->show_player_flag) {
 			$flag = Countries::getCountryFlag($item->country) . "&nbsp;";
 		}
-		$text = "<i>".JoomleagueHelper::formatName(null, $item->firstname, 
-													$item->nickname, 
-													$item->lastname, 
-													$params->get("name_format")) . "</i>";
-		if ($params->get('show_player_link'))
+		$text = "<i>".JoomleagueHelper::formatName(null, $item->firstname,
+													$item->nickname,
+													$item->lastname,
+													$params->name_format) . "</i>";
+		if ($params->show_player_link)
 		{
-			$link = JoomleagueHelperRoute::getPlayerRoute($params->get('p'), 
-															$params->get('team'), 
+			$link = JoomleagueHelperRoute::getPlayerRoute($params->p,
+															$params->team,
 															$item->slug );
 			echo $flag . JHtml::link($link, $text);
 		}

@@ -76,7 +76,7 @@ class JoomleagueControllerPosition extends JoomleagueController
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 		$jinput = JFactory::getApplication() -> input;
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id']=(int) $cid[0];
 		$model=$this->getModel('position');
@@ -149,7 +149,7 @@ class JoomleagueControllerPosition extends JoomleagueController
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 		$jinput = JFactory::getApplication() -> input;
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 		$model	= $this->getModel('position');
@@ -176,7 +176,7 @@ class JoomleagueControllerPosition extends JoomleagueController
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 		$jinput = JFactory::getApplication() -> input;
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_EXPORT'));}

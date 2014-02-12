@@ -115,7 +115,7 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 
 	public function save_playerslist()
 	{
-		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$project = $jinput -> get('project', '', 'string');
 		$team_id=$jinput -> get('team','', 'string');
@@ -143,7 +143,7 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id']=(int) $cid[0];
 		// decription must be fetched without striping away html code
@@ -175,7 +175,7 @@ class JoomleagueControllerTeamPlayer extends JoomleagueController
 	// save the checked rows inside the project teams list
 	public function saveshort()
 	{
-		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 

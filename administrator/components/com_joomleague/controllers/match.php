@@ -117,7 +117,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$proj=$app->getUserState($option.'project',0);
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 
@@ -148,7 +148,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$proj=$app->getUserState($option.'project',0);
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 
@@ -182,7 +182,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$proj=$app->getUserState($option.'project',0);
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 
@@ -214,7 +214,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$proj=$app->getUserState($option.'project',0);
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 
@@ -246,7 +246,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$proj=$app->getUserState($option.'project',0);
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 
@@ -283,7 +283,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$model=$this->getModel('match');
 		$positions=$model->getProjectPositions();
 		$staffpositions=$model->getProjectStaffPositions();
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['mid']=$cid[0];
 		$post['positions']=$positions;
@@ -324,7 +324,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$document = JFactory::getDocument();
 		$model=$this->getModel('match');
 		$positions=$model->getProjectRefereePositions();
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['mid']=$cid[0];
 		$post['positions']=$positions;
@@ -367,7 +367,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$option = $jinput -> get('option', '', 'string');
 		$app 		= JFactory::getApplication();
 		$project_id	= $app->getUserState($option.'project',0);
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 
@@ -399,7 +399,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$jinput = JFactory::getApplication() -> input;
 		$option = $jinput -> get('option', '', 'string');
 		$msg='';
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$model=$this->getModel('match');
 		$add_match_count=$jinput -> get('add_match_count', 0, 'int');
 		$round_id=$jinput -> get('rid', 0, 'int');
@@ -524,7 +524,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$jinput = JFactory::getApplication() -> input;
 		$option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$post['project_id']=$app->getUserState($option.'project',0);
 		$post['round_id']=$app->getUserState($option.'round_id',0);
 		//get the home team standard playground
@@ -612,7 +612,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$app 		= JFactory::getApplication();
 		$project_id = $app->getUserState($option.'project',0);
 
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$summary	= $jinput -> get('summary','','string');
 		$preview	= $jinput -> get('preview','','string');
@@ -714,7 +714,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 		$jinput = JFactory::getApplication() -> input;
 		$option = $jinput -> get('option', '', 'string');
 		$app = JFactory::getApplication();
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$model=$this->getModel('match');
 		$project_id=$app->getUserState($option.'project',0);
@@ -742,7 +742,7 @@ class JoomleagueControllerMatch extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('match_id', 0, 'int');
 		$model=$this->getModel('match');
 		if ($model->savestats($post))

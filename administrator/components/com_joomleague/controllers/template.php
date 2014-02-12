@@ -83,7 +83,7 @@ class JoomleagueControllerTemplate extends JoomleagueController
 
 	public function apply()
 	{
-		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id']=(int) $cid[0];
 		$model=$this->getModel('template');
@@ -112,7 +112,7 @@ class JoomleagueControllerTemplate extends JoomleagueController
 	public function save()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$index=0;
 		if(count($cid) == 1)

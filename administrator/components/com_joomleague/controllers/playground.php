@@ -71,7 +71,7 @@ class JoomleagueControllerPlayground extends JoomleagueController
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id']=(int) $cid[0];
 		// decription must be fetched without striping away html code
@@ -150,7 +150,7 @@ class JoomleagueControllerPlayground extends JoomleagueController
 	public function export()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		if (count($cid) < 1){

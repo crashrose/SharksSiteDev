@@ -108,7 +108,7 @@ class JoomleagueControllerRound extends JoomleagueController
 		$jinput = JFactory::getApplication() -> input;
 		$option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$model=$this->getModel('round');
 		// convert dates back to mysql date format
 		if (isset($post['round_date_first']))
@@ -170,7 +170,7 @@ class JoomleagueControllerRound extends JoomleagueController
 		$mainframe = JFactory::getApplication();
 		$jinput = JFactory::getApplication() -> input;
 		$option = $jinput -> get('option', '', 'string');
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 		$model=$this->getModel('round');
@@ -250,7 +250,7 @@ class JoomleagueControllerRound extends JoomleagueController
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 		$jinput = JFactory::getApplication() -> input;
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$model=$this->getModel('round');
 		$add_round_count=(int)$post['add_round_count'];
 		$max=0;

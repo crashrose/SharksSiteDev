@@ -40,9 +40,9 @@ class JoomleagueViewJLXMLImport extends JLGView
 		$config =& JComponentHelper::getParams('com_media');
 
 		#$this->assignRef( 'user',			JFactory::getUser() );
-		$this->assignRef( 'request_url',	$uri->toString() );
+		$this->request_url = $uri->toString() ;
 		#$this->assignRef( 'user',		$user);
-		$this->assignRef( 'config',		$config);
+		$this->config = $config;
 
 		parent::display( $tpl );
 	}

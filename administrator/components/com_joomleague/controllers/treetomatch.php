@@ -130,7 +130,7 @@ class JoomleagueControllerTreetomatch extends JoomleagueController
 	public function save_matcheslist()
 	{
 		$jinput = JFactory::getApplication() -> input;
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id'] = (int) $cid[0];
 

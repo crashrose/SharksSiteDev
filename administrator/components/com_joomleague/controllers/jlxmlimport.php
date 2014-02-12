@@ -82,12 +82,12 @@ class JoomleagueControllerJLXMLImport extends JoomleagueController
 		JToolBarHelper::back(JText::_('COM_JOOMLEAGUE_GLOBAL_BACK'),JRoute::_('index.php?option=com_joomleague&task=jlxmlimport.display'));
 		$mainframe = JFactory::getApplication();
 		$jinput = JFactory::getApplication() -> input;
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 
 		// first step - upload
-		if (isset($post['sent']) && $post['sent']==1)
-		{
-			$upload=$jinput -> get('import_package',array(),'array');
+	//	if (isset($post['sent']) && $post['sent']==1)
+	//	{
+			$upload=$jinput ->files-> get('import_package');
 			$tempFilePath=$upload['tmp_name'];
 			$mainframe->setUserState('com_joomleague'.'uploadArray',$upload);
 			$filename='';
@@ -160,7 +160,7 @@ class JoomleagueControllerJLXMLImport extends JoomleagueController
 						}
 					}
 			}
-		}
+	//	}
 		$link='index.php?option=com_joomleague&task=jlxmlimport.edit';
 		$this->setRedirect($link,$msg);
 	}
@@ -168,7 +168,8 @@ class JoomleagueControllerJLXMLImport extends JoomleagueController
 	public function insert()
 	{
 		JToolBarHelper::back(JText::_('COM_JOOMLEAGUE_GLOBAL_BACK'),JRoute::_('index.php?option=com_joomleague'));
-		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$jinput = JFactory::getApplication() -> input;
+		$post=$jinput->getArray();
 
 		$link='index.php?option=com_joomleague&task=jlxmlimport.insert';
 		echo $link;

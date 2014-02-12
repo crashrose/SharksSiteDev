@@ -119,7 +119,7 @@ class JoomleagueControllerProjectReferee extends JoomleagueController
 	public function save_projectrefereeslist()
 	{
 		$jinput = JFactory::getApplication() -> input;
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$project 	= $jinput -> get( 'project', '','string' );
 		$team_id 	= $jinput -> get( 'team','', 'string' );
@@ -179,7 +179,7 @@ class JoomleagueControllerProjectReferee extends JoomleagueController
 	public function saveshort()
 	{
 		$jinput = JFactory::getApplication() -> input;
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger( $cid );
 

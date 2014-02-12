@@ -42,7 +42,7 @@ class JoomleagueModelRoster extends JoomleagueModelProject
 
 		$this->projectid=$jinput -> get('p',0,'int');
 		$this->teamid=$jinput -> get('tid',0,'int');
-		$this->projectteamid=J$jinput -> get('ttid',0, 'int');
+		$this->projectteamid=$jinput -> get('ttid',0, 'int');
 		$this->getProjectTeam();
 	}
 

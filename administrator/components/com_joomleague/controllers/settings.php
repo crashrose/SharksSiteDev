@@ -47,7 +47,7 @@ class JoomleagueControllerSettings extends JoomleagueController
 
 		// Sanitize
 		$task	= $jinput -> get('task', '', 'string');
-		$data 	= $jinput->post;
+		$data 	= $jinput->getArray();
 		$data['option'] = 'com_joomleague';
 		$params = $jinput -> get('params', array(), 'array');
 		$model=$this->getModel('settings');

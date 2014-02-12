@@ -20,6 +20,8 @@ require_once (dirname(__FILE__).DIRECTORY_SEPARATOR.'helper.php');
 
 require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_joomleague'.DIRECTORY_SEPARATOR.'joomleague.core.php');
 
+$module = JModuleHelper::getModule('joomleague_teamplayers');
+$params=json_decode($module->params);
 $list = modJLGTeamPlayersHelper::getData($params);
 
 $document = JFactory::getDocument();

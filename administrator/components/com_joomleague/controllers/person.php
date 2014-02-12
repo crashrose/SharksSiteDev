@@ -68,7 +68,7 @@ class JoomleagueControllerPerson extends JoomleagueController
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 		$jinput = JFactory::getApplication() -> input;
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$ids = $jinput -> get('cid', array(0), 'array');
 		$post['id'] = $ids[0]; //map cid to table pk: id
 
@@ -120,7 +120,7 @@ class JoomleagueControllerPerson extends JoomleagueController
 	public function saveshort()
 	{
 		$jinput = JFactory::getApplication() -> input;
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$ids = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($ids);
 		$model=$this->getModel('person');
@@ -180,7 +180,7 @@ class JoomleagueControllerPerson extends JoomleagueController
 	public function saveassigned()
 	{
 		$jinput = JFactory::getApplication() -> input;
-		$post				= $jinput->post;
+		$post				= $jinput->getArray();
 		$project_team_id	= $jinput -> get('project_team_id',0,'int');
 		$pid 				= $jinput -> get('cid', array(0), 'array');
 		$type				= $jinput -> get('type',0,'int');
@@ -263,7 +263,7 @@ class JoomleagueControllerPerson extends JoomleagueController
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 		$jinput = JFactory::getApplication() -> input;
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		if (count($cid) < 1){JError::raiseError(500,JText::_('COM_JOOMLEAGUE_GLOBAL_SELECT_TO_EXPORT'));}
 		$model = $this->getModel("person");

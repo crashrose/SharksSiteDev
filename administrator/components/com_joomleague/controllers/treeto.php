@@ -82,7 +82,7 @@ class JoomleagueControllerTreeto extends JoomleagueController
 	{
 		$jinput = JFactory::getApplication() -> input;
 		$option = $jinput -> get('option', '', 'string');
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 
 		$mainframe	= JFactory::getApplication();
@@ -111,7 +111,7 @@ class JoomleagueControllerTreeto extends JoomleagueController
 		$mainframe = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$proj=$mainframe->getUserState($option.'project',0);
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 
@@ -141,7 +141,7 @@ class JoomleagueControllerTreeto extends JoomleagueController
 		JSession::checkToken() or die(JText::_('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN'));
 		$jinput = JFactory::getApplication() -> input; $option = $jinput -> get('option', '', 'string');
 		$mainframe = JFactory::getApplication();
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$model=$this->getModel('treeto');
 		$project_id=$mainframe->getUserState($option.'project');
 		if ($model->setGenerateNode() )
@@ -162,7 +162,7 @@ class JoomleagueControllerTreeto extends JoomleagueController
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 		$app = JFactory::getApplication();
 		$jinput = JFactory::getApplication() -> input;
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id'] = (int) $cid[0];
 		$msg='';

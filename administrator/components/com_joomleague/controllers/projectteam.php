@@ -86,7 +86,7 @@ class JoomleagueControllerProjectteam extends JoomleagueController
 		$option = $jinput -> get('option', '', 'string');
 	  	$app		= JFactory::getApplication();
 		$model		= $this->getModel('projectteams');
-	  	$post=$jinput->post;
+	  	$post=$jinput->getArray();
 
 	  	$oldteamids	= $jinput -> get('oldptid', array(),'array');
 		$newteamids	= $jinput -> get('newptid', array(), 'array');
@@ -159,7 +159,7 @@ class JoomleagueControllerProjectteam extends JoomleagueController
 	{
 
 		$jinput = JFactory::getApplication() -> input;
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid	= $jinput -> get('cid', array(0),  'array');
 		$post['id'] = (int) $cid[0];
 
@@ -191,7 +191,7 @@ class JoomleagueControllerProjectteam extends JoomleagueController
 		$mainframe	= JFactory::getApplication();
  		$project_id = $mainframe->getUserState($option . 'project');
 
-		$post=$jinput->post;
+		$post=$jinput->getArray();
 		$cid	= $jinput -> get('cid', array(0), 'array');
 		$post['id'] = (int) $cid[0];
 		// decription must be fetched without striping away html code
@@ -270,7 +270,7 @@ class JoomleagueControllerProjectteam extends JoomleagueController
 		$mainframe	= JFactory::getApplication();
  		$project_id = $mainframe->getUserState($option . 'project');
 
- 		$post=$jinput->post;
+ 		$post=$jinput->getArray();
  		$cid = $jinput -> get('cid', array(0), 'array');
 		JArrayHelper::toInteger($cid);
 

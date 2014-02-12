@@ -426,11 +426,12 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 
 	public function getUserList($is_admin=false)
 	{
-		$query='SELECT id,username FROM #__users';
+		$query='SELECT id,username FROM #__users'; //TO DO!! Correct query to use roles
 		if ($is_admin==true)
 		{
-			$query .= " WHERE usertype='Super Administrator' OR usertype='Administrator'";
+			$query .= " WHERE username='admin' OR username='super user'";
 		}
+
 		$query .= ' ORDER BY username ASC';
 		$this->_db->setQuery($query);
 		return $this->_db->loadObjectList();
@@ -1146,7 +1147,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 				}
 				else
 				{
-					$insertID=$p_sportstype->id; 
+					$insertID=$p_sportstype->id;
 					$this->_sportstype_id=$insertID;
 					$my_text .= '<span style="color:'.$this->storeSuccessColor.'">';
 					$my_text .= JText::sprintf('Created new sportstype data: %1$s',"</span><strong>$this->_sportstype_new</strong>");
@@ -1199,7 +1200,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 				}
 				else
 				{
-					$insertID=$p_league->id; 
+					$insertID=$p_league->id;
 					$this->_league_id=$insertID;
 					$my_text .= '<span style="color:'.$this->storeSuccessColor.'">';
 					$my_text .= JText::sprintf('Created new league data: %1$s',"</span><strong>$this->_league_new</strong>");
@@ -1251,7 +1252,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 				}
 				else
 				{
-					$insertID=$p_season->id; 
+					$insertID=$p_season->id;
 					$this->_season_id=$insertID;
 					$my_text .= '<span style="color:'.$this->storeSuccessColor.'">';
 					$my_text .= JText::sprintf('Created new season data: %1$s',"</span><strong>$this->_season_new</strong>");
@@ -1335,7 +1336,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					}
 					else
 					{
-						$insertID=$p_eventtype->id; 
+						$insertID=$p_eventtype->id;
 						$this->_convertEventID[$oldID]=$insertID;
 						$my_text .= '<span style="color:'.$this->storeSuccessColor.'">';
 						$my_text .= JText::sprintf('Created new eventtype data: %1$s','</span><strong>'.JText::_($p_eventtype->name).'</strong>');
@@ -1415,7 +1416,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					}
 					else
 					{
-						$insertID=$p_statistic->id; 
+						$insertID=$p_statistic->id;
 						$this->_convertStatisticID[$oldID]=$insertID;
 						$my_text .= '<span style="color:'.$this->storeSuccessColor.'">';
 						$my_text .= JText::sprintf('Created new statistic data: %1$s','</span><strong>'.JText::_($p_statistic->name).'</strong>');
@@ -1456,7 +1457,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 				$p_position =&  $this->getTable('position');
 				$import_position=$this->_datas['parentposition'][$key];
 				$oldID=$this->_getDataFromObject($import_position,'id');
-				$alias=$this->_getDataFromObject($import_position,'alias');					
+				$alias=$this->_getDataFromObject($import_position,'alias');
 				$p_position->set('name',trim($this->_newparentpositionsname[$key]));
 				$p_position->set('parent_id',0);
 				$p_position->set('persontype',$this->_getDataFromObject($import_position,'persontype'));
@@ -1493,7 +1494,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					}
 					else
 					{
-						$insertID=$p_position->id; 
+						$insertID=$p_position->id;
 						$this->_convertParentPositionID[$oldID]=$insertID;
 						$my_text .= '<span style="color:'.$this->storeSuccessColor.'">';
 						$my_text .= JText::sprintf('Created new parent-position data: %1$s','</span><strong>'.JText::_($p_position->name).'</strong>');
@@ -1583,7 +1584,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					}
 					else
 					{
-						$insertID=$p_position->id; 
+						$insertID=$p_position->id;
 						$this->_convertPositionID[$oldID]=$insertID;
 						$my_text .= '<span style="color:'.$this->storeSuccessColor.'">';
 						$my_text .= JText::sprintf('Created new position data: %1$s','</span><strong>'.JText::_($p_position->name).'</strong>');
@@ -1750,7 +1751,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					}
 					else
 					{
-						$insertID=$p_playground->id; 
+						$insertID=$p_playground->id;
 						$this->_convertPlaygroundID[$oldID]=$insertID;
 						$my_text .= '<span style="color:'.$this->storeSuccessColor.'">';
 						$my_text .= JText::sprintf('Created new playground data: %1$s',"</span><strong>$p_playground->name</strong>");
@@ -1799,20 +1800,20 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					// update clubdata
 					$p_club =& $this->getTable('club');
 					$p_club->set('id',$id);
-					$p_club->set('address', (string) $this->_datas['club'][$key]->address ); 
-					$p_club->set('zipcode',(string) $this->_datas['club'][$key]->zipcode); 
-					$p_club->set('location',(string) $this->_datas['club'][$key]->location); 
-					$p_club->set('state',(string) $this->_datas['club'][$key]->state); 
-					$p_club->set('country',(string) $this->_datas['club'][$key]->country); 
-					$p_club->set('founded',(string) $this->_datas['club'][$key]->founded); 
-					$p_club->set('phone',(string) $this->_datas['club'][$key]->phone); 
-					$p_club->set('fax',(string) $this->_datas['club'][$key]->fax); 
-					$p_club->set('email',(string) $this->_datas['club'][$key]->email); 
-					$p_club->set('website',(string) $this->_datas['club'][$key]->website); 
-					$p_club->set('president',(string) $this->_datas['club'][$key]->president); 
-					$p_club->set('manager',(string) $this->_datas['club'][$key]->manager); 
-					$p_club->set('logo_big',(string) $this->_datas['club'][$key]->logo_big); 
-					$p_club->set('logo_middle',(string) $this->_datas['club'][$key]->logo_middle); 
+					$p_club->set('address', (string) $this->_datas['club'][$key]->address );
+					$p_club->set('zipcode',(string) $this->_datas['club'][$key]->zipcode);
+					$p_club->set('location',(string) $this->_datas['club'][$key]->location);
+					$p_club->set('state',(string) $this->_datas['club'][$key]->state);
+					$p_club->set('country',(string) $this->_datas['club'][$key]->country);
+					$p_club->set('founded',(string) $this->_datas['club'][$key]->founded);
+					$p_club->set('phone',(string) $this->_datas['club'][$key]->phone);
+					$p_club->set('fax',(string) $this->_datas['club'][$key]->fax);
+					$p_club->set('email',(string) $this->_datas['club'][$key]->email);
+					$p_club->set('website',(string) $this->_datas['club'][$key]->website);
+					$p_club->set('president',(string) $this->_datas['club'][$key]->president);
+					$p_club->set('manager',(string) $this->_datas['club'][$key]->manager);
+					$p_club->set('logo_big',(string) $this->_datas['club'][$key]->logo_big);
+					$p_club->set('logo_middle',(string) $this->_datas['club'][$key]->logo_middle);
 					$p_club->set('logo_small',(string) $this->_datas['club'][$key]->logo_small);
 					$p_club->set('asset_id', 0);
 					if ($p_club->store()===false)
@@ -1827,7 +1828,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					}
 					else
 					{
-						$insertID=$p_club->id; 
+						$insertID=$p_club->id;
 						$this->_convertClubID[$oldID]=$insertID;
 						$my_text .= '<span style="color:'.$this->storeSuccessColor.'">';
 						$my_text .= JText::sprintf(	'Updated club data: %1$s - %2$s',
@@ -1875,7 +1876,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 				$p_club->set('logo_small',$this->_getDataFromObject($import_club,'logo_small'));
                 $p_club->set('dissolved',$this->_getDataFromObject($import_club,'dissolved'));
                 $p_club->set('founded',$this->_getDataFromObject($import_club,'founded'));
-                
+
 				if ((isset($alias)) && (trim($alias)!=''))
 				{
 					$p_club->set('alias',$alias);
@@ -1904,7 +1905,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					FROM #__joomleague_club
 					WHERE	name='".addslashes(stripslashes($p_club->name))."' AND
 						country='$p_club->country'";
-				$this->_db->setQuery($query); 
+				$this->_db->setQuery($query);
                 $this->_db->query();
 				if ($object=$this->_db->loadObject())
 				{
@@ -1927,7 +1928,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					}
 					else
 					{
-						$insertID=$p_club->id; 
+						$insertID=$p_club->id;
 						$this->_convertClubID[$oldID]=$insertID;
 						$my_text .= '<span style="color:'.$this->storeSuccessColor.'">';
 						$my_text .= JText::sprintf(	'Created new club data: %1$s - %2$s',
@@ -2075,7 +2076,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					}
 					else
 					{
-						$insertID=$p_team->id; 
+						$insertID=$p_team->id;
 						$this->_convertTeamID[$oldID]=$insertID;
 						$my_text .= '<span style="color:'.$this->storeSuccessColor.'">';
 						$my_text .= JText::sprintf(	'Created new team data: %1$s - %2$s - %3$s - %4$s - %5$s',
@@ -2236,7 +2237,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					}
 					else
 					{
-						$insertID=$p_person->id; 
+						$insertID=$p_person->id;
 						$this->_convertPersonID[$oldID]=$insertID;
 						$dNameStr=((!empty($p_person->lastname)) ?
 									$p_person->lastname :
@@ -2547,7 +2548,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					$my_text .= JText::sprintf('Created new division data: %1$s',"</span><strong>$name</strong>");
 					$my_text .= '<br />';
 				}
-				$insertID=$p_division->id; 
+				$insertID=$p_division->id;
 				$this->_convertDivisionID[$oldId] = $insertID;
 			}
 			$this->_success_text['Importing division data:']=$my_text;
@@ -3029,7 +3030,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 				$my_text .= JText::sprintf('Created new round: %1$s',"</span><strong>$name</strong>");
 				$my_text .= '<br />';
 			}
-			$insertID=$p_round->id; 
+			$insertID=$p_round->id;
 			$this->_convertRoundID[$oldId]=$insertID;
 		}
 		$this->_success_text['Importing round data:']=$my_text;
@@ -3857,7 +3858,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					$my_text .= JText::sprintf('Created new treeto data: %1$s','</span><strong>'.$p_treeto->name.'</strong>');
 					$my_text .= '<br />';
 				}
-				$insertID=$p_treeto->id; 
+				$insertID=$p_treeto->id;
 				$this->_convertTreetoID[$oldId]=$insertID;
 			}
 			$this->_success_text['Importing treeto data:']=$my_text;
@@ -3905,7 +3906,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					$my_text .= JText::sprintf('Created new treetonode data: %1$s','</span><strong>'.$p_treetonode->id.'</strong>');
 					$my_text .= '<br />';
 				}
-				$insertID=$p_treetonode->id; 
+				$insertID=$p_treetonode->id;
 				$this->_convertTreetonodeID[$oldId]=$insertID;
 			}
 			$this->_success_text['Importing treetonode data:']=$my_text;
@@ -3942,7 +3943,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 					$my_text .= JText::sprintf('Created new treetomatch data: %1$s','</span><strong>'.$p_treetomatch->id.'</strong>');
 					$my_text .= '<br />';
 				}
-				$insertID=$p_treetomatch->id; 
+				$insertID=$p_treetomatch->id;
 				$this->_convertTreetomatchID[$oldId]=$insertID;
 			}
 			$this->_success_text['Importing treetomatch data:']=$my_text;
@@ -3972,6 +3973,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 	public function importData($post)
 	{
 		$this->_datas=$this->getData();
+		$jinput = JFactory::getApplication() -> input;
 
 		$this->_newteams=array();
 		$this->_newteamsshort=array();
@@ -4308,7 +4310,7 @@ class JoomleagueModelJLXMLImport extends JModelLegacy
 				{
 					$this->_timezone=$post['timezone'];
 				}
-				
+
 				if (isset($post['copyTemplate'])) // if new template set this value is 0
 				{
 					$this->_template_id=(int)$post['copyTemplate'];

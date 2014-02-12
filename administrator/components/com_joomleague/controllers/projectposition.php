@@ -79,7 +79,7 @@ class JoomleagueControllerProjectposition extends JoomleagueController
 	public function save_positionslist()
 	{
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
-		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id']=(int) $cid[0];
 		$model=$this->getModel('projectposition');
@@ -102,7 +102,7 @@ class JoomleagueControllerProjectposition extends JoomleagueController
 		// Check for request forgeries
 		JSession::checkToken() or die('COM_JOOMLEAGUE_GLOBAL_INVALID_TOKEN');
 		echo '<br /><pre>2'.print_r($post,true).'~</pre><br />';
-		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(0), 'array');
 		$post['id']=(int) $cid[0];
 		$model=$this->getModel('projectposition');
@@ -132,7 +132,7 @@ class JoomleagueControllerProjectposition extends JoomleagueController
 	public function saveshort()
 	{
 		die('Saveshort in projectposition controller');
-		$jinput = JFactory::getApplication() -> input; $post=$jinput->post;
+		$jinput = JFactory::getApplication() -> input; $post=$jinput->getArray();
 		$cid = $jinput -> get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		$model=$this->getModel('projectposition');
