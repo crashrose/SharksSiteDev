@@ -1,5 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access');
-JHtml::_('behavior.framework');
+JHtml::_('jquery.framework');
 $modalheight = JComponentHelper::getParams('com_joomleague')->get('modal_popup_height', 600);
 $modalwidth = JComponentHelper::getParams('com_joomleague')->get('modal_popup_width', 900);
 ?>

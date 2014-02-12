@@ -117,6 +117,7 @@ class JLGView extends JViewLegacy
 			$document->addScript($js);
 		}
 
+
 		//extension management
 		$extensions=JoomleagueHelper::getExtensions($jinput -> get('p', 0, 'int'));
 

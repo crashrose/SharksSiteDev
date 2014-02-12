@@ -35,7 +35,7 @@ $helper = new modJLCalendarHelper;
 $doc = JFactory::getDocument();
 $lightbox    = $params->get('lightbox', 1);
 
-JHtml::_('behavior.framework');
+JHtml::_('jquery.framework');
 JHtml::_('behavior.modal');
 if ($lightbox ==1 && (!isset($_GET['format']) OR ($_GET['format'] != 'pdf'))) {
 	$doc->addScriptDeclaration(";

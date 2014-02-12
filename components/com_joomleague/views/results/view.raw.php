@@ -20,7 +20,7 @@ class JoomleagueViewResults extends JLGView
 		$document->addStyleSheet($css);
 		
 		//add js file
-		JHtml::_('behavior.framework');
+		JHtml::_('jquery.framework');
 		$model	= $this->getModel();
 				
 		$matches = $model->getMatches();

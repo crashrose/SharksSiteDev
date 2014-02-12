@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access');
 
-JHtml::_('behavior.framework');
+JHtml::_('jquery.framework');
 ?>
 <style>
 .search-item {

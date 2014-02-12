@@ -5,13 +5,13 @@ $jinput = JFactory::getApplication() -> input;
 <!-- START: matches -->
 
 	<?php
-		$club_id = $jinput -> get('cid',0,'int'); != -1 ? $jinput -> get('cid',0,'int'); : false;
+		$club_id = $jinput -> get('cid',0,'int') != -1 ? $jinput -> get('cid',0,'int') : false;
 
 		//sort matches by dates
 		$gamesByDate = Array();
 		foreach ( $this->matches as $game )
 		{
-			$gameDate = JoomleagueHelper::getGameDate($game);
+			$gameDate = JoomleagueHelper::getMatchDate($game);
 			$gamesByDate[$gameDate][] = $game;
 		}
 

@@ -13,31 +13,31 @@ class JoomleagueViewClubPlan extends JLGView
 		$project = $model->getProject();
 		$overallconfig = $model->getOverallConfig();
 		$config=$model->getTemplateConfig($this->getName());
-		$this->assignRef('project',$project);
-		$this->assignRef('overallconfig',$overallconfig);
-		$this->assignRef('config',$config);
-		$this->assignRef('favteams',$model->getFavTeams());
-		$this->assignRef('club',$model->getClub());
+		$this->project = $project;
+		$this->overallconfig = $overallconfig;
+		$this->config = $config;
+		$this->favteams = $model->getFavTeams();
+		$this->club = $model->getClub();
 		switch ($config['type_matches']) {
 			case 0 : case 4 : // all matches
-				$this->assignRef('allmatches',$model->getAllMatches($config['MatchesOrderBy']));
+				$this->allmatches = $model->getAllMatches($config['MatchesOrderBy']);
 				break;
 			case 1 : // home matches
-				$this->assignRef('homematches',$model->getHomeMatches($config['MatchesOrderBy']));
+				$this->homematches = $model->getHomeMatches($config['MatchesOrderBy']);
 				break;
 			case 2 : // away matches
-				$this->assignRef('awaymatches',$model->getAwayMatches($config['MatchesOrderBy']));
+				$this->awaymatches = $model->getAwayMatches($config['MatchesOrderBy']);
 				break;
 			default: // home+away matches
-				$this->assignRef('homematches',$model->getHomeMatches($config['MatchesOrderBy']));
-				$this->assignRef('awaymatches',$model->getAwayMatches($config['MatchesOrderBy']));
+				$this->homematches = $model->getHomeMatches($config['MatchesOrderBy']);
+				$this->awaymatches = $model->getAwayMatches($config['MatchesOrderBy']);
 				break;
 		}
-		$this->assignRef('startdate',$model->getStartDate());
-		$this->assignRef('enddate',$model->getEndDate());
-		$this->assignRef('teams',$model->getTeams());
-		$this->assignRef('model',$model);
-		$this->assign('action',$uri->toString());
+		$this->startdate = $model->getStartDate();
+		$this->enddate = $model->getEndDate();
+		$this->teams = $model->getTeams();
+		$this->model = $model;
+		$this->action = $uri->toString();
 
 		// Set page title
 		$pageTitle=JText::_('COM_JOOMLEAGUE_CLUBPLAN_TITLE');

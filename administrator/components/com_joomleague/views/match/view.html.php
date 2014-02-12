@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.view');
 jimport('joomla.filesystem.file');
-JHtml::_('behavior.framework');
+JHtml::_('jquery.framework');
 /**
  * HTML View class for the Joomleague component
  *

@@ -5,7 +5,7 @@ $ordering = ( $this->lists['order'] == 'ppl.ordering' );
 
 $this->addTemplatePath( JPATH_COMPONENT .DIRECTORY_SEPARATOR. 'views' .DIRECTORY_SEPARATOR. 'adminmenu' );
 
-JHtml::_('behavior.framework');
+JHtml::_('jquery.framework');
 ?>
 <style>
 .search-item {

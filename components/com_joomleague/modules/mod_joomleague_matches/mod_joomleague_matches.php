@@ -20,7 +20,7 @@ $match_id = $jinput -> get('match_id',0,'int');
 $nr = $jinput -> get('nr',-1,'int');
 $ajaxmod= $jinput -> get('ajaxmodid',0,'int');
 $template = $params->get('template','default');
-JHtml::_('behavior.framework');
+JHtml::_('jquery.framework');
 $doc = JFactory::getDocument();
 $doc->addScript( _JLMATCHLISTMODURL.'assets/js/mod_joomleague_matches.js' );
 $doc->addStyleSheet(_JLMATCHLISTMODURL.'tmpl/'.$template.'/mod_joomleague_matches.css');

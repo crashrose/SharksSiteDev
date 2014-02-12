@@ -20,7 +20,7 @@ require_once (dirname(__FILE__).DIRECTORY_SEPARATOR.'helper.php');
 
 require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_joomleague'.DIRECTORY_SEPARATOR.'joomleague.core.php');
 
-JHtml::_('behavior.framework');
+JHtml::_('jquery.framework');
 $document = JFactory::getDocument();
 //add css file
 $document->addStyleSheet(JUri::base().'modules/mod_joomleague_navigation_menu/css/mod_joomleague_navigation_menu.css');

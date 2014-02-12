@@ -48,7 +48,7 @@ class JoomleagueViewTemplate extends JLGView
 		$templatepath=JPATH_COMPONENT_SITE.DIRECTORY_SEPARATOR.'settings';
 		$xmlfile=$templatepath.DIRECTORY_SEPARATOR.'default'.DIRECTORY_SEPARATOR.$template->template.'.xml';
 
-		$extensions = JoomleagueHelper::getExtensions($jinput -> get('p',0,'int'););
+		$extensions = JoomleagueHelper::getExtensions($jinput -> get('p',0,'int'));
 		foreach ($extensions as $e => $extension) {
 			$extensiontpath =  JPATH_COMPONENT_SITE .DIRECTORY_SEPARATOR. 'extensions' .DIRECTORY_SEPARATOR. $extension;
 			if (is_dir($extensiontpath.DIRECTORY_SEPARATOR.'settings'.DIRECTORY_SEPARATOR.'default'))

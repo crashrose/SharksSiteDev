@@ -11,7 +11,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' ); // Check to ensure this file is included in Joomla!
 
-JHtml::_('behavior.framework');
+JHtml::_('jquery.framework');
 /**
  * Renders a Dynamic SQL element
  *

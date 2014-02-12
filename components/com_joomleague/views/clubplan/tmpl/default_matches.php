@@ -48,7 +48,7 @@ if ($this->config['type_matches'] != 0) {
 }
 		$k   = 0;
 		$cnt = 0;
-		$club_id = $jinput -> get('cid',0,'int'); != -1 ? $jinput -> get('cid',0,'int'); : false;
+		$club_id = $jinput -> get('cid',0,'int') != -1 ? $jinput -> get('cid',0,'int') : false;
 		$prevDate = '';
 		foreach ($this->matches as $game)
 		{

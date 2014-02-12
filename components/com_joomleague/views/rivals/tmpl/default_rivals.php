@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); 
 
 //add js file
-JHtml::_('behavior.framework');
+JHtml::_('jquery.framework');
 ?>
 
 <table class="fixtures" width="96%" align="center" border="0" cellpadding="0" cellspacing="0">

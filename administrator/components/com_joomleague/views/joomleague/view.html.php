@@ -103,7 +103,7 @@ class JoomleagueViewJoomleague extends JLGView
 		$option = $jinput->get('option', '', 'string');
 
 		$mainframe = JFactory::getApplication();
-		JHtmlBehavior::framework() ;
+		JHtml::_('jquery.framework');
 		$db = JFactory::getDbo();
 		$document = JFactory::getDocument();
 		$version = urlencode(JoomleagueHelper::getVersion());
