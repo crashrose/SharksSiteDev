@@ -1,0 +1,42 @@
+// Bootstrap mixins
+@import "../asset/bootstrap/less/mixins.less";
+
+/*  Choose Patterns
+--------------------------------------------------------- */
+
+.header-backgroud-image,#jform_params_header_bgimage_pattern{
+    .pattern1{background-image:url(../images/pattern/header/pattern1.png);}
+    .pattern2{background-image:url(../images/pattern/header/pattern2.png);}
+    .pattern3{background-image:url(../images/pattern/header/pattern3.png);}
+    .pattern4{background-image:url(../images/pattern/header/pattern4.png);}
+    .pattern5{background-image:url(../images/pattern/header/pattern5.png);}
+}
+.footer-backgroud-image,#jform_params_footer_bgimage_pattern{
+    .pattern1{background-image:url(../images/pattern/footer/pattern1.png);}
+    .pattern2{background-image:url(../images/pattern/footer/pattern2.png);}
+    .pattern3{background-image:url(../images/pattern/footer/pattern3.png);}
+    .pattern4{background-image:url(../images/pattern/footer/pattern4.png);}
+    .pattern5{background-image:url(../images/pattern/footer/pattern5.png);}
+}
+#yt_header{
+    &.pattern1{background-image:url(../images/pattern/header/pattern1.png);}
+    &.pattern2{background-image:url(../images/pattern/header/pattern2.png);}
+    &.pattern3{background-image:url(../images/pattern/header/pattern3.png);}
+    &.pattern4{background-image:url(../images/pattern/header/pattern4.png);}
+    &.pattern5{background-image:url(../images/pattern/header/pattern5.png);}
+}
+#yt_spotlight2,#yt_footer{
+    &.pattern1{background-image:url(../images/pattern/footer/pattern1.png);}
+    &.pattern2{background-image:url(../images/pattern/footer/pattern2.png);}
+    &.pattern3{background-image:url(../images/pattern/footer/pattern3.png);}
+    &.pattern4{background-image:url(../images/pattern/footer/pattern4.png);}
+    &.pattern5{background-image:url(../images/pattern/footer/pattern5.png);}
+}
+.pattern-wrap .pattern{
+    height: 22px; width: 30px; float:left; text-indent:-999em;
+    margin: 0 5px 0 0;cursor:pointer;background-color: #ddd;
+    .border-radius(3px); .box-sizing( border-box);.box-shadow(0 0 2px rgba(0, 0, 0, 0.5) inset);
+}
+.pattern-wrap .pattern.active{
+    border: 1px solid rgba(0,0,0,0.4);.box-shadow(~"0 1px 3px 1px rgba(0, 0, 0, 0.4) inset, 0 0 0 2px rgba(0, 0, 0, 0.08)");background-color: #eee;
+}

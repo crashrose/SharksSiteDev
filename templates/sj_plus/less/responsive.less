@@ -1,0 +1,282 @@
+// Bootstrap mixins
+@import "variables.less";
+@import "../asset/bootstrap/less/mixins.less";
+@import "utilities.less";
+
+#bd{padding: 0;
+
+     // 1.Large desktops
+     // --------------------------------------------------
+     @media (min-width: 1200px) {
+          .menu-fixed{
+              width: 100%;margin: 0;position: fixed;top: 0;left: 0;z-index: 10;
+          }
+     }
+     
+     // 2.Tablets landscape to regular desktops
+     // --------------------------------------------------
+     @media (min-width: 980px) and (max-width: 1024px) {
+          
+          //Layout-Templates
+          .container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container{width: 980px;}
+          #mod-finder-searchform{margin: 35px 3px 0 0;}
+          #mod-finder-searchform input.inputbox{width:180px;border-left: 1px solid @dropdownDividerTop;}
+          //Joomla Core
+          .blog {
+               .items-leading .item{
+                    .item-image{float: none;display: inline-block;margin: 0 0 5px;}
+                    &.span4,
+                    &.span6,
+                    &.span3 {
+                         .item-image{display: block ;height: 100%;min-width: inherit !important;min-height: inherit !important;
+                              .img_caption{width: auto !important;}
+                         }
+                    }
+                    
+               }
+               .items-row .item{
+                    .item-image{float: none;display: inline-block;margin: 0 0 5px;}
+                    &.span4,
+                    &.span6,
+                    &.span3 {
+                         .item-image{display: block;height: 100%;min-width: inherit !important;min-height: inherit !important;
+                              img{max-width: 100% ; display: block ;}
+                              .img_caption{width: auto !important;}
+                         }
+                    }
+                    
+               }
+          }
+          .rtl #mod-finder-searchform .button{left: 35px;}
+          #form-login-username .input-small{width: 100px;}
+     }
+     
+     // 3.Tablets to regular desktops
+     // --------------------------------------------------
+     @media (min-width: 767px) and (max-width: 979px) {
+         
+          // Core Joomla
+          select[multiple], select[size]{height: 30px;}
+          #recaptcha_response_field{width:auto !important;}
+          #recaptcha_area td{display: block !important;}
+          #yt_wrapper {padding:0;}
+          table {width: 100%; border-collapse: collapse; border-spacing: 0; display: block;border: 1px solid #ccc; 
+              //Responsive Tables
+              #flip-scroll();
+          }
+          
+          //System-tool
+          #cpanel_wrapper{display: none;}
+          #yt_sticky_left,#yt_sticky_right,#yt_tool_bottom{display: none;}
+          
+          //Layout-Templates
+          #yt_spotlight .modcontent{padding: 10px;text-align: center;}
+          #yt_wrapper #yt_spotlight5 .row-fluid [class*="span"]{min-height: 300px;}
+          #yt_spotlight2 .module h3.modtitle{min-height: 40px;}
+          .row-fluid .span3 {width: 22.96923076923%;}
+          .row-fluid .span6 {width: 48.664757228587%;}
+          
+          //Mainmenu
+          #yt_menuposition ul.navi li.level1 > .level1{padding: 12px 12px;}
+          #yt_menuposition ul.navi > li.level1.havechild {
+               &:after{right: 8px;}
+               .level1{padding: 12px 25px 12px 12px;}
+          }
+          #yt_menuposition #menuRespon .mega-content-inner{width:724px !important;}
+          #yt_menuposition #menuRespon .mega-col.more{width:33% !important;}
+          
+          //Slideshow
+          div.carousel-caption p{.text-overflow();}
+         
+          
+          //Generic Article Style
+          .blog-featured .items-row .item .item-image{display: inline-block;}
+          .blog {
+               .items-leading .item{
+                    &.span4,
+                    &.span6,
+                    &.span3 {
+                         .item-image{display: block !important;min-width: inherit !important;min-height: inherit !important;
+                              .img_caption{width: auto !important;}
+                         }
+                    }
+                    .item-image{float: none;display: inline-block;margin: 0 0 5px;}
+               }
+               .items-row .item{
+                    &.span4,
+                    &.span6,
+                    &.span3 {
+                         .item-image{display: block!important;min-width: inherit !important;min-height: inherit !important;float: none;
+                              .img_caption{width: auto !important;}
+                         }
+                    }
+                    .item-image{float: none;display: inline-block;margin: 0 0 5px;}
+               }
+          }
+          .item-page .related-items .img-fulltext {display: inline-block;}
+          
+          //Modules
+          .module.style-icon{padding-left: 70px;}
+          .module.style-icon h3.modtitle [class^="icon-"],
+          .module.style-icon h3.modtitle [class*=" icon-"]{left: 0;}
+          #form-login-remember  input[type="checkbox"]{margin: 0;}
+          #yt_footer .yt-main #footer .yt-socialbt a i{margin-top: -7px;}
+          
+          //RTL Languages
+          &.rtl {
+               #yt_spotlight5 .row-fluid [class*="span"]{
+                    border-right: none;border-left: 1px solid #4A4A4A;
+                    box-shadow: -1px 0 0 #2F2F2F;
+               }
+               .sj-extraslider .extraslider-control.style1  {
+                    .button-prev{left: 11%;}
+                    .button-next{right: 37%;}
+               }
+                  
+          }
+     }
+     
+     // 4.Phones to portrait tablets and narrow desktops
+     // --------------------------------------------------
+     @media (max-width: 767px){
+          
+          //Bootstrap
+          .row-fluid [class*="span"] {display: block;float: none;margin-left: 0;margin-right: 0;width: auto;}
+          select[multiple], select[size]{width:99%;height: 30px;}
+          .recaptchatable #recaptcha_image{width:100% !important;}
+          .form-horizontal .controls input{width:auto;}
+          select{width:95%;}
+          
+          //Base Joomla
+          #yt_wrapper {padding:0;}
+          table {width: 100%; border-collapse: collapse; border-spacing: 0; display: block;border: 1px solid #ccc; 
+              //Responsive Tables
+              #flip-scroll();
+          }
+          .form-horizontal .controls,
+          dd{margin: 0;}
+          #recaptcha_response_field{width:auto !important;}
+          #recaptcha_area td{display: block !important; width:224px !important;}
+          .recaptchatable #recaptcha_image{width:100%!important;}
+          #advanced-search-toggle{margin-top: 10px;}
+          
+          //System-tool
+          #cpanel_wrapper{display: none;}
+          
+          //Layout-Templates
+          .container {margin:0 auto;padding:0 15px;}
+          .layout_shortcode .container{width:auto;}
+          #yt_logoposition h1{text-align: center;margin: 20px 0 15px;
+               a{display: inline-block;}
+          }
+          #yt_header .row-fluid > div:before{display: none;}
+          #social .poscenter{padding: 0 !important;}
+          #content #yt_component{min-height: inherit;}
+          .carousel-indicators{display: none;}
+          #footer .pull-right{float: none;margin: 0 auto 2em;text-align: center;}
+          
+          //Mainmenu
+          #yt_menuwrap{height: auto;
+               ul.navi{display: none;}
+               #yt-mobilemenu{width:100%;border: none;display: block;margin: 20px 0;}
+               ul.social{float: none;display: table;margin: 0 auto;padding-bottom: 20px;}
+          }
+          
+          // Generic Article Styles
+          .blog {
+               .items-leading .item{
+                    .item-image{float: none;display: block;margin: 0 0 5px;min-height: inherit !important;min-width: inherit !important;}
+               }
+               .items-row .item{
+                    .item-image{float: none;display: block;margin: 0 0 5px;min-height: inherit !important;min-width: inherit !important;}
+               }
+          }
+          .blog-featured .items-leading,
+          .blog-featured .items-row{
+               .item .item-image{margin: 0 0 20px;float: none;display:block;min-height: inherit !important;min-width: inherit !important;}
+          }
+          .item-page .img-fulltext{display: block;float: none;}
+          .item-page ul.related-items li{margin-bottom: 20px;
+               .img-fulltext{display: inline-block;}     
+          } 
+          .pagination  ul li{margin: 4px 2px;
+                a, span{float: none;display: inline-block;}
+          }
+
+          //Module
+          .module_menu,div.module{margin-bottom: 20px;}
+          
+          //Slideshow
+          div.carousel .carousel-caption {display: none;}
+          
+          //HTML&CSS
+          .wellcomesj{margin: 2em 0;}
+          #social .poscenter{margin: 0 auto 20px !important;}
+          .wellcomesj h1 span{display: block;}
+          .module.style-icon{padding-left: 70px;}
+          .module.style-icon h3.modtitle [class^="icon-"],
+          .module.style-icon h3.modtitle [class*=" icon-"]{left: 0;}
+          .icon-add:before{margin-left: -1px;}
+          
+          //Component: Login,Register 
+          &.view-login {
+               #content  #yt_component{padding: 0;
+                    .wrap-login{width:100%;
+                         .page-header{margin:-12px -26px 15px ;}
+                         .form-horizontal .control-group{float: none;width: auto;} 
+                    }
+               }
+               .wrap-login .other-link ul.yt-list {margin: 0;
+                    li{margin: 0 15px;}
+               }
+              
+          }
+          
+          //Content Joomla
+          .input-prepend.input-append .add-on:first-child,
+          .input-prepend.input-append .btn:first-child{float: left;}
+          .input-prepend.input-append input,
+          .input-prepend.input-append select,
+          .input-prepend.input-append .uneditable-input{float: left;}
+          
+          .newsfeed-category select[multiple],
+          .newsfeed-category select[size],
+          .contact-category select[multiple],
+          .contact-category select[size] {
+               width: auto;
+          }
+          
+          div.archive .filter-search{padding: 15px;}
+          .search #searchForm .phrases-box input, .search #searchForm .only input{margin-top: 0}
+          form#contact-form textarea, form#contact-form textarea:focus{width:90%;}	
+          .form-horizontal .control-label{float: none;}
+          #finder-search .inputbox{margin-bottom: 10px;}
+          div.contact textarea, div.contact input{width:90%;}
+          .filter-search select{margin-bottom: 1em;}
+          div.contact .contact-image{float: none;width:100%;margin-bottom: 1em;}
+          #position-d div.contact{width:99%;margin: 0;padding: 0;min-height: 160px;border: none;}
+          
+          //RTL Languages 
+          &.rtl {
+               .sj-extraslider .extraslider-control{right: auto;left: 0;}
+               
+               .input-prepend.input-append .add-on:first-child,
+               .input-prepend.input-append .btn:first-child{float: right;}
+               .input-prepend.input-append input,
+               .input-prepend.input-append select,
+               .input-prepend.input-append .uneditable-input{float: right;}
+               
+               div.archive .filter-search #limit{margin: 0 0 0 10px;}
+          }
+          
+          
+     }
+}
+
+// 4.Phones to portrait tablets Print
+// --------------------------------------------------
+@media (max-width: 480px){
+     .contentpane .item-page .img-fulltext{display: block;}
+     .contentpane .row-fluid.related-items [class*="span"]{width: 48.9362%;}
+     .contentpane .row-fluid.related-items [class*="span"]:nth-of-type(2n+1){margin: 0;}
+}

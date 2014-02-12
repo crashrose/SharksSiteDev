@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="params">
+		<!-- Global Tab -->
+		<fieldset name="Global" label="GLOBAL_SETTINGS_TAB_LB" addfieldpath="/templates/sj_company/elements">
+			<field name="hideComponentHomePage" type="radio" class="btn-group" label="HIDE_COMPONENT_LABEL" description="HIDE_COMPONENT_DESC" default="0" filter="integer"
+			>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="responsive" type="radio" class="btn-group" label="RESPONSIVE_LABEL" description="RESPONSIVE_DESC" default="1" filter="integer"
+			>
+				<option value="1">Enable</option>
+				<option value="0">Disable</option>
+			</field>
+		</fieldset>
+		<!-- Layout Tab -->
+		<fieldset name="Layouts" label="LAYOUT_SETTINGS_TAB_LB" addfieldpath="/templates/sj_company/elements">
+			<field name="templateLayout" default="main-right" type="filelist" filter = ".xml" stripext=".xml" directory="templates/sj_company/layouts/" hide_default="1" label="LAYOUT_LABEL" description="LAYOUT_DESC" />
+			<field name="overrideLayouts" type="layoutoverride" directory="templates/sj_company/layouts/" label="OVERRIDE_LAYOUT_LABEL" description="OVERRIDE_LAYOUT_DESC" />
+		</fieldset>
+		<!-- Menu Tab -->
+		<fieldset name="Menu" label="MENU_SETTINGS_TAB_LB" addfieldpath="/templates/sj_company/elements">
+			<field name="menutype" type="menu" default="mainmenu" label="MENUTYPE_LABEL" description="MENUTYPE_DESC" />
+			<field name="menuresstyle" type="radio" class="btn-group" default="mega" label="Menu Responsive Style" description="">
+				<option value="selectbox">selectbox</option>
+			  	<option value="navbar">navbar</option>
+                <option value="scroll">scroll</option>
+			</field>
+			<field name="menustyle_depend" type="depend" function="@radio2">
+				<option for="menustyle" value="mega">
+					moofx,moofxduration
+				</option>
+				<option for="menustyle" value="moo">
+					moofx,moofxduration
+				</option>
+				<option for="menustyle" value="dropline">
+					moofx,moofxduration
+				</option>
+				<option for="menustyle" value="basic"></option>
+			</field>
+			<field name="menustyle" type="radio" class="btn-group" default="mega" label="MENU_STYLE_LABEL" description="MENU_STYLE_DESC">
+				<option value="basic">CSS</option>
+			  	<option value="mega">Mega</option>
+                <option value="moo">Moo</option>
+			  	<option value="dropline">Dropline</option>
+			</field>
+			<field name="moofx" type="list" default="easeInOutCirc" label="JS_EFFECT_LABEL" description="JS_EFFECT_DESC">
+				<option value="jswing">jswing</option>
+				<option value="easeInQuad">easeInQuad</option>
+				<option value="easeOutQuad">easeOutQuad</option>
+				<option value="easeInOutQuad">easeInOutQuad</option>
+				<option value="easeInCubic">easeInCubic</option>
+				<option value="easeOutCubic">easeOutCubic</option>
+				<option value="easeInOutCubic">easeInOutCubic</option>
+				<option value="easeInQuart">easeInQuart</option>
+				<option value="easeOutQuart">easeOutQuart</option>
+				<option value="easeInOutQuart">easeInOutQuart</option>
+				<option value="easeInSine">easeInSine</option>
+				<option value="easeOutSine">easeOutSine</option>
+				<option value="easeInOutSine">easeInOutSine</option>
+				<option value="easeInExpo">easeInExpo</option>
+				<option value="easeOutExpo">easeOutExpo</option>
+				<option value="easeInOutExpo">easeInOutExpo</option>
+				<option value="easeInQuint">easeInQuint</option>
+				<option value="easeOutQuint">easeOutQuint</option>
+				<option value="easeInOutQuint">easeInOutQuint</option>
+				<option value="easeInCirc">easeInCirc</option>
+				<option value="easeOutCirc">easeOutCirc</option>
+				<option value="easeInOutCirc">easeInOutCirc</option>
+				<option value="easeInElastic">easeInElastic</option>
+				<option value="easeOutElastic">easeOutElastic</option>
+				<option value="easeInOutElastic">easeInOutElastic</option>
+				<option value="easeInBack">easeInBack</option>
+				<option value="easeOutBack">easeOutBack</option>
+				<option value="easeInOutBack">easeInOutBack</option>
+				<option value="easeInBounce">easeInBounce</option>
+				<option value="easeOutBounce">easeOutBounce</option>
+				<option value="easeInOutBounce">easeInOutBounce</option>
+			</field>
+			<field name="moofxduration" type="text" default="500" label="DURATION_EFFECT_LABEL" description="DURATION_EFFECT_DESC" />
+			<field name="startlevel" type="text" default="0" label="START_LEVEL_LABEL" description="START_LEVEL_DESC" />
+			<field name="endlevel" type="text" default="9" label="END_LEVEL_LABEL" description="END_LEVEL_DESC" />
+		</fieldset>
+		<!-- Colors Tab -->
+		<fieldset name="Colors" label="COLORS_TAB_LB" addfieldpath="/templates/sj_company/elements">
+			<!-- Global fieldset -->
+			<field type="ytfieldset" status="1" legend="Global"/>
+			<field name="templateColor" type="list" default="green" label="TEMPLATE_COLOR_LABEL" description="TEMPLATE_COLOR_DESC">
+				<option value="green">Green</option>
+				<option value="dark_green">Dark Green</option>
+				<option value="yellow">Yellow</option>
+				<option value="oranges">Oranges</option>
+			</field>
+			<field name="logoType_depend" type="depend" function="@radio">
+				<option for="logoType" value="text">
+					logoText,sloganText
+				</option>
+				<option for="logoType" value="image">
+					overrideLogoImage
+				</option>
+			</field>
+			
+			<field name="logoType" type="radio" class="btn-group" default="image" label="LOGO_TYPE_LABEL" description="LOGO_TYPE_DESC">
+				<option value="image">Image</option>
+				<option value="text">Text</option>
+			</field>
+
+			<field name="overrideLogoImage" type="ytmedia" directory="" label="OVERRIDE_LOGO_IMAGE_LABEL" description="OVERRIDE_LOGO_IMAGE_DESC" />
+			<field name="logoText" type="text" default="SmartAddons.Com" size="50" label="LOGO_TEXT_LABEL" description="LOGO_TEXT_DESC" />
+			<field name="sloganText" type="text" default="The high quality products" size="50" label="SLOGAN_LABEL" description="SLOGAN_DESC" />
+			<field type="ytfieldset" status="0"/>
+			<!-- Body fieldset -->
+			<field type="ytfieldset" status="1" legend="Body"/>
+			<field name="bgcolor" type="ytcolor" default="#ffffff" label="BODY_BACKGROUND_LABEL" description="BODY_BACKGROUND_DESC" />
+			<field name="linkcolor" type="ytcolor" default="#73b700" label="BODY_LINK_LABEL" description="BODY_LINK_DESC" />
+			<field name="textcolor" type="ytcolor" default="#919191" label="BODY_TEXT_LABEL" description="BODY_TEXT_DESC" />
+			<field type="ytfieldset" status="0"/>
+			<!-- Header fieldset -->
+			<field type="ytfieldset" status="1" legend="Header"/>
+			<field name="header-bgcolor" type="ytcolor"  default="#ffffff" label="HEADER_BACKGROUND_LABEL" description="HEADER_BACKGROUND_DESC" />
+			<field name="header-bgimage" type="pattern" directory="templates/sj_company/images/pattern" default="pattern_3" label="HEADER_BACKGROUND_IMAGE_LABEL" description="HEADER_BACKGROUND_IMAGE_DESC" />
+			<field type="ytfieldset" status="0"/>
+			<!-- Spotlight5 fieldset -->
+			<field type="ytfieldset" status="1" legend="Spotlight5"/>
+			<field name="spotlight5-bgcolor"  type="ytcolor" default="#3e3e3e" label="Background color" description="Spotlight5 background color" />
+			<field type="ytfieldset" status="0"/>
+			<field type="ytfieldset" status="1" legend="Footer"/>
+			<field name="footer-bgcolor"  type="ytcolor" default="#222222" label="FOOTER_BACKGROUND_LABEL" description="FOOTER_BACKGROUND_DESC" />
+			<field type="ytfieldset" status="0"/>
+		</fieldset>
+		<!-- Typography Tab -->
+		<fieldset name="Typography" label="TYPOGRAPHY_TAB_LB" addfieldpath="/templates/sj_company/elements">
+			<field name="fontSize" type="list" default="12px" label="FONT_SIZE_LABEL" description="FONT_SIZE_DESC">
+				<option value="10px">10px</option>
+				<option value="11px">11px</option>			
+				<option value="12px">Default</option>
+				<option value="13px">13px</option>			
+				<option value="14px">14px</option>	
+				<option value="15px">15px</option>								
+				<option value="16px">16px</option>
+				<option value="17px">17px</option>			
+				<option value="18px">18px</option>
+			</field>
+			<field name="fontName" type="list" default="arial" label="FONT_NAME_LABEL" description="FONT_NAME_DESC" >
+				<option value="arial">Arial</option>
+				<option value="arial-black">Arial Black</option>
+				<option value="courier">Courier New</option>			
+				<option value="georgia">Georgia</option>
+				<option value="impact">Impact</option>			
+				<option value="lucida-console">Lucida Console</option>	
+				<option value="lucida-grande">Lucida Grande</option>								
+				<option value="lucida-sans">Lucida Sans</option>
+				<option value="palatino">Palatino</option>			
+				<option value="tahoma">Tahoma</option>
+				<option value="times">Times New Roman</option>
+				<option value="trebuchet">Trebuchet</option>
+				<option value="verdana">Verdana</option>
+			</field>
+			<field name="googleWebFont" type="text" default="Anton" label="GOOGLE_WEBFONT_LABEL" description="GOOGLE_WEBFONT_DESC" />
+			
+			<field name="googleWebFontTargets" type="textarea" default="h1,h2,h3,h4,h5,h6" label="GOOGLE_WEBFONT_TARGET_LABEL" description="GOOGLE_WEBFONT_TARGET_DESC" rows="5" />
+			<field name="direction" type="radio" class="btn-group" default="ltr" label="DIRECTION_LABEL" description="DIRECTION_DESC">
+				<option value="ltr">LTR</option>
+				<option value="rtl">RTL</option>
+			</field>
+		</fieldset>
+		<!-- Content component Tab -->
+        <fieldset name="ContentComponent" label="CONTENT_COMPONENT_TAB_LB" addfieldpath="/templates/sj_company/elements" description="CONTENT_COMPONENT_TAB_DESC">	
+			<field name="thumbnail" type="radio" class="btn-group" label="APPLY_BLOG_VIEW_LABEL" description="APPLY_BLOG_VIEW_DESC" default="1" filter="integer">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="thumbnail_front_page" type="radio" class="btn-group" label="APPLY_FRONTPAGE_LABEL" description="APPLY_FRONTPAGE_DESC" default="1" filter="integer">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="leading_width" type="text" default="300" label="LEADING_IMAGE_WIDTH_LABEL" description="LEADING_IMAGE_WIDTH_DESC" />
+			<field name="leading_height" type="text" default="150" label="LEADING_IMAGE_HEIGHT_LABEL" description="LEADING_IMAGE_HEIGHT_DESC" />
+			<field name="intro_width" type="text" default="180" label="INTRO_IMAGE_WIDTH_LABEL" description="INTRO_IMAGE_WIDTH_DESC" />
+			<field name="intro_height" type="text" default="120" label="INTRO_IMAGE_HEIGHT_LABEL" description="INTRO_IMAGE_HEIGHT_DESC" />
+			
+			<field name="thumbnail_background" type="ytcolor" default="#ffffff" label="THUMBNAIL_BGCL_LABEL" description="THUMBNAIL_BGCL_DESC" />
+			<field name="thumbnail_mode" type="listthumbnailmode" default="fit" label="THUMBNAIL_MODE_LABEL" description="THUMBNAIL_MODE_DESC" />						
+		</fieldset>
+        <!-- Advanced tab -->
+		<fieldset name="advanced"  label="ADVANCED_OPTIONS_TAB_LB" addfieldpath="/templates/sj_company/elements">
+			<!-- Less css -->
+			<field type="ytfieldset" status="1" legend="Css"/>
+			<field name="developing" type="radio" class="btn-group" label="DEVLOPING_LABEL" description="DEVLOPING_DESC" default="1" filter="integer"
+			>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="developing_depend" type="depend" function="@radio">
+				<option for="developing" value="1">
+					compileLess
+				</option>
+				<option for="developing" value="0">
+				</option>
+			</field>
+			<field name="compileLess" type="radio" class="btn-group" label="COMPILELESS_LABEL" description="COMPILELESS_DESC" default="server">
+				<option value="server">Server</option>
+				<option value="client">Client</option>
+			</field>
+			<field type="ytfieldset" status="0"/>
+			<!-- Optimize fieldset -->
+			<field type="ytfieldset" status="1" legend="Optimize"/>
+			<field name="optimizeMergeFile" type="radio" class="btn-group" label="OPTIMIZE_MERGE_LABEL" description="OPTIMIZE_MERGE_DESC" default="0" filter="integer">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="optimizeCSS_depend" type="depend" function="@radio">
+				<option for="optimizeCSS" value="1">
+					optimizeCSSExclude
+				</option>
+				<option for="optimizeCSS" value="0"></option>
+			</field>
+			<field name="optimizeCSS" type="radio" class="btn-group" label="OPTIMIZE_CSS_LABEL" description="OPTIMIZE_CSS_DESC" default="0" filter="integer">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="optimizeCSSExclude" default="" type="textarea" rows="5" label="OPTIMIZE_CSS_EXCLUDE_LABEL" description="OPTIMIZE_CSS_EXCLUDE_DESC" />
+			<field name="optimizeJS_depend" type="depend" function="@radio">
+				<option for="optimizeJS" value="1">
+					optimizeJSExclude
+				</option>
+				<option for="optimizeJS" value="0"></option>
+			</field>
+			<field name="optimizeJS" type="radio" class="btn-group" label="OPTIMIZE_JS_LABEL" description="OPTIMIZE_JS_DESC" default="0" filter="integer">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="optimizeJSExclude" default="" type="textarea" rows="5" label="OPTIMIZE_JS_EXCLUDE_LABEL" description="OPTIMIZE_JS_EXCLUDE_DESC" />
+			<field name="optimizeFolder" type="text" default="yt-assets" label="OPTIMIZE_FOLDER_LABEL" description="OPTIMIZE_FOLDER_DESC" />
+			<field type="ytfieldset" status="0"/>
+			<!-- Tools fieldset -->
+			<field type="ytfieldset" status="1" legend="Tools"/>
+			<field name="showBacktotop" type="radio" class="btn-group" label="SHOW_BACKTOTOP_LABEL" description="SHOW_BACKTOTOP_DESC" default="1" filter="integer">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="showCpanel" type="radio" class="btn-group" label="SHOW_CPANEL_LABEL" description="SHOW_CPANEL_DESC" default="1" filter="integer">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="useSpecialPositions" type="radio" class="btn-group" label="USE_SPECIAL_POSITIONS_LABEL" description="USE_SPECIAL_POSITIONS_DESC" default="1" filter="integer">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="useSpecialPositions_depend" type="depend" function="@radio">
+				<option for="useSpecialPositions" value="1">
+					activeNotice
+				</option>
+				<option for="useSpecialPositions" value="0"></option>
+			</field>
+			<!--<field name="eventsSpecialPostion" type="radio" class="btn-group" label="EVENTS_SPECIAL_POSITIONS_LABEL" description="EVENTS_SPECIAL_POSITIONS_DESC" default="click">
+				<option value="click">Click</option>
+				<option value="mouseenter mouseleave">Hover</option>
+			</field>-->
+			<field name="activeNotice" type="radio" class="btn-group" label="ACTIVE_NOTICE_LABEL" description="ACTIVE_NOTICE_DESC" default="1" filter="integer">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field type="ytfieldset" status="0"/>
+			<!-- Seo, System fieldset -->
+			<field type="ytfieldset" status="1" legend="Seo, System"/>
+			<field name="setGeneratorTag" type="text" default="SmartAddons.Com - the high quality products!" label="GENERATOR_TAG_LABEL" description="GENERATOR_TAG_DESC" />
+			<field name="enableGoogleAnalytics_depend" type="depend" function="@radio">
+				<option for="enableGoogleAnalytics" value="1">
+					googleAnalyticsTrackingID
+				</option>
+				<option for="enableGoogleAnalytics" value="0"></option>
+			</field>
+			<field name="enableGoogleAnalytics" type="radio" class="btn-group" label="ENABLE_GOOGLE_ANALYTICS_LABEL" description="ENABLE_GOOGLE_ANALYTICS_DESC" default="1" filter="integer">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="googleAnalyticsTrackingID" type="text" default="" label="GOGLE_ANALYTICS_TRACKING_ID_LABEL" description="GOGLE_ANALYTICS_TRACKING_ID_DESC" />
+			<field type="ytfieldset" status="0"/>
+			<!-- Included fieldset -->
+			<field type="ytfieldset" status="1" legend="Included"/>
+			<field name="includeLazyload" type="radio" class="btn-group" label="INCLUDE_LAZYLOAD_LABEL" description="INCLUDE_LAZYLOAD_DESC" default="1" filter="integer">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field type="ytfieldset" status="0"/>
+		</fieldset>	
+	</fields>
+<form>

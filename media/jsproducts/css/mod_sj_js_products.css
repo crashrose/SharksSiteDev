@@ -1,0 +1,139 @@
+
+.clear{
+    clear:both;
+}
+.products-wrap{
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    margin: 10px 0;
+}
+.products-wrap .footer_text, .products-wrap .intro_text{
+	margin: 10px 1%;
+	width: 100%;
+} 
+
+/*############################################## Css Device ##################################*/
+.products-wrap.preset02-1  .content-box{float: left;margin:0 1%;width: 98%;}
+.products-wrap.preset02-2  .content-box{float: left;margin:0 1%;width: 48%;}
+.products-wrap.preset02-3  .content-box{float: left;margin:0 1%;width: 31.3333%;}
+.products-wrap.preset02-4  .content-box{float: left;margin:0 1%;width: 23%;}
+.products-wrap.preset02-5  .content-box{float: left;margin:0 1%;width: 18%;}
+.products-wrap.preset02-6  .content-box{float: left;margin:0 1%;width: 14.6666%;}
+
+@media all and (max-width: 320px){
+	.products-wrap.preset05-1  .content-box{float: left;margin:0 1%;width: 98%;}
+	.products-wrap.preset05-2  .content-box{float: left;margin:0 1%;width: 48%;}
+	.products-wrap.preset05-3  .content-box{float: left;margin:0 1%;width: 31.3333%;}
+	.products-wrap.preset05-4  .content-box{float: left;margin:0 1%;width: 23%;}
+	.products-wrap.preset05-5  .content-box{float: left;margin:0 1%;width: 18%;}
+	.products-wrap.preset05-6  .content-box{float: left;margin:0 1%;width: 14.6666%;}
+    .products-wrap.preset05-1  .clr1,
+    .products-wrap.preset05-2  .clr2,
+    .products-wrap.preset05-3  .clr3,
+    .products-wrap.preset05-4  .clr4,
+    .products-wrap.preset05-5  .clr5,
+    .products-wrap.preset05-6  .clr6{
+        clear: both;
+    }	
+}
+@media all and (min-width: 321px) and (max-width: 480px){
+    .products-wrap.preset04-1  .content-box{float: left;margin:0 1%;width: 98%;}
+    .products-wrap.preset04-2  .content-box{float: left;margin:0 1%;width: 48%;}
+    .products-wrap.preset04-3  .content-box{float: left;margin:0 1%;width: 31.3333%;}
+    .products-wrap.preset04-4  .content-box{float: left;margin:0 1%;width: 23%;}
+    .products-wrap.preset04-5  .content-box{float: left;margin:0 1%;width: 18%;}
+    .products-wrap.preset04-6  .content-box{float: left;margin:0 1%;width: 14.6666%;}	
+    .products-wrap.preset04-1  .clr1,
+    .products-wrap.preset04-2  .clr2,
+    .products-wrap.preset04-3  .clr3,
+    .products-wrap.preset04-4  .clr4,
+    .products-wrap.preset04-5  .clr5,
+    .products-wrap.preset04-6  .clr6{
+        clear: both;
+    }    
+}
+
+@media all and (min-width: 481px) and (max-width: 768px){
+    .products-wrap.preset03-1  .content-box{float: left;margin:0 1%;width: 98%;}
+    .products-wrap.preset03-2  .content-box{float: left;margin:0 1%;width: 48%;}
+    .products-wrap.preset03-3  .content-box{float: left;margin:0 1%;width: 31.3333%;}
+    .products-wrap.preset03-4  .content-box{float: left;margin:0 1%;width: 23%;}
+    .products-wrap.preset03-5  .content-box{float: left;margin:0 1%;width: 18%;}
+    .products-wrap.preset03-6  .content-box{float: left;margin:0 1%;width: 14.6666%;} 
+    .products-wrap.preset03-1  .clr1,
+    .products-wrap.preset03-2  .clr2,
+    .products-wrap.preset03-3  .clr3,
+    .products-wrap.preset03-4  .clr4,
+    .products-wrap.preset03-5  .clr5,
+    .products-wrap.preset03-6  .clr6{
+        clear: both;
+    }
+}
+
+@media all and (min-width: 769px) and (max-width: 1200px){
+    .products-wrap.preset02-1  .content-box{float: left;margin:0 1%;width: 98%;}
+    .products-wrap.preset02-2  .content-box{float: left;margin:0 1%;width: 48%;}
+    .products-wrap.preset02-3  .content-box{float: left;margin:0 1%;width: 31.3333%;}
+    .products-wrap.preset02-4  .content-box{float: left;margin:0 1%;width: 23%;}
+    .products-wrap.preset02-5  .content-box{float: left;margin:0 1%;width: 18%;}
+    .products-wrap.preset02-6  .content-box{float: left;margin:0 1%;width: 14.6666%;}
+    .products-wrap.preset02-1  .clr1,
+    .products-wrap.preset02-2  .clr2,
+    .products-wrap.preset02-3  .clr3,
+    .products-wrap.preset02-4  .clr4,
+    .products-wrap.preset02-5  .clr5,
+    .products-wrap.preset02-6  .clr6{
+        clear: both;
+    }     	
+}
+
+@media all and (min-width: 1201px){
+    .products-wrap.preset01-1  .content-box{float: left;margin:0 1%;width: 98%;}
+    .products-wrap.preset01-2  .content-box{float: left;margin:0 1%;width: 48%;}
+    .products-wrap.preset01-3  .content-box{float: left;margin:0 1%;width: 31.3333%;}
+    .products-wrap.preset01-4  .content-box{float: left;margin:0 1%;width: 23%;}
+    .products-wrap.preset01-5  .content-box{float: left;margin:0 1%;width: 18%;}
+    .products-wrap.preset01-6  .content-box{float: left;margin:0 1%;width: 14.6666%;}
+    .products-wrap.preset01-1  .clr1,
+    .products-wrap.preset01-2  .clr2,
+    .products-wrap.preset01-3  .clr3,
+    .products-wrap.preset01-4  .clr4,
+    .products-wrap.preset01-5  .clr5,
+    .products-wrap.preset01-6  .clr6{
+    	clear: both;
+    }
+}
+
+.products-wrap .content-box{
+    padding-bottom: 15px;
+    position: relative;
+}
+
+.products-wrap .item_label{
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	z-index: 2;
+}
+.products-wrap .item_title{
+    font-weight: bold;
+    font-size: 14px;
+}
+.products-wrap .item_image img{
+    border: 0 none;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+}
+.products-wrap .item_image{
+    margin-bottom: 5px;
+}
+.products-wrap .item_price{
+	color: #FF0000;
+}
+.products-wrap .item_detail{
+	text-align: right;
+}
+

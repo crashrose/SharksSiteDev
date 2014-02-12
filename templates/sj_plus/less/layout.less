@@ -1,0 +1,122 @@
+//
+// Layouts
+// --------------------------------------------------
+
+//Overider Grid Bootstrap
+.container, .navbar-static-top .container, .navbar-fixed-top .container,
+.navbar-fixed-bottom .container{width: 1170px;}
+div.row-fluid {
+     .first[class*="span"]{margin: 0;}
+     .span12{margin-left: 0 !important;margin-right: 0 !important; min-height: 20px;}
+     .hidden{display: none;}
+     [class*="span"]{min-height: 3px;}
+}
+
+
+//Show mainmenu when not slideshow
+.no-slider #yt_wrapper #yt_menuwrap{margin-bottom: 30px;}
+
+
+//1.Block Header
+#yt_header{
+     // Logo Site
+     #yt_logoposition{
+          h1{margin: 30px 0;
+               a{display: inline-block;  }
+          }
+     }
+     .row-fluid > div{
+          &:first-child{
+               &:before{border: none;.box-shadow(none);}
+          }
+          &:before{content: "";border-left: 1px solid #ddd;height:50px;margin-top: 20px;float: left;.box-shadow(1px 0 0 #fff);}
+     }
+}
+
+//2.Block Mainmenu
+#yt_menuwrap{background:@background2 ;position: relative;z-index: 10;height: 54px;margin: 0;.box-shadow(1px 1px 4px rgba(0, 0, 0, 0.4));
+     #yt-mobilemenu{display: none;}
+     /* CSS3 position: fixed */
+     &.fixed {
+          position: fixed;
+          top: -5px;
+          left: 0;
+        
+     
+     }
+}
+
+//3.Block Slideshow
+#yt_slideshow{margin: 0 0 32px;background: url(../images/header-bg.png) repeat-x  center 1px; background-size:  auto 100% ;
+     #slideshow{margin-top: 30px;}
+}
+
+//4.Block Breadcrumb
+#breadcrumb{
+     div.module{margin: 0 !important;#gradient .vertical-three-colors(#fff,#fff,70%,#e9e9e9);.box-shadow(-1px -1px 3px rgba(0, 0, 0, 0.1));
+          div.modcontent{padding: 6px 10px;}
+          ul.breadcrumb{background: none;.border-radius(0);padding: 0;margin: 0;
+               li{  padding: 0;
+                    &:first-child .divider{background: none !important;text-indent: 0;margin: 0 5px 0 0;padding: 0;height: auto;}
+                    .divider{background: url(../images/breadcrumb_separate.png) no-repeat  left 80% ;display: inline-block;margin: 0 8px;padding: 0 3px;
+                         .icon-home{font-size: 20px;vertical-align: -2px;margin: 0;}
+                    }
+                    a,span{color: @gray;font-size: 89%;height: 9px;}
+                    a:hover{ color: @linkColor;}
+               }
+          }
+     }
+     
+}
+
+//5.Block Main Content
+#content{
+     #yt_component{clear: both;background: @white;margin-bottom: 30px;margin-top: -1px;min-height: 294px;border: 1px solid @paginationBorder;padding:15px;.box-sizing(border-box);.box-shadow(0 0 3px rgba(0, 0, 0, 0.12));}
+     .span12.no-minheight{min-height: 0;}
+     &.nopos-left.nopos-right {
+          #content_main{width:100%;}
+     }
+}
+
+//6.Block Spotlight 
+.bg-style{border: none;margin: 0;box-shadow: none;background: transparent;
+     h3.modtitle{background: transparent; border: none;margin-top: 5px;}
+}
+#yt_spotlight2{padding: 3em 0;border-top: 1px solid #444;
+     #translucent .border(@black,0.8);.box-shadow(~"0 -3px 10px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.3) inset");
+     .module {.bg-style();
+          h3.modtitle{margin: 0;font-weight: bold;padding: 10px 0;font-size: 150%; border-bottom: 1px solid #000;.box-shadow(0 1px 0 rgba(255, 255, 255, 0.1));}
+          .modcontent {padding: 10px 0;
+               ul li{padding: 3px 0;.transition(padding 0.4s ease-in-out 0s);
+                    &:hover{padding-left: 12px;
+                         a{color: @grayLight;}
+                    }
+                    a{color: @gray;}
+               }
+               
+          }
+     }
+}
+#yt_spotlight3{padding: 3em 0;}
+
+//7.Block Footer
+#yt_footer{
+     .yt-main{background-color: rgba(0,0,0,0.5);.box-shadow( ~"0 1px 16px 2px rgba(0, 0, 0, 0.5) inset, 0 -1px 0 rgba(0, 0, 0, 0.6)"); border-top: 1px solid rgba(255, 255, 255, 0.08);
+          #yt_copyrightposition{padding: 10px 0;font-size: 89%;
+               a:hover{color: @white;}
+          }
+          #footer{
+               .yt-socialbt{padding: 3px;margin-top: 12px;margin-right: 5px;.border-radius(30px); .box-shadow(1px 1px 2px #000000 inset);
+                    a{background-color: #3D3D3D;color: @grayLight;width:30px;height: 30px;border: none;box-shadow: none;
+                         i{display: inline-block;vertical-align: middle;margin-top: -5px;}
+                         &.facebook:hover{background-color: #3C5A9A;color: @white;}
+                         &.twitterbird:hover {background-color: #2DAAE0;color: @white;}
+                         &.google:hover {background-color: #EE4F2F;color: @white;}
+                         &.rss:hover{background-color: #EC4822;color: @white;}
+                    }
+               }
+          }
+     }
+     
+}
+

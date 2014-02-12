@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="2.5" client="site" method="upgrade">
+<name>Sj Products for JoomShopping</name> 
+	<creationDate>February 2013</creationDate>
+    <author>YouTech Company</author>
+    <copyright>Copyright (c) 2013 YouTech Company</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <authorEmail>contact@ytcvn.com</authorEmail>
+    <authorUrl>http://www.smartaddons.com</authorUrl>
+    <version>1.0</version>
+    <description>TPL_YTFRAMEWORK_XML_DESCRIPTION</description>
+    <files>
+        <filename module="mod_sj_js_products">mod_sj_js_products.php</filename>
+        <filename>index.html</filename>
+        <folder>core</folder>
+        <folder>language</folder>
+        <folder>tmpl</folder>
+    </files>
+    <media destination="jsproducts" folder="media">
+        <filename>index.html</filename>
+        <folder>css</folder>
+        <folder>img</folder>
+        <folder>js</folder>
+    </media>    
+    <languages />    
+    <config>
+        <fields name="params" addfieldpath="/modules/mod_sj_js_products/core/fields">
+            <fieldset name="source" label="Source Options">
+                <field name="catids" type="categories" default = "" label="Categories" description="Categories" addfieldpath="/modules/mod_jshopping_tophits_products/element"/>
+                <field name="product_order_by" type="list" default="prod.name" label="Product Order By" description="Sort product by one of these.">
+                    <option value="name">Product Title</option>
+                    <option value="prod.product_price">Product Price</option>
+                    <option value="prod.reviews_count">Product Reviews</option>
+                    <option value="prod.hits">Product Hits</option>
+                    <option value="prod.product_id">Product ID</option>
+                    <option value="prod.product_date_added">Created Date</option>
+                    <option value="prod.date_modify">Modified Date</option>
+                </field>
+                <field name="product_order_dir" type="list" default="group.topten" label="Product Order Dir" description="product order dir">
+                     <option value="asc">ASC</option>
+                    <option value="desc">DESC</option>
+                </field>                
+                <field name="source_limit" type="text" default="20" label="Limitation" description="Maximum number of products to display. Enter 0 for unlimited selection." />
+            </fieldset>   
+            
+            <fieldset name="product_options" label="Products Options">
+                <field type="sjheading" label="Title Options" />
+                <field name="show_title" type="radio" class="btn-group" default="1" label="Show Title" description="Show Product Title">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="limit_title" type="text" default="25" label="Title Max Chars" description="Max Chars of Product Title. -1 to unlimit length!" />
+                <field type="sjheading" label="Description Options" />
+                <field name="show_desc" type="radio" class="btn-group" default="1" label="Show Desc" description="Show Description of Product">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="limit_desc" type="text" default="100" label="Desc Max Chars" description="Max Chars of Product Description. -1 to unlimit length." />
+                <field type="sjheading" label="Orther Options" />
+                <field name="show_label" type="radio" class="btn-group" default="1" label="Show Label Image" description="Show label image">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>                
+                <field name="show_read_more" type="radio" class="btn-group" default="1" label="Show Read More" description="Show Read More">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="read_more_text" type="text" default="read more.." label="Read More Text" description="Please enter the read more text in here" />
+                <field name="show_price" type="radio" class="btn-group" default="1" label="Show Price" description="Show Price">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="show_review" type="radio" class="btn-group" default="1" label="Show Review" description="Show Review">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="show_hits" type="radio" class="btn-group" default="1" label="Show Hits" description="Show hits">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="show_date" type="radio" class="btn-group" default="1" label="Show Date" description="Show date">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>                
+                <field name="show_comments" type="radio" class="btn-group" default="1" label="Show Comments" description="Show Comments">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+                <field name="show_manufacturer" type="radio" class="btn-group" default="1" label="Show Manufacturer" description="Show Manufacturer">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>  
+            </fieldset>  
+            
+            <fieldset name="image_option" label="Image Options">
+                <field name="show_image" type="radio" class="btn-group" default="1" label="Show Images" description="Select 'yes' to show images">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>                
+                <field name="imgcfg_from_image_product" label="From Product" class="btn-group" description="Get images From Product" type="radio" default="1">
+                     <option value="1">Yes</option>
+                     <option value="0">No</option>
+                </field>
+                <field name="imgcfg_from_external" label="From External" class="btn-group" description="Get Image from External" type="radio" default="1">
+                     <option value="1">Yes</option>
+                     <option value="0">No</option>
+                </field>
+                <field name="imgcfg_external_url" type="text" default="images/{id}.jpg" label="External Path (or Url)" description="External Path (URL)"/>
+                <field name="imgcfg_order" type="text" default="image_product, external" label="Order to Get" description="Order to Get Image" />
+                <field name="imgcfg_function" type="list" label="Resize Mode" default="resize_stretch" description="Resize Mode">
+                     <option value="none">None</option>
+                     <option value="resize_center">Center</option>
+                     <option value="resize_fill">Fill</option>
+                     <option value="resize_fit">Fit</option>
+                     <option value="resize_stretch">Stretch</option>
+                </field>
+                <field name="imgcfg_type" type="list" default="" label="Output Format" description="Output Format after Resizing">
+                     <option value="">Default</option>
+                     <option value="1">GIF</option>
+                     <option value="2">JPEG</option>
+                     <option value="3">PNG</option>
+                </field>
+                <field name="imgcfg_transparency" label="Keep Transparency" class="btn-group" description="Keep Transparency. Applied for GIF/PNG format" type="radio" default="1">
+                     <option value="1">Yes</option>
+                     <option value="0">No</option>
+                </field>
+                <field name="imgcfg_width" type="text" default="300" label="Image Width" description="Image Width" />
+                <field name="imgcfg_height" type="text" default="200" label="Image Height" description="Image Height" />
+                <field name="imgcfg_background" type="color" default="" label="Background" description="Background" />
+                <field name="imgcfg_placeholder" label="Placeholder" class="btn-group" description="The Default Image. Applied for article has no image" type="radio" default="1">
+                     <option value="1">Yes</option>
+                     <option value="0">No</option>
+                </field>
+                <field name="imgcfg_placeholder_path" type="text" default="media/sjproducts/img/nophoto.png" label="Placeholder Path (or Url)" description="The Path (or URL) of Default Image"/>
+            </fieldset>                               
+            
+            <fieldset name="advanced">
+                <field name="moduleclass_sfx" type="text" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />            
+                <field name="deviceclass_sfx" type="textarea" default="preset01-4 preset02-3 preset03-2 preset04-2 preset05-1" label="Device Class Suffix" description="" />
+                <field name="target" type="list" default="_self" label="Open Link" description="The Type shows when you click on the link">
+                    <option value="_blank">New Window</option>
+                    <option value="_self">Same Window</option>
+                    <option value="_windowopen">Popup window</option>
+                </field>                
+                <field name="layout" type="modulelayout" default="basic" class="btn-group" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+                <field name="pretext" type="textarea" default="" label="Pretext" description="Pre_text" cols="40" rows="4" filter="raw" />
+                <field name="posttext" type="textarea" default="" label="Posttext" description="Post_text" cols="40" rows="4" filter="raw" />
+                <field name="owncache" type="radio" class="btn-group" default="1" label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC">
+                    <option value="1">JGLOBAL_USE_GLOBAL</option>
+                    <option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+                </field>
+                <field name="cache_time" type="text" default="900" label="COM_MODULES_FIELD_CACHE_TIME_LABEL" description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+            </fieldset>  
+                      
+        </fields>
+    </config>
+</extension>

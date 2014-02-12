@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+	<name>YT Shortcodes</name>
+	<author>YouTech Company</author>
+	<creationDate>01 Marc 2013</creationDate>
+	<copyright>Copyright (C) 2010 YouTech Company</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>contact@ytcvn.com</authorEmail>
+	<authorUrl>http://www.smartaddons.com</authorUrl>
+	<version>1.0.4</version>
+	<description>YT_DESC</description>
+	<files>
+		<filename plugin="ytshortcodes">ytshortcodes.php</filename>
+		<filename plugin="ytshortcodes">index.html</filename>
+		<folder plugin="ytshortcodes">assets</folder>
+		<folder plugin="ytshortcodes">includes</folder>
+	</files>
+	<languages folder="language/en-GB">
+		<language tag="en-GB">en-GB.plg_system_ytshortcodes.ini</language>
+		<language tag="en-GB">en-GB.plg_system_ytshortcodes.sys.ini</language>
+	</languages>
+	<updateservers>
+	   <server type="collection">http://smartaddons.com/update_server/products.xml</server>
+	</updateservers>
+</extension>

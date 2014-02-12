@@ -1,0 +1,149 @@
+
+// Bootstrap mixins
+@import "../asset/bootstrap/less/mixins.less";
+@import "../asset/bootstrap/less/variables.less";
+@import "color/variables_color.less";
+@import "../asset/bootstrap/less/bootstrap-rtl.less";
+
+.rtl{
+     // 1.SYSTEM TOOL
+     // --------------------------------------------------
+     #yt_tool_bottom .module .btn-special{padding: 0 5px;}
+     .backtotop{right: auto;left: 10px;
+          i{margin: 8px 0 0;}
+     }
+     
+     // 2.GRID SYSTEM AND PAGE STRUCTURE 
+     // --------------------------------------------------
+          #yt_header .row-fluid > div{
+               &:last-child:before{border: medium none;box-shadow: none;}
+               &:before{border: none;border-right: 1px solid @paginationBorder;.box-shadow(-1px 0 0 @white);}
+          }
+          
+     // 3.JOOMLA BASE
+     // --------------------------------------------------
+     #yt_breadcrumb div.module ul.breadcrumb li:first-child .divider{margin: 0 0 0 5px;}
+     #breadcrumb div.module ul.breadcrumb li .divider{ background: url("../images/rtl/breadcrumb_separate.png") no-repeat scroll right 80% transparent;}
+     
+     /*GENERIC BASE JOOMLA*/
+     [class^="icon-"], [class*=" icon-"]{margin: 0 0 0 5px;}
+     .icon-caret-right:before{content: "\f0d9";}
+     .form-horizontal .control-label{text-align: right;}
+     #system-message{
+          .error > ul{margin-right: 0;background-position: 99% center;}
+     }
+     
+     /*GENERIC ARTICLE STYLES*/
+      
+          // Category Blog
+          .blog{
+               .items-leading,
+               .items-row{
+                    .item {
+                         .article-text .item-headinfo  dl.article-info{}
+                         .item-image{margin: 0 0 10px 20px;}
+                    }
+               }
+          }
+          
+          // Featured Article
+          .blog-featured{
+               .items-leading .item,
+               .items-row  .item {
+                    .blog .items-row .item();
+                    .item-image .item-headinfo{text-align: right;}
+               }
+          }
+          
+          //Single Article
+          .item-page {
+               .article-info {
+                    ul.actions{float: left;}
+                    dl.article-info{float: right;}
+               }
+              
+               .img-fulltext.pull-left{margin: 0 0 1em 1em;}
+               .img-fulltext.pull-right{margin: 0 1em 1em 0;}
+          }
+          
+          // Category List
+          table.category thead tr th{text-align: right;}
+          div.categories-list ul{padding: 0 15px 0 0;
+                ul > li{
+                    &:after,&:before{left: auto;right: -1px;}
+               }
+          }
+          
+          // Page Break
+          dl.tabs dt{float: right;}
+          
+          // Search Component
+          .search #searchForm .phrases-box input, .search #searchForm .only input{float: right;margin: 4px 0 0 5px;}
+          
+          // Smart Search Component
+          #advanced-search{text-align: right;}
+          
+          // Page Email & Print
+          &.contentpane {
+               #mailto-window .mailto-close{left: 40px;right: auto;}
+               .row-fluid [class*="span"]:first-child{margin-right: 0;}
+               .row-fluid [class*="span"]{margin: 0;margin-right: 2.12766%;float: right;}
+          }
+          
+          //Contact Component
+          div.contact .contact-image{float: left;}
+         
+          // User Component
+          &.view-login .wrap-login .form-horizontal .control-group{float: right;}
+          &.view-login .wrap-login .other-link ul.yt-list li{float: right;margin: 0 0 0 25px;}
+          .registration .form-horizontal .control-label{text-align: right;}
+          
+     // 4.MODULE
+     // --------------------------------------------------
+     /*MODULE JOOMLA DEFAULT*/
+          //Mod finder
+          #mod-finder-searchform .button{right: auto;left: 50px;}
+          
+          // Who online
+         .round-online{float: right;margin: 0 0 0 15px;
+               i{margin: 5px auto 0;}
+         }
+          
+     /*MODULE  VARIATIONS*/
+     
+          // Mod Default Style
+          .module.title2 h3.modtitle:before,
+          .module.title1 h3.modtitle:before{margin: 0 0 0 5px;}
+          .module.title3 h3.modtitle:before{float: left;}
+          
+          .module.style-icon{padding: 0 60px 0 0;}
+          .module.style-icon h3.modtitle [class^="icon-"],
+          .module.style-icon h3.modtitle [class*=" icon-"]{left: auto;right: -10px;}
+          
+          .module.badge-new h3.modtitle .badge,
+          .module.badge-top h3.modtitle .badge,
+          .module.badge-hot h3.modtitle .badge,
+          .module.badge-best h3.modtitle .badge{right: auto;left: 20px;}
+          
+          .module._menu ul.menu > li:before,
+          .module._menu ul.menu > li.deeper > a:before{float: right;margin: 0 0 0 8px;}
+          .module._menu ul.menu > li .yt-list.type-disc li:before{margin: 0 0 0 8px;}
+     /* MODULE XHTML */
+          
+          
+     /* MODULE YT */
+          div.carousel .carousel-indicators{ left: 15px;right: auto;}
+          div.theme1 .item .basicnews-info div.cattitle{text-align: left;}
+          div.theme1 .item .bsn-image{float: right;margin: 0 0 8px 1em;}
+          
+}
+
+//Hack works for the latest Opera:
+@media (min-resolution: .001dpcm) {
+     /*MODULE  VARIATIONS*/
+    _:-o-prefocus, .rtl [class^="icon-"],
+    _:-o-prefocus, .rtl [class*=" icon-"]{margin: 0 5px 0 0;}
+    _:-o-prefocus, .rtl .yt-list.type-disc li:before{margin: 0 10px 0 0;}
+    _:-o-prefocus, .rtl .module.title1 h3.modtitle:before{margin: 0 5px 0 0;}
+    _:-o-prefocus, .rtl .module._menu ul.menu > li .yt-list.type-disc li:before{margin: 0 8px 0 0;}
+} 

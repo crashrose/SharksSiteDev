@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout type="m">	
+	<head>
+	</head>
+	<groups>
+	
+		<group 
+			   class="span12" 
+			   data-tablet="span12">main</group>
+	</groups>
+	<blocks>			
+		<header html5tag="header" order="1" id="yt_header" autosize="0">
+			<positions>
+				<position class="span3" data-tablet="span4"  type="feature">@logo</position>
+				<position class="span3" data-tablet="span4"  data-mobile="span4"   style="none" type="modules">social</position>	
+				<position class="span3"	data-tablet="hidden" data-mobile="hidden"  style="none" type="modules">search</position>	
+				<position class="span3" data-tablet="span4"  data-mobile="hidden"  style="none" type="modules">contact</position>	
+			</positions>
+		</header>
+		
+		<menu html5tag="section" order="2" id="yt_menuwrap">
+			<positions>
+				<position class="span12"  type="feature">@menu</position>
+			</positions>
+		</menu>
+		
+		<slideshow html5tag="section" order="3" id="yt_slideshow">
+			<positions>
+				<position class="span12" style="ytmod" type="modules">slideshow</position>
+			</positions>
+		</slideshow>
+
+		<spotlight1 html5tag="section" order="5" id="yt_spotlight1">
+			<positions>
+				<position class="span3" data-tablet="span4"  data-stablet="" style="ytmod" type="modules">top1</position>
+				<position class="span3" data-tablet="span4"  data-stablet="" style="ytmod" type="modules">top2</position>
+				<position class="span3" data-tablet="span4"  data-stablet="" style="ytmod" type="modules">top3</position>
+				<position class="span3" data-tablet="hidden" data-stablet="" style="ytmod" type="modules">top4</position>
+			</positions>
+		</spotlight1>	
+		
+		<content html5tag="section" order="6" id="content" showDivTop="0" showDivBottom="0">
+			<positions>
+				
+				<position class="span12 no-minheight" group="main" type="message"></position>
+				<position class="span12" style="ytmod" group="main" type="modules">breadcrumb</position>	
+				<position 
+					class="span12" 
+					data-normal="" 
+					data-stablet=""
+					
+					noleft-class="span12" 
+					noleft-data-normal="" 
+					noleft-data-tablet="" 
+					noleft-data-stablet="" 
+					
+					noright-class="span12" 
+					noright-data-normal="" 
+					noright-data-tablet="" 
+					noright-data-stablet="" 
+					
+					noleftright-class="span12" 
+					noleftright-data-normal="" 
+					noleftright-data-tablet="" 
+					noleftright-data-stablet="" 
+					 
+					group="main" type="component">component</position>
+		
+			</positions>
+		</content>
+		
+		<spotlight2 html5tag="section" order="8" id="yt_spotlight2">
+			<positions>
+				<position class="span3" data-normal="" data-stablet="" style="ytmod" type="modules">bottom1</position>
+				<position class="span3" data-normal="" data-stablet="" style="ytmod" type="modules">bottom2</position>
+				<position class="span3" data-normal="" data-stablet="" style="ytmod" type="modules">bottom3</position>
+				<position class="span3" data-normal="" data-stablet="" style="ytmod" type="modules">bottom4</position>
+				
+			</positions>
+		</spotlight2>
+		
+		<spotlight3 html5tag="section" order="7" id="yt_spotlight3">
+			<positions>
+				<position class="span4" data-normal="" data-stablet="" style="ytmod" type="modules">bottom5</position>
+				<position class="span4" data-normal="" data-stablet="" style="ytmod" type="modules">bottom6</position>
+				<position class="span4" data-normal="" data-stablet="" style="ytmod" type="modules">bottom7</position>
+			</positions>
+		</spotlight3>
+		
+		<footer html5tag="footer" order="11" id="yt_footer">
+			<positions>
+				<position class="span8" type="feature">@copyright</position>
+				<position class="span4" type="modules">footer</position>					
+			</positions>
+		</footer>												
+	</blocks>
+</layout>		
