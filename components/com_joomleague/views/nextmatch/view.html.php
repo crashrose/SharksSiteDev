@@ -2,6 +2,7 @@
 
 jimport( 'joomla.application.component.view');
 require_once(JPATH_COMPONENT .DIRECTORY_SEPARATOR. 'models' .DIRECTORY_SEPARATOR. 'results.php');
+require_once(JPATH_COMPONENT .DIRECTORY_SEPARATOR. 'helpers' .DIRECTORY_SEPARATOR. 'ranking.php');
 class JoomleagueViewNextMatch extends JLGView
 {
 	function display($tpl = null)
@@ -51,9 +52,9 @@ class JoomleagueViewNextMatch extends JLGView
 			$this->assignRef( 'referees', 	$model->getReferees() );
 			$this->assignRef( 'playground',	$model->getPlayground( $this->match->playground_id ) );
 
-			$this->assignRef( 'homeranked',	$model->getHomeRanked() );		
+			$this->assignRef( 'homeranked',	$model->getHomeRanked() );
 			$this->assignRef( 'awayranked',	$model->getAwayRanked() );
-			$this->assignRef( 'chances', 	$model->getChances() );		
+			$this->assignRef( 'chances', 	$model->getChances() );
 
 			$this->assignRef( 'home_highest_home_win',	$model->getHomeHighestHomeWin() );
 			$this->assignRef( 'away_highest_home_win',	$model->getAwayHighestHomeWin() );
@@ -68,18 +69,18 @@ class JoomleagueViewNextMatch extends JLGView
 			$gamesteams = $model->getTeamsFromMatches( $games );
 			$this->assignRef( 'games', $games );
 			$this->assignRef( 'gamesteams', $gamesteams );
-			
-			
+
+
 			$previousx = &$this->get('previousx');
 			$teams = &$this->get('TeamsIndexedByPtid');
-			
+
 			$this->assignRef('previousx', $previousx);
 			$this->assignRef('allteams',  $teams);
 		}
 
 		// Set page title
 		$pageTitle = JText::_( 'COM_JOOMLEAGUE_NEXTMATCH_PAGE_TITLE' );
-		if ( isset( $this->teams ) ) 
+		if ( isset( $this->teams ) )
 		{
 			$pageTitle .= ": ".$this->teams[0]->name." ".JText::_( "COM_JOOMLEAGUE_NEXTMATCH_VS" )." ".$this->teams[1]->name;
 		}

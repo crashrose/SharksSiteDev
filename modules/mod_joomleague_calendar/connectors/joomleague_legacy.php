@@ -286,7 +286,7 @@ class JoomleagueConnector extends JLCalendar{
     }
     $listTeamId = implode( ",", array_unique($teamsId) );
 
-    $query = "SELECT tl.id AS teamtoolid, tl.division_id, tl.standard_playground, tl.admin, tl.start_points,
+    $query = "SELECT tl.id AS teamtoolid, tl.division_id, tl.standard_playground, tl.start_points,
                      tl.info, tl.team_id, tl.checked_out, tl.checked_out_time, tl.picture, tl.project_id,
                      t.id, t.name, t.short_name, t.middle_name, t.description, t.club_id,
                      pg1.id AS tt_pg_id, pg1.name AS tt_pg_name, pg1.short_name AS tt_pg_short_name,
@@ -298,8 +298,8 @@ class JoomleagueConnector extends JLCalendar{
                      p.name AS project_name
                 FROM #__joomleague_teams t
                 LEFT JOIN #__joomleague_team_joomleague tl on tl.team_id = t.id ";
-           $query .= "LEFT JOIN #__users u on tl.admin = u.id
-           LEFT JOIN #__joomleague_clubs c on t.club_id = c.id
+//            $query .= "LEFT JOIN #__users u on tl.admin = u.id
+           $query .= " LEFT JOIN #__joomleague_clubs c on t.club_id = c.id
            LEFT JOIN #__joomleague_countries ctry on ctry.countries_id = c.country
            LEFT JOIN #__joomleague_divisions d on d.id = tl.division_id
            LEFT JOIN #__joomleague p on p.id = tl.project_id

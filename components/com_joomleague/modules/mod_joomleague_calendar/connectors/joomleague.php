@@ -398,7 +398,7 @@ class JoomleagueConnector extends JLCalendar{
 
 		$listTeamId = implode( ",", array_unique($teamsId) );
 
-		$query = "SELECT tl.id AS teamtoolid, tl.division_id, tl.standard_playground, tl.admin, tl.start_points,
+		$query = "SELECT tl.id AS teamtoolid, tl.division_id, tl.standard_playground, tl.start_points,
                      tl.info, tl.team_id, tl.checked_out, tl.checked_out_time, tl.picture, tl.project_id,
                      t.id, t.name, t.short_name, t.middle_name, t.info, t.club_id,
                      c.logo_small, c.logo_middle, c.logo_big, c.country,

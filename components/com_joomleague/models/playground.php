@@ -32,9 +32,10 @@ class JoomleagueModelPlayground extends JoomleagueModelProject
 
     function getPlayground( )
     {
+    	$jinput = JFactory::getApplication() -> input;
         if ( is_null( $this->playground ) )
         {
-            $pgid = $jinput -> get('pgid'"', 0 , 'int');
+            $pgid = $jinput -> get('pgid', 0 , 'int');
             if ( $pgid > 0 )
             {
                 $this->playground = & $this->getTable( 'Playground', 'Table' );
@@ -135,8 +136,7 @@ class JoomleagueModelPlayground extends JoomleagueModelProject
                    c.country
             FROM #__joomleague_team t
             LEFT JOIN #__joomleague_club c ON c.id = t.club_id
-            WHERE t.id = ".$team_id."
-        ";
+            WHERE t.id = ".$team_id        ;
         $this->_db->setQuery( $query );
         $result = $this->_db->loadObjectList();
 
@@ -182,8 +182,8 @@ class JoomleagueModelPlayground extends JoomleagueModelProject
     			$query="SELECT ref.name AS referee_name
 							  FROM #__joomleague_team ref
 							  LEFT JOIN #__joomleague_match_referee link ON link.project_referee_id=ref.id
-								  WHERE link.match_id=".$matches[$index]->id."
-								  ORDER BY link.ordering";
+								  WHERE link.match_id=".$matches[$index]->id
+								  ." ORDER BY link.ordering";
     		}
     		else
     		{

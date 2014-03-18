@@ -8,31 +8,31 @@
  * 
  */
 defined('_JEXEC') or die;
-JHtml::stylesheet('modules/mod_sj_carousel/assets/css/mod_sj_carousel.css');
-if( !defined('SMART_JQUERY') && $params->get('include_jquery', 0) == "1" ){
-	JHtml::script('modules/mod_sj_carousel/assets/js/jquery-1.8.2.min.js');
-	JHtml::script('modules/mod_sj_carousel/assets/js/jquery-noconflict.js');
-	define('SMART_JQUERY', 1);
-}
-JHtml::script('modules/mod_sj_carousel/assets/js/bootstrap-carousel.js');
-ImageHelper::setDefault($params);
+JHtml::stylesheet('modules/mod_sj_carousel/assets/css/mod_sj_carousel.css');
+if( !defined('SMART_JQUERY') && $params->get('include_jquery', 0) == "1" ){
+	JHtml::script('modules/mod_sj_carousel/assets/js/jquery-1.8.2.min.js');
+	JHtml::script('modules/mod_sj_carousel/assets/js/jquery-noconflict.js');
+	define('SMART_JQUERY', 1);
+}
+JHtml::script('modules/mod_sj_carousel/assets/js/bootstrap-carousel.js');
+ImageHelper::setDefault($params);
 $options=$params->toObject();
 
 $count = (int)$options->count;
 if ( $count <= (int)count($list) ) {
 	$count = (int)count($list);
 }?>
-
-<script type="text/javascript">
-window.addEvent("domready", function(){
-	if (typeof jQuery != "undefined" && typeof MooTools != "undefined" ) {
-		Element.implement({
-			slide: function(how, mode){
-				return this;
-			}
-		});
-	}
-});
+
+<script type="text/javascript">
+window.addEvent("domready", function(){
+	if (typeof jQuery != "undefined" && typeof MooTools != "undefined" ) {
+		Element.implement({
+			slide: function(how, mode){
+				return this;
+			}
+		});
+	}
+});
 </script>
 	
 <?php if(!empty($list)){?>

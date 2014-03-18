@@ -431,9 +431,9 @@ class JoomleagueModelProject extends JModelLegacy
 		{
 			$query='	SELECT	tl.id AS projectteamid,
 								tl.division_id,
-								tl.standard_playground,
-								tl.admin,
-								tl.start_points,
+								tl.standard_playground, '
+// 								tl.admin,
+								.'tl.start_points,
 								tl.points_finally,
 								tl.neg_points_finally,
 								tl.matches_finally,
@@ -459,12 +459,12 @@ class JoomleagueModelProject extends JModelLegacy
 								t.short_name,
 								t.middle_name,
 								t.notes,
-								t.club_id,
+								t.club_id, '
 
-								u.username,
-								u.email,
+// 								u.username,
+// 								u.email,
 
-								c.email as club_email,
+								.'c.email as club_email,
 								c.logo_small,
 								c.logo_middle,
 								c.logo_big,
@@ -485,9 +485,9 @@ class JoomleagueModelProject extends JModelLegacy
 								CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\',c.id,c.alias) ELSE c.id END AS club_slug
 
 						FROM #__joomleague_project_team tl
-							LEFT JOIN #__joomleague_team t ON tl.team_id=t.id
-							LEFT JOIN #__users u ON tl.admin=u.id
-							LEFT JOIN #__joomleague_club c ON t.club_id=c.id
+							LEFT JOIN #__joomleague_team t ON tl.team_id=t.id'
+// 							LEFT JOIN #__users u ON tl.admin=u.id
+							.' LEFT JOIN #__joomleague_club c ON t.club_id=c.id
 							LEFT JOIN #__joomleague_division d ON d.id=tl.division_id
 							LEFT JOIN #__joomleague_playground plg ON plg.id=tl.standard_playground
 							LEFT JOIN #__joomleague_project AS p ON p.id=tl.project_id

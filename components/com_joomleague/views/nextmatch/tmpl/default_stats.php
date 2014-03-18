@@ -16,7 +16,7 @@
             }
             ?>
         </th>
-			
+
 			<th  class="h2h" width="33%">
                 <?php
                 echo JText::_( 'COM_JOOMLEAGUE_NEXTMATCH_STATS' );
@@ -34,11 +34,11 @@
             }
             ?>
         </th>
-		
+
         </tr>
 	</thead>
     <?php
-    if ($this->config['show_chances'] == 1) 
+    if ($this->config['show_chances'] == 1)
 	{
 	?>
         <tr class="sectiontableentry1">
@@ -60,10 +60,10 @@
         </tr>
     <?php
 	}
-	
-    if ($this->config['show_current_rank'] == 1) 
+
+    if ($this->config['show_current_rank'] == 1)
 	{
-    ?>		
+    ?>
         <tr class="sectiontableentry2">
             <td class="valueleft">
                 <?php
@@ -184,6 +184,7 @@ if ( $this->config['show_match_total_away'] == 1 )
 <?php
 if ( $this->config['show_match_points'] == 1 )
 {
+	var_dump($this);
 ?>
     <tr class="sectiontableentry1">
         <td class="valueleft"><?php echo $this->homeranked->getPoints();?></td>
@@ -233,12 +234,12 @@ if ( $this->config['show_match_diff'] == 1 )
 ?>
 
 <?php if ( $this->config['show_match_highest_stats'] == 1 ): ?>
-	
+
 	<?php if ($this->config['show_match_highest_won'] == 1): ?>
 		<tr class="sectiontableentry2">
       <td class="valueleft">
 	    	<?php if ($stat = $this->home_highest_home_win): ?>
-	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->home_highest_home_win->pid,$this->home_highest_home_win->mid ), 
+	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->home_highest_home_win->pid,$this->home_highest_home_win->mid ),
 	        													sprintf("%s - %s %s:%s", $stat->hometeam, $stat->awayteam, $stat->homegoals, $stat->awaygoals) ); ?>
 	      <?php else: ?>
 	      	----
@@ -247,7 +248,7 @@ if ( $this->config['show_match_diff'] == 1 )
       <td class="statlabel"><?php echo JText::_('COM_JOOMLEAGUE_NEXTMATCH_HIGHEST_WON_HOME');?></td>
       <td class="valueright">
 	    	<?php if ($stat = $this->away_highest_home_win): ?>
-	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->away_highest_home_win->pid,$this->away_highest_home_win->mid ), 
+	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->away_highest_home_win->pid,$this->away_highest_home_win->mid ),
 	        													sprintf("%s - %s %s:%s", $stat->hometeam, $stat->awayteam, $stat->homegoals, $stat->awaygoals) ); ?>
 	      <?php else: ?>
 	      	----
@@ -260,7 +261,7 @@ if ( $this->config['show_match_diff'] == 1 )
     <tr class="sectiontableentry1">
       <td class="valueleft">
 	    	<?php if ($stat = $this->home_highest_home_def): ?>
-	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->home_highest_home_def->pid,$this->home_highest_home_def->mid ), 
+	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->home_highest_home_def->pid,$this->home_highest_home_def->mid ),
 	        													sprintf("%s - %s %s:%s", $stat->hometeam, $stat->awayteam, $stat->homegoals, $stat->awaygoals) ); ?>
 	      <?php else: ?>
 	      	----
@@ -269,7 +270,7 @@ if ( $this->config['show_match_diff'] == 1 )
       <td class="statlabel"><?php echo JText::_('COM_JOOMLEAGUE_NEXTMATCH_HIGHEST_LOSS_HOME');?></td>
       <td class="valueright">
 	    	<?php if ($stat = $this->away_highest_home_def): ?>
-	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->away_highest_home_def->pid,$this->away_highest_home_def->mid ), 
+	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->away_highest_home_def->pid,$this->away_highest_home_def->mid ),
 	        													sprintf("%s - %s %s:%s", $stat->hometeam, $stat->awayteam, $stat->homegoals, $stat->awaygoals) ); ?>
 	      <?php else: ?>
 	      	----
@@ -282,7 +283,7 @@ if ( $this->config['show_match_diff'] == 1 )
     <tr class="sectiontableentry2">
       <td class="valueleft">
 	    	<?php if ($stat = $this->home_highest_away_win): ?>
-	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->home_highest_away_win->pid,$this->home_highest_away_win->mid ), 
+	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->home_highest_away_win->pid,$this->home_highest_away_win->mid ),
 	        													sprintf("%s - %s %s:%s", $stat->hometeam, $stat->awayteam, $stat->homegoals, $stat->awaygoals) ); ?>
 	      <?php else: ?>
 	      	----
@@ -291,7 +292,7 @@ if ( $this->config['show_match_diff'] == 1 )
       <td class="statlabel"><?php echo JText::_('COM_JOOMLEAGUE_NEXTMATCH_HIGHEST_WON_AWAY');?></td>
       <td class="valueright">
 	    	<?php if ($stat = $this->away_highest_away_win): ?>
-	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->away_highest_away_win->pid,$this->away_highest_away_win->mid ), 
+	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->away_highest_away_win->pid,$this->away_highest_away_win->mid ),
 	        													sprintf("%s - %s %s:%s", $stat->hometeam, $stat->awayteam, $stat->homegoals, $stat->awaygoals) ); ?>
 	      <?php else: ?>
 	      	----
@@ -304,7 +305,7 @@ if ( $this->config['show_match_diff'] == 1 )
     <tr class="sectiontableentry1">
       <td class="valueleft">
 	    	<?php if ($stat = $this->home_highest_away_def): ?>
-	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->home_highest_away_def->pid,$this->home_highest_away_def->mid ), 
+	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->home_highest_away_def->pid,$this->home_highest_away_def->mid ),
 	        													sprintf("%s - %s %s:%s", $stat->hometeam, $stat->awayteam, $stat->homegoals, $stat->awaygoals) ); ?>
 	      <?php else: ?>
 	      	----
@@ -313,7 +314,7 @@ if ( $this->config['show_match_diff'] == 1 )
       <td class="statlabel"><?php echo JText::_('COM_JOOMLEAGUE_NEXTMATCH_HIGHEST_LOSS_AWAY');?></td>
       <td class="valueright">
 	    	<?php if ($stat = $this->away_highest_away_def): ?>
-	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->away_highest_away_def->pid,$this->away_highest_away_def->mid ), 
+	        	<?php echo JHtml::link( JoomleagueHelperRoute::getMatchReportRoute( $this->away_highest_away_def->pid,$this->away_highest_away_def->mid ),
 	        													sprintf("%s - %s %s:%s", $stat->hometeam, $stat->awayteam, $stat->homegoals, $stat->awaygoals) ); ?>
 	      <?php else: ?>
 	      	----
